@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>C:\Documents and Settings\Buic Bojan\Desktop\Servisi\Privredna banka Zagreb\PBZ Vrsar\817881180   PBZ Vrsar %28generalni servis upravljačke elektronike%29\NOVO\KORISNICI\SETUP13\|C:\PROBA\|C:\SETUP12\|C:\DNT2\|C:\DNT1\</PublishUrlHistory>
+    <InstallUrlHistory>
+    </InstallUrlHistory>
+    <SupportUrlHistory>
+    </SupportUrlHistory>
+    <UpdateUrlHistory>
+    </UpdateUrlHistory>
+    <BootstrapperUrlHistory>
+    </BootstrapperUrlHistory>
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>true</VerifyUploadedFiles>
+    <ErrorReportUrlHistory />
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="DNTbazaConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\DNTbaza.mdb&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\DNTbaza.mdb</Value>
+    </Setting>
+    <Setting Name="ComPortElektronika" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">COM3</Value>
+    </Setting>
+    <Setting Name="BaudRateElektronika" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">19200</Value>
+    </Setting>
+    <Setting Name="NaslovAplikacije" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Privredna banka Zagreb    DNEVNO-NOÆNI TREZOR</Value>
+    </Setting>
+    <Setting Name="BaudRateLcd" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">9600</Value>
+    </Setting>
+    <Setting Name="ComPortLcd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">COM1</Value>
+    </Setting>
+    <Setting Name="UvodnaPoruka" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">     IKB  Umag      DNEVNO-NOCNI TREZOR</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,21 @@
+R# version: 5.1.3000.12
+assembly System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll mtime 7.12.2012 23:16:56
+referenced assembly mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorlib.dll mtime 22.4.2013 3:45:12
+referenced assembly System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll mtime 3.10.2012 5:44:30
+referenced assembly System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll mtime 3.10.2012 5:44:30
+referenced assembly System.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Security.dll mtime 5.2.2013 3:29:00
+referenced assembly Accessibility, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Accessibility.dll mtime 25.7.2008 10:17:00
+referenced assembly System.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Configuration.dll mtime 17.5.2013 6:27:12
+referenced assembly System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll mtime 17.5.2013 6:27:10
+referenced assembly System.Runtime.Serialization.Formatters.Soap, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Runtime.Serialization.Formatters.Soap.dll mtime 25.7.2008 10:17:00
+referenced assembly System.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+  file C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Deployment.dll mtime 25.7.2008 10:16:46
