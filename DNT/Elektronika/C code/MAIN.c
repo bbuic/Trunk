@@ -205,6 +205,9 @@ int main(void)
 			   */
 			  if(pod_uart==0x12){flag.vrata_zatvori=1;}
 			  
+			  //echo
+			  if(pod_uart==0xFF){putchr(0xFF);}
+			  
 			  pod_uart=0x00;
 
 		  }
