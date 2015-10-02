@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <asmv1:assemblyIdentity name="DNT.exe" version="1.0.0.14" publicKeyToken="0000000000000000" language="hr" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="DNT.exe" version="1.0.0.14" publicKeyToken="0000000000000000" language="hr" processorArchitecture="x86" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DNT" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DNT" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
     <commandLine file="DNT.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -27,14 +27,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DNT.exe" size="192512">
-      <assemblyIdentity name="DNT" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DNT.exe" size="196608">
+      <assemblyIdentity name="DNT" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>uIdjNp+wlu322FVJ/rN5gU0pQ1Q=</dsig:DigestValue>
+        <dsig:DigestValue>d8izb1fIcNlQzMQF3PpIqU19lXs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

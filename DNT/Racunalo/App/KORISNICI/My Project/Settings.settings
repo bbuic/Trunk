@@ -28,5 +28,8 @@
     <Setting Name="UvodnaPoruka" Type="System.String" Scope="Application">
       <Value Profile="(Default)">     IKB  Umag      DNEVNO-NOCNI TREZOR</Value>
     </Setting>
+    <Setting Name="KoristiLcd" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

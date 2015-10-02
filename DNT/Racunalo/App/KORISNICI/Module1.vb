@@ -1,7 +1,8 @@
 Module Module1
+
     'PROCEDURA ZA POSTAVLJANJE KURSORA NA PRAVU POZICIJU
-    Public Sub Kursor_Pozicija(ByVal KojiStupac As Byte, ByVal KojiRed As Byte)
-        Dim KURSOR_POZ As Byte() = {27, 108, KojiStupac, KojiRed}
+    Public Sub Kursor_Pozicija(ByVal kojiStupac As Byte, ByVal KojiRed As Byte)
+        Dim KURSOR_POZ As Byte() = {27, 108, kojiStupac, KojiRed}
         FRM_OGRANICENO.RS232_LCD.Write(KURSOR_POZ, 0, 4)
     End Sub
 
@@ -21,22 +22,26 @@ Module Module1
     'PROCEDURA
     Public SLOVO_UVODNE_PORUKE As Int16 = 1
     Public Sub uvodna_poruka()
-        FRM_OGRANICENO.TIMER_SLOVA.Start()
-        SLOVO_UVODNE_PORUKE = 1
-        FRM_OGRANICENO.TIMER_SLOVA.Interval = 250
+        If My.Settings.KoristiLcd Then
+            FRM_OGRANICENO.TIMER_SLOVA.Start()
+            SLOVO_UVODNE_PORUKE = 1
+            FRM_OGRANICENO.TIMER_SLOVA.Interval = 250
+        End If
     End Sub
 
     Public Sub LCD_PORUKA(ByVal TEXT As String)
-        FRM_OGRANICENO.TIMER_SLOVA.Stop()
-        brisi_lcd()
-        Kursor_Pozicija(1, 1)
-        FRM_OGRANICENO.RS232_LCD.Write(TEXT)
+        If My.Settings.KoristiLcd Then
+            FRM_OGRANICENO.TIMER_SLOVA.Stop()
+            brisi_lcd()
+            Kursor_Pozicija(1, 1)
+            FRM_OGRANICENO.RS232_LCD.Write(TEXT)
+        End If
     End Sub
 
     Public Sub UPDATE_NAREDBA(ByVal SQLCommand As System.Data.OleDb.OleDbCommand)
 
         FRM_OGRANICENO.KONEKCIJA.Open()
-        SQLCommand.Connection = FRM_OGRANICENO.KONEKCIJA        
+        SQLCommand.Connection = FRM_OGRANICENO.KONEKCIJA
         Dim UPDATE_NAR As Int32 = SQLCommand.ExecuteNonQuery()
         FRM_OGRANICENO.KONEKCIJA.Close()
         '

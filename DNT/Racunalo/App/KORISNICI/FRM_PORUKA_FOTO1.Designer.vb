@@ -19,7 +19,7 @@ Partial Class FRM_PORUKA_FOTO1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
@@ -29,20 +29,20 @@ Partial Class FRM_PORUKA_FOTO1
         Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label1.Location = New System.Drawing.Point(10, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(485, 85)
+        Me.Label1.Size = New System.Drawing.Size(485, 51)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Sigurnosna vreæica je ostala blokirana u tunelu." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Molim da sa unutrašnje strane" & _
-            " trezora (u kanalu) izvadite vreæicu!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "ili nazovite servis 098/500-003(Pula in" & _
-            "ženjering)"
+            " trezora (u kanalu) izvadite vreæicu!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'FRM_PORUKA_FOTO1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(504, 114)
+        Me.ClientSize = New System.Drawing.Size(504, 77)
         Me.ControlBox = False
         Me.Controls.Add(Me.Label1)
         Me.Name = "FRM_PORUKA_FOTO1"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ALARM!"
         Me.ResumeLayout(False)
         Me.PerformLayout()

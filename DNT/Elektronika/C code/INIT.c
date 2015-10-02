@@ -35,9 +35,8 @@ void ioinit(void)
 	
 	/*
 	* SETIRANJE UART-A(MIKROKONTROLER RADI NA 8.000 MHz)
-	*/
-	//UCSRA = _BV(U2X);
-	UBRRL = 0x19;//(F_CPU / (8UL * 9600)) - 1;
+	*/	
+	UBRRL = 0x19; //Baud rate: 19200, Parity: None, Data bits: 8, Stop bits: 1
 	UCSRB = _BV(TXEN) | _BV(RXEN) | _BV(RXCIE); /* tx/rx enable , INTERUPT RECIVE*/
 	UCSRC |= _BV(URSEL) | _BV(UCSZ0) | _BV(UCSZ1);// | _BV(UPM0)| _BV(UPM1);//palim odd parity bit, 8 data bit
 	

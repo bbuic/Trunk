@@ -7,3 +7,15 @@
 *.d
 *.o
 *.hex
+*.suo
+*.exe
+*.exe
+*.pdb
+*.user
+*.config
+*.manifest
+*.manifest
+*.application
+*.application
+*.application
+*.cache
