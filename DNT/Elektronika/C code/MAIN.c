@@ -98,7 +98,7 @@ ISR(INT0_vect)
 
 int main(void)
 {
-	ioinit();//INICJALIZACIJA SUSTAVA
+	ioinit();
 	
 	unsigned int kont_led = 0;
 	flag.vrata_otvorena = 0;
