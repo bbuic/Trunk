@@ -16,3 +16,7 @@ G:\New folder\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\KORISNICI.Resources.res
 G:\New folder\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\KORISNICI.vbproj.GenerateResource.Cache
 G:\New folder\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.exe.manifest
 G:\New folder\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.application
+d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\bin\Debug\DNT.exe.config
+d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.exe
+d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.xml
+d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.pdb
