@@ -11,13 +11,11 @@ namespace DNTv2.DataModel.DataServices
     public abstract class AbstractDataService
     {
         public delegate void BazaPostaviPodatke(SqlCommand sqlCommand);
-        internal ISqlConnectionProvider sqlConnectionProvider = new DefaultSqlConnectionProvider();
         private object tmpObject;
 
-        public ISqlConnectionProvider SqlConnectionProvider
+        internal SqlConnection SqlConnection
         {
-            get { return sqlConnectionProvider; }
-            set { sqlConnectionProvider = value; }
+            get{return new SqlConnection(Properties.Settings.Default.ConnectionString);}
         }
 
         protected bool FindFirstBool(SqlCommand command)
@@ -179,7 +177,7 @@ namespace DNTv2.DataModel.DataServices
 
         protected void Execute(SqlCommand command, CommandType commandType)
         {
-            using (SqlConnection connection = SqlConnectionProvider.SqlConnection)
+            using (SqlConnection connection = SqlConnection)
             {
                 if (!connection.State.Equals(ConnectionState.Open))
                     connection.Open();
@@ -198,7 +196,7 @@ namespace DNTv2.DataModel.DataServices
         {
             if (command.Transaction == null)
             {
-                using (SqlConnection connection = SqlConnectionProvider.SqlConnection)
+                using (SqlConnection connection = SqlConnection)
                 {
                     if (!connection.State.Equals(ConnectionState.Open))
                         connection.Open();
@@ -226,7 +224,7 @@ namespace DNTv2.DataModel.DataServices
 
             if (sqlCommand.Transaction == null)
             {
-                using (SqlConnection connection = SqlConnectionProvider.SqlConnection)
+                using (SqlConnection connection = SqlConnection)
                 {
                     if (!connection.State.Equals(ConnectionState.Open))
                         connection.Open();
@@ -304,7 +302,7 @@ namespace DNTv2.DataModel.DataServices
 
         public void Execute(SqlCommand sqlCommand, CommandType commandType, BazaPostaviPodatke postaviPodatke)
         {
-            using (SqlConnection connection = SqlConnectionProvider.SqlConnection)
+            using (SqlConnection connection = SqlConnection)
             {
                 if (!connection.State.Equals(ConnectionState.Open))
                     connection.Open();
