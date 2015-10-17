@@ -15,3 +15,6 @@
 *.manifest
 *.application
 *.cache
+*.exe
+*.pdb
+*.manifest

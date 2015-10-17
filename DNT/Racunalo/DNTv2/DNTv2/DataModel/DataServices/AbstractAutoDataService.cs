@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using DNTv2.DataModel.Attributes;
 
 namespace DNTv2.DataModel.DataServices
 {
@@ -216,7 +217,7 @@ namespace DNTv2.DataModel.DataServices
 
         public void SaveAll(ICollection list, int chunkSize)
         {
-            using (SqlConnection connection = Baza.SqlSpoj())
+            using (SqlConnection connection = base.SqlConnection)
             {
                 if (!connection.State.Equals(ConnectionState.Open))
                     connection.Open();

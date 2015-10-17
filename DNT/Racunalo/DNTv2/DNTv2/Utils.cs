@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace DNTv2
 {
@@ -138,5 +139,12 @@ namespace DNTv2
             }
             return param.SqlDbType;
         }
+
+        public static void ResetTimer(Timer timer)
+        {
+            timer.Stop();
+            timer.Start();
+        }
+
     }
 }
