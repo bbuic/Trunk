@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using DNTv2.DataModel.Attributes;
+using DNTv2.DataModel.DataServices;
 
-namespace DNTv2.DataModel.DataServices
+namespace DNTv2.DataAccess.Services
 {
     public abstract class AbstractAutoDataService : AbstractDataService
     {

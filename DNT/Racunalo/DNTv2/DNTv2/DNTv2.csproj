@@ -44,28 +44,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel\Attributes\IdAttribute.cs" />
-    <Compile Include="DataModel\DataServices\AbstractAutoDataService.cs" />
-    <Compile Include="DataModel\DataServices\AbstractDataService.cs" />
-    <Compile Include="DataModel\DataServices\KarticaDataService.cs" />
-    <Compile Include="DataModel\DataServices\KorisnikDataService.cs" />
-    <Compile Include="DataModel\DataServices\TransakcijaDataService.cs" />
-    <Compile Include="DataModel\Kartica.cs" />
-    <Compile Include="DataModel\Korisnik.cs" />
-    <Compile Include="DataModel\PersistentObject.cs" />
-    <Compile Include="DataModel\Transakcija.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DataAccess\Attributes\IdAttribute.cs" />
+    <Compile Include="DataAccess\Services\AbstractAutoDataService.cs" />
+    <Compile Include="DataAccess\Services\AbstractDataService.cs" />
+    <Compile Include="DataAccess\Services\KarticaDataService.cs" />
+    <Compile Include="DataAccess\Services\KorisnikDataService.cs" />
+    <Compile Include="DataAccess\Services\TransakcijaDataService.cs" />
+    <Compile Include="DataAccess\Kartica.cs" />
+    <Compile Include="DataAccess\Korisnik.cs" />
+    <Compile Include="DataAccess\PersistentObject.cs" />
+    <Compile Include="DataAccess\Transakcija.cs" />
+    <Compile Include="DataModel\CommonModel.cs" />
+    <Compile Include="DataModel\Converters\IModel2Gui.cs" />
+    <Compile Include="DataModel\Converters\TransakcijaModel2Gui.cs" />
+    <Compile Include="DataModel\Services\AbstractModelService.cs" />
+    <Compile Include="DataModel\Services\KorisnikModelService.cs" />
+    <Compile Include="DataModel\Services\TransakcijeModelService.cs" />
+    <Compile Include="DataModel\TransakcijeModel.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUser.Designer.cs">
+      <DependentUpon>frmUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUser.resx">
+      <DependentUpon>frmUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -87,6 +105,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

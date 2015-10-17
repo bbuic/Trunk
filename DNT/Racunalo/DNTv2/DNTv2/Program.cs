@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using DNTv2.DataModel.Converters;
+using DNTv2.DataModel.Services;
 
 namespace DNTv2
 {
@@ -15,7 +17,7 @@ namespace DNTv2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            Application.Run(new TransakcijaModel2Gui().Convert2Form(new TransakcijeModelService()));
         }
     }
 }

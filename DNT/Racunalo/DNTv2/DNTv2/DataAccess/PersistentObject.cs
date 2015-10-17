@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DNTv2.DataModel.Attributes;
+﻿using DNTv2.DataModel.Attributes;
 
-namespace DNTv2.DataModel
+namespace DNTv2.DataAccess
 {
     public class PersistentObject
     {

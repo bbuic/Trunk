@@ -144,7 +144,7 @@ namespace DNTv2.DataModel.DataServices
             return GetArrayList(dataTable);
         }
 
-        private ArrayList GetArrayList(DataTable dataTable)
+        internal ArrayList GetArrayList(DataTable dataTable)
         {
             ArrayList list = new ArrayList();
             if (dataTable != null && dataTable.Rows != null)

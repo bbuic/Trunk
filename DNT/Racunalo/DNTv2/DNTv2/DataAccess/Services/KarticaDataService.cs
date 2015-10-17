@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using DNTv2.DataModel;
 
-namespace DNTv2.DataModel.DataServices
+namespace DNTv2.DataAccess.Services
 {
     public class KarticaDataService:AbstractAutoDataService
     {

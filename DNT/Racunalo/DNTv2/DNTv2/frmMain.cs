@@ -3,6 +3,7 @@ using System.Data.OleDb;
 using System.Threading;
 using System.Windows.Forms;
 using DNTv2.DataModel;
+using DNTv2.DataModel.Services;
 using Timer = System.Windows.Forms.Timer;
 
 namespace DNTv2
@@ -18,7 +19,7 @@ namespace DNTv2
         public frmMain()
         {
             InitializeComponent();
-
+            
             _timerVrataZasun = new Timer {Interval = Properties.Settings.Default.TimerZasun};
             _timerVrataZasun.Tick += delegate
             {
@@ -32,7 +33,7 @@ namespace DNTv2
             {
                 _timerVrataOtvorena.Stop();
 
-                FRM_PORUKA_VRATA1.Show()
+                FRM_PORUKA_VRATA1.Show();
 
                 //TODO: upis alarma
                 /*'KONEKCIJA.Open()
