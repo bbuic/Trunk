@@ -481,20 +481,30 @@ namespace DNTv2.DataAccess.Services
 
         public PropertyInfo[] UniqueProperties
         {
-            get { return AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(UniqueAttribute)); }
+            get
+            {
+                return null;
+                //AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(UniqueAttribute)); 
+            }
         }
 
         public PropertyInfo[] IgnoredProperties
         {
-            get { return AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IgnoreAttribute)); }
+            get
+            {
+                return null;
+                //AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IgnoreAttribute));
+            }
         }
 
         public PropertyInfo IdProperty
         {
             get
             {
-                PropertyInfo[] properties = AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IdAttribute));
-                return properties.Length > 0 ? properties[0] : null;
+                //PropertyInfo[] properties = AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IdAttribute));
+                //return properties.Length > 0 ? properties[0] : null;
+
+                return null;
             }
         }
 

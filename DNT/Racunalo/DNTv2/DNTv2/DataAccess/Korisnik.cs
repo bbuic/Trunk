@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using DNTv2.DataModel;
 
-namespace DNTv2.DataModel
+namespace DNTv2.DataAccess
 {
-    public class Korisnik
+    public class Korisnik : PersistentObject
     {
-        public string Ime { get; set; }
+        public virtual string Ime { get; set; }
         public string Prezime { get; set; }
         public string Adresa { get; set; }
         public string KucniBroj { get; set; }

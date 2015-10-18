@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using DNTv2.Annotations;
+﻿using System.ComponentModel;
 
 namespace DNTv2.DataModel
 {
     public class CommonModel : INotifyPropertyChanged
     {
-        private ModelState modelState = ModelState.Unchanged;
+        internal ModelState modelState = ModelState.Unchanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -28,27 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUser));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.GRB_KORISNICI_DNT = new System.Windows.Forms.GroupBox();
-            this.BTN_RESET_KORISNIK = new System.Windows.Forms.Button();
-            this.BTN_PROMJENI_KORISNIKA = new System.Windows.Forms.Button();
-            this.BTN_BRISANJE_KARTICE = new System.Windows.Forms.Button();
-            this.BTN_UNOS_KARTICE = new System.Windows.Forms.Button();
-            this.BTN_IZLAZ_KORISNICI = new System.Windows.Forms.Button();
+            this.btnNovi = new System.Windows.Forms.Button();
+            this.btnObrisi = new System.Windows.Forms.Button();
+            this.btnZapamti = new System.Windows.Forms.Button();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.TabPage1 = new System.Windows.Forms.TabPage();
             this.Label9 = new System.Windows.Forms.Label();
             this.LBL_KUCNI_BROJ = new System.Windows.Forms.Label();
-            this.TXT_KUCNI_BROJ = new System.Windows.Forms.TextBox();
-            this.TXT_GRAD_MJESTO = new System.Windows.Forms.TextBox();
-            this.TXT_ULICA = new System.Windows.Forms.TextBox();
-            this.TXT_TELEFON = new System.Windows.Forms.TextBox();
-            this.TXT_PREZIME = new System.Windows.Forms.TextBox();
-            this.TXT_IME = new System.Windows.Forms.TextBox();
+            this.txtKucniBroj = new System.Windows.Forms.TextBox();
+            this.txtGrad = new System.Windows.Forms.TextBox();
+            this.txtUlica = new System.Windows.Forms.TextBox();
+            this.txtTelefon = new System.Windows.Forms.TextBox();
+            this.txtPrezime = new System.Windows.Forms.TextBox();
+            this.txtIme = new System.Windows.Forms.TextBox();
             this.LBL_GRAD_MJESTO = new System.Windows.Forms.Label();
             this.LBL_TELEFON = new System.Windows.Forms.Label();
             this.LBL_ADRESA = new System.Windows.Forms.Label();
@@ -56,22 +53,20 @@
             this.LBL_IME = new System.Windows.Forms.Label();
             this.TabPage2 = new System.Windows.Forms.TabPage();
             this.Label1 = new System.Windows.Forms.Label();
-            this.DATUM1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpDatumKartice = new System.Windows.Forms.DateTimePicker();
             this.LBL_DATUM_UPISA = new System.Windows.Forms.Label();
             this.LBL_BROJ_UGOVORA = new System.Windows.Forms.Label();
-            this.TXT_BROJ_UGOVORA = new System.Windows.Forms.TextBox();
-            this.TXT_BROJ_KARTICE = new System.Windows.Forms.TextBox();
+            this.txtBrojUgovora = new System.Windows.Forms.TextBox();
+            this.txtBrojKartice = new System.Windows.Forms.TextBox();
             this.LBL_BROJ_KARTICE = new System.Windows.Forms.Label();
-            this.DGV_KARTICE = new System.Windows.Forms.DataGridView();
-            this.broj_kartice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ugovor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvKartice = new System.Windows.Forms.DataGridView();
+            this.btnPovratak = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GRB_KORISNICI_DNT.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.TabPage1.SuspendLayout();
             this.TabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_KARTICE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKartice)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -85,11 +80,10 @@
             // GRB_KORISNICI_DNT
             // 
             this.GRB_KORISNICI_DNT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GRB_KORISNICI_DNT.Controls.Add(this.BTN_RESET_KORISNIK);
-            this.GRB_KORISNICI_DNT.Controls.Add(this.BTN_PROMJENI_KORISNIKA);
-            this.GRB_KORISNICI_DNT.Controls.Add(this.BTN_BRISANJE_KARTICE);
-            this.GRB_KORISNICI_DNT.Controls.Add(this.BTN_UNOS_KARTICE);
-            this.GRB_KORISNICI_DNT.Controls.Add(this.BTN_IZLAZ_KORISNICI);
+            this.GRB_KORISNICI_DNT.Controls.Add(this.btnPovratak);
+            this.GRB_KORISNICI_DNT.Controls.Add(this.btnNovi);
+            this.GRB_KORISNICI_DNT.Controls.Add(this.btnObrisi);
+            this.GRB_KORISNICI_DNT.Controls.Add(this.btnZapamti);
             this.GRB_KORISNICI_DNT.Controls.Add(this.TabControl1);
             this.GRB_KORISNICI_DNT.Location = new System.Drawing.Point(12, 177);
             this.GRB_KORISNICI_DNT.Name = "GRB_KORISNICI_DNT";
@@ -97,58 +91,37 @@
             this.GRB_KORISNICI_DNT.TabIndex = 40;
             this.GRB_KORISNICI_DNT.TabStop = false;
             this.GRB_KORISNICI_DNT.Text = "Korinici dnevno-noćnog trezora";
-            this.GRB_KORISNICI_DNT.Visible = false;
             // 
-            // BTN_RESET_KORISNIK
+            // btnNovi
             // 
-            this.BTN_RESET_KORISNIK.Location = new System.Drawing.Point(462, 260);
-            this.BTN_RESET_KORISNIK.Name = "BTN_RESET_KORISNIK";
-            this.BTN_RESET_KORISNIK.Size = new System.Drawing.Size(78, 23);
-            this.BTN_RESET_KORISNIK.TabIndex = 64;
-            this.BTN_RESET_KORISNIK.Text = "RESET";
-            this.BTN_RESET_KORISNIK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BTN_RESET_KORISNIK.UseVisualStyleBackColor = true;
+            this.btnNovi.Location = new System.Drawing.Point(462, 172);
+            this.btnNovi.Name = "btnNovi";
+            this.btnNovi.Size = new System.Drawing.Size(78, 23);
+            this.btnNovi.TabIndex = 63;
+            this.btnNovi.Text = "Novi";
+            this.btnNovi.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNovi.UseVisualStyleBackColor = true;
             // 
-            // BTN_PROMJENI_KORISNIKA
+            // btnObrisi
             // 
-            this.BTN_PROMJENI_KORISNIKA.Location = new System.Drawing.Point(462, 172);
-            this.BTN_PROMJENI_KORISNIKA.Name = "BTN_PROMJENI_KORISNIKA";
-            this.BTN_PROMJENI_KORISNIKA.Size = new System.Drawing.Size(78, 23);
-            this.BTN_PROMJENI_KORISNIKA.TabIndex = 63;
-            this.BTN_PROMJENI_KORISNIKA.Text = "PROMJENI";
-            this.BTN_PROMJENI_KORISNIKA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BTN_PROMJENI_KORISNIKA.UseVisualStyleBackColor = true;
+            this.btnObrisi.BackColor = System.Drawing.Color.White;
+            this.btnObrisi.Location = new System.Drawing.Point(462, 203);
+            this.btnObrisi.Name = "btnObrisi";
+            this.btnObrisi.Size = new System.Drawing.Size(78, 23);
+            this.btnObrisi.TabIndex = 62;
+            this.btnObrisi.Text = "Obriši";
+            this.btnObrisi.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnObrisi.UseVisualStyleBackColor = false;
             // 
-            // BTN_BRISANJE_KARTICE
+            // btnZapamti
             // 
-            this.BTN_BRISANJE_KARTICE.BackColor = System.Drawing.Color.White;
-            this.BTN_BRISANJE_KARTICE.Location = new System.Drawing.Point(462, 203);
-            this.BTN_BRISANJE_KARTICE.Name = "BTN_BRISANJE_KARTICE";
-            this.BTN_BRISANJE_KARTICE.Size = new System.Drawing.Size(78, 23);
-            this.BTN_BRISANJE_KARTICE.TabIndex = 62;
-            this.BTN_BRISANJE_KARTICE.Text = "OBRIŠI";
-            this.BTN_BRISANJE_KARTICE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BTN_BRISANJE_KARTICE.UseVisualStyleBackColor = false;
-            // 
-            // BTN_UNOS_KARTICE
-            // 
-            this.BTN_UNOS_KARTICE.Location = new System.Drawing.Point(462, 232);
-            this.BTN_UNOS_KARTICE.Name = "BTN_UNOS_KARTICE";
-            this.BTN_UNOS_KARTICE.Size = new System.Drawing.Size(78, 23);
-            this.BTN_UNOS_KARTICE.TabIndex = 40;
-            this.BTN_UNOS_KARTICE.Text = "ZAPAMTI";
-            this.BTN_UNOS_KARTICE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.BTN_UNOS_KARTICE.UseVisualStyleBackColor = true;
-            // 
-            // BTN_IZLAZ_KORISNICI
-            // 
-            this.BTN_IZLAZ_KORISNICI.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BTN_IZLAZ_KORISNICI.BackgroundImage")));
-            this.BTN_IZLAZ_KORISNICI.Location = new System.Drawing.Point(445, 41);
-            this.BTN_IZLAZ_KORISNICI.Name = "BTN_IZLAZ_KORISNICI";
-            this.BTN_IZLAZ_KORISNICI.Size = new System.Drawing.Size(106, 23);
-            this.BTN_IZLAZ_KORISNICI.TabIndex = 18;
-            this.BTN_IZLAZ_KORISNICI.Text = "Odjava";
-            this.BTN_IZLAZ_KORISNICI.UseVisualStyleBackColor = true;
+            this.btnZapamti.Location = new System.Drawing.Point(462, 232);
+            this.btnZapamti.Name = "btnZapamti";
+            this.btnZapamti.Size = new System.Drawing.Size(78, 23);
+            this.btnZapamti.TabIndex = 40;
+            this.btnZapamti.Text = "Zapamti";
+            this.btnZapamti.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnZapamti.UseVisualStyleBackColor = true;
             // 
             // TabControl1
             // 
@@ -164,12 +137,12 @@
             // 
             this.TabPage1.Controls.Add(this.Label9);
             this.TabPage1.Controls.Add(this.LBL_KUCNI_BROJ);
-            this.TabPage1.Controls.Add(this.TXT_KUCNI_BROJ);
-            this.TabPage1.Controls.Add(this.TXT_GRAD_MJESTO);
-            this.TabPage1.Controls.Add(this.TXT_ULICA);
-            this.TabPage1.Controls.Add(this.TXT_TELEFON);
-            this.TabPage1.Controls.Add(this.TXT_PREZIME);
-            this.TabPage1.Controls.Add(this.TXT_IME);
+            this.TabPage1.Controls.Add(this.txtKucniBroj);
+            this.TabPage1.Controls.Add(this.txtGrad);
+            this.TabPage1.Controls.Add(this.txtUlica);
+            this.TabPage1.Controls.Add(this.txtTelefon);
+            this.TabPage1.Controls.Add(this.txtPrezime);
+            this.TabPage1.Controls.Add(this.txtIme);
             this.TabPage1.Controls.Add(this.LBL_GRAD_MJESTO);
             this.TabPage1.Controls.Add(this.LBL_TELEFON);
             this.TabPage1.Controls.Add(this.LBL_ADRESA);
@@ -204,47 +177,47 @@
             this.LBL_KUCNI_BROJ.TabIndex = 79;
             this.LBL_KUCNI_BROJ.Text = "Kućni broj";
             // 
-            // TXT_KUCNI_BROJ
+            // txtKucniBroj
             // 
-            this.TXT_KUCNI_BROJ.Location = new System.Drawing.Point(281, 95);
-            this.TXT_KUCNI_BROJ.Name = "TXT_KUCNI_BROJ";
-            this.TXT_KUCNI_BROJ.Size = new System.Drawing.Size(41, 20);
-            this.TXT_KUCNI_BROJ.TabIndex = 68;
+            this.txtKucniBroj.Location = new System.Drawing.Point(281, 95);
+            this.txtKucniBroj.Name = "txtKucniBroj";
+            this.txtKucniBroj.Size = new System.Drawing.Size(41, 20);
+            this.txtKucniBroj.TabIndex = 68;
             // 
-            // TXT_GRAD_MJESTO
+            // txtGrad
             // 
-            this.TXT_GRAD_MJESTO.Location = new System.Drawing.Point(101, 122);
-            this.TXT_GRAD_MJESTO.Name = "TXT_GRAD_MJESTO";
-            this.TXT_GRAD_MJESTO.Size = new System.Drawing.Size(143, 20);
-            this.TXT_GRAD_MJESTO.TabIndex = 69;
+            this.txtGrad.Location = new System.Drawing.Point(101, 122);
+            this.txtGrad.Name = "txtGrad";
+            this.txtGrad.Size = new System.Drawing.Size(143, 20);
+            this.txtGrad.TabIndex = 69;
             // 
-            // TXT_ULICA
+            // txtUlica
             // 
-            this.TXT_ULICA.Location = new System.Drawing.Point(101, 95);
-            this.TXT_ULICA.Name = "TXT_ULICA";
-            this.TXT_ULICA.Size = new System.Drawing.Size(174, 20);
-            this.TXT_ULICA.TabIndex = 66;
+            this.txtUlica.Location = new System.Drawing.Point(101, 95);
+            this.txtUlica.Name = "txtUlica";
+            this.txtUlica.Size = new System.Drawing.Size(174, 20);
+            this.txtUlica.TabIndex = 66;
             // 
-            // TXT_TELEFON
+            // txtTelefon
             // 
-            this.TXT_TELEFON.Location = new System.Drawing.Point(102, 148);
-            this.TXT_TELEFON.Name = "TXT_TELEFON";
-            this.TXT_TELEFON.Size = new System.Drawing.Size(142, 20);
-            this.TXT_TELEFON.TabIndex = 76;
+            this.txtTelefon.Location = new System.Drawing.Point(102, 148);
+            this.txtTelefon.Name = "txtTelefon";
+            this.txtTelefon.Size = new System.Drawing.Size(142, 20);
+            this.txtTelefon.TabIndex = 76;
             // 
-            // TXT_PREZIME
+            // txtPrezime
             // 
-            this.TXT_PREZIME.Location = new System.Drawing.Point(101, 69);
-            this.TXT_PREZIME.Name = "TXT_PREZIME";
-            this.TXT_PREZIME.Size = new System.Drawing.Size(275, 20);
-            this.TXT_PREZIME.TabIndex = 64;
+            this.txtPrezime.Location = new System.Drawing.Point(101, 69);
+            this.txtPrezime.Name = "txtPrezime";
+            this.txtPrezime.Size = new System.Drawing.Size(275, 20);
+            this.txtPrezime.TabIndex = 64;
             // 
-            // TXT_IME
+            // txtIme
             // 
-            this.TXT_IME.Location = new System.Drawing.Point(101, 43);
-            this.TXT_IME.Name = "TXT_IME";
-            this.TXT_IME.Size = new System.Drawing.Size(275, 20);
-            this.TXT_IME.TabIndex = 62;
+            this.txtIme.Location = new System.Drawing.Point(101, 43);
+            this.txtIme.Name = "txtIme";
+            this.txtIme.Size = new System.Drawing.Size(275, 20);
+            this.txtIme.TabIndex = 62;
             // 
             // LBL_GRAD_MJESTO
             // 
@@ -294,13 +267,13 @@
             // TabPage2
             // 
             this.TabPage2.Controls.Add(this.Label1);
-            this.TabPage2.Controls.Add(this.DATUM1);
+            this.TabPage2.Controls.Add(this.dtpDatumKartice);
             this.TabPage2.Controls.Add(this.LBL_DATUM_UPISA);
             this.TabPage2.Controls.Add(this.LBL_BROJ_UGOVORA);
-            this.TabPage2.Controls.Add(this.TXT_BROJ_UGOVORA);
-            this.TabPage2.Controls.Add(this.TXT_BROJ_KARTICE);
+            this.TabPage2.Controls.Add(this.txtBrojUgovora);
+            this.TabPage2.Controls.Add(this.txtBrojKartice);
             this.TabPage2.Controls.Add(this.LBL_BROJ_KARTICE);
-            this.TabPage2.Controls.Add(this.DGV_KARTICE);
+            this.TabPage2.Controls.Add(this.dgvKartice);
             this.TabPage2.Location = new System.Drawing.Point(4, 22);
             this.TabPage2.Name = "TabPage2";
             this.TabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -321,13 +294,13 @@
             this.Label1.TabIndex = 89;
             this.Label1.Text = "*";
             // 
-            // DATUM1
+            // dtpDatumKartice
             // 
-            this.DATUM1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DATUM1.Location = new System.Drawing.Point(84, 226);
-            this.DATUM1.Name = "DATUM1";
-            this.DATUM1.Size = new System.Drawing.Size(84, 20);
-            this.DATUM1.TabIndex = 87;
+            this.dtpDatumKartice.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDatumKartice.Location = new System.Drawing.Point(84, 226);
+            this.dtpDatumKartice.Name = "dtpDatumKartice";
+            this.dtpDatumKartice.Size = new System.Drawing.Size(84, 20);
+            this.dtpDatumKartice.TabIndex = 87;
             // 
             // LBL_DATUM_UPISA
             // 
@@ -347,20 +320,20 @@
             this.LBL_BROJ_UGOVORA.TabIndex = 86;
             this.LBL_BROJ_UGOVORA.Text = "Ugovor";
             // 
-            // TXT_BROJ_UGOVORA
+            // txtBrojUgovora
             // 
-            this.TXT_BROJ_UGOVORA.Location = new System.Drawing.Point(280, 199);
-            this.TXT_BROJ_UGOVORA.Name = "TXT_BROJ_UGOVORA";
-            this.TXT_BROJ_UGOVORA.Size = new System.Drawing.Size(100, 20);
-            this.TXT_BROJ_UGOVORA.TabIndex = 85;
+            this.txtBrojUgovora.Location = new System.Drawing.Point(280, 199);
+            this.txtBrojUgovora.Name = "txtBrojUgovora";
+            this.txtBrojUgovora.Size = new System.Drawing.Size(100, 20);
+            this.txtBrojUgovora.TabIndex = 85;
             // 
-            // TXT_BROJ_KARTICE
+            // txtBrojKartice
             // 
-            this.TXT_BROJ_KARTICE.Location = new System.Drawing.Point(84, 199);
-            this.TXT_BROJ_KARTICE.MaxLength = 5;
-            this.TXT_BROJ_KARTICE.Name = "TXT_BROJ_KARTICE";
-            this.TXT_BROJ_KARTICE.Size = new System.Drawing.Size(84, 20);
-            this.TXT_BROJ_KARTICE.TabIndex = 82;
+            this.txtBrojKartice.Location = new System.Drawing.Point(84, 199);
+            this.txtBrojKartice.MaxLength = 5;
+            this.txtBrojKartice.Name = "txtBrojKartice";
+            this.txtBrojKartice.Size = new System.Drawing.Size(84, 20);
+            this.txtBrojKartice.TabIndex = 82;
             // 
             // LBL_BROJ_KARTICE
             // 
@@ -372,77 +345,64 @@
             this.LBL_BROJ_KARTICE.TabIndex = 83;
             this.LBL_BROJ_KARTICE.Text = "Broj kartice";
             // 
-            // DGV_KARTICE
+            // dgvKartice
             // 
-            this.DGV_KARTICE.AllowUserToAddRows = false;
-            this.DGV_KARTICE.AllowUserToDeleteRows = false;
-            this.DGV_KARTICE.AllowUserToResizeColumns = false;
-            this.DGV_KARTICE.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DGV_KARTICE.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.DGV_KARTICE.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_KARTICE.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.broj_kartice,
-            this.ugovor,
-            this.datum});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DGV_KARTICE.DefaultCellStyle = dataGridViewCellStyle2;
-            this.DGV_KARTICE.Location = new System.Drawing.Point(6, 7);
-            this.DGV_KARTICE.Name = "DGV_KARTICE";
-            this.DGV_KARTICE.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DGV_KARTICE.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.DGV_KARTICE.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DGV_KARTICE.Size = new System.Drawing.Size(398, 174);
-            this.DGV_KARTICE.TabIndex = 0;
+            this.dgvKartice.AllowUserToAddRows = false;
+            this.dgvKartice.AllowUserToDeleteRows = false;
+            this.dgvKartice.AllowUserToResizeColumns = false;
+            this.dgvKartice.AllowUserToResizeRows = false;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvKartice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvKartice.Location = new System.Drawing.Point(6, 7);
+            this.dgvKartice.Name = "dgvKartice";
+            this.dgvKartice.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvKartice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvKartice.Size = new System.Drawing.Size(398, 174);
+            this.dgvKartice.TabIndex = 0;
             // 
-            // broj_kartice
+            // btnPovratak
             // 
-            this.broj_kartice.DataPropertyName = "Broj";
-            this.broj_kartice.HeaderText = "Broj kartice";
-            this.broj_kartice.Name = "broj_kartice";
-            this.broj_kartice.ReadOnly = true;
-            // 
-            // ugovor
-            // 
-            this.ugovor.DataPropertyName = "Ugovor";
-            this.ugovor.HeaderText = "Ugovor";
-            this.ugovor.Name = "ugovor";
-            this.ugovor.ReadOnly = true;
-            // 
-            // datum
-            // 
-            this.datum.DataPropertyName = "Datum";
-            this.datum.HeaderText = "Datum";
-            this.datum.Name = "datum";
-            this.datum.ReadOnly = true;
+            this.btnPovratak.Location = new System.Drawing.Point(462, 261);
+            this.btnPovratak.Name = "btnPovratak";
+            this.btnPovratak.Size = new System.Drawing.Size(78, 23);
+            this.btnPovratak.TabIndex = 64;
+            this.btnPovratak.Text = "Povratak";
+            this.btnPovratak.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPovratak.UseVisualStyleBackColor = true;
             // 
             // frmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 517);
+            this.ControlBox = false;
             this.Controls.Add(this.GRB_KORISNICI_DNT);
             this.Controls.Add(this.dataGridView1);
             this.Name = "frmUser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmUser";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.GRB_KORISNICI_DNT.ResumeLayout(false);
@@ -451,7 +411,7 @@
             this.TabPage1.PerformLayout();
             this.TabPage2.ResumeLayout(false);
             this.TabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_KARTICE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKartice)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -460,21 +420,19 @@
 
         internal System.Windows.Forms.DataGridView dataGridView1;
         internal System.Windows.Forms.GroupBox GRB_KORISNICI_DNT;
-        internal System.Windows.Forms.Button BTN_RESET_KORISNIK;
-        internal System.Windows.Forms.Button BTN_PROMJENI_KORISNIKA;
-        internal System.Windows.Forms.Button BTN_BRISANJE_KARTICE;
-        internal System.Windows.Forms.Button BTN_UNOS_KARTICE;
-        internal System.Windows.Forms.Button BTN_IZLAZ_KORISNICI;
+        internal System.Windows.Forms.Button btnNovi;
+        internal System.Windows.Forms.Button btnObrisi;
+        internal System.Windows.Forms.Button btnZapamti;
         internal System.Windows.Forms.TabControl TabControl1;
         internal System.Windows.Forms.TabPage TabPage1;
         internal System.Windows.Forms.Label Label9;
         internal System.Windows.Forms.Label LBL_KUCNI_BROJ;
-        internal System.Windows.Forms.TextBox TXT_KUCNI_BROJ;
-        internal System.Windows.Forms.TextBox TXT_GRAD_MJESTO;
-        internal System.Windows.Forms.TextBox TXT_ULICA;
-        internal System.Windows.Forms.TextBox TXT_TELEFON;
-        internal System.Windows.Forms.TextBox TXT_PREZIME;
-        internal System.Windows.Forms.TextBox TXT_IME;
+        internal System.Windows.Forms.TextBox txtKucniBroj;
+        internal System.Windows.Forms.TextBox txtGrad;
+        internal System.Windows.Forms.TextBox txtUlica;
+        internal System.Windows.Forms.TextBox txtTelefon;
+        internal System.Windows.Forms.TextBox txtPrezime;
+        internal System.Windows.Forms.TextBox txtIme;
         internal System.Windows.Forms.Label LBL_GRAD_MJESTO;
         internal System.Windows.Forms.Label LBL_TELEFON;
         internal System.Windows.Forms.Label LBL_ADRESA;
@@ -482,15 +440,13 @@
         internal System.Windows.Forms.Label LBL_IME;
         internal System.Windows.Forms.TabPage TabPage2;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.DateTimePicker DATUM1;
+        internal System.Windows.Forms.DateTimePicker dtpDatumKartice;
         internal System.Windows.Forms.Label LBL_DATUM_UPISA;
         internal System.Windows.Forms.Label LBL_BROJ_UGOVORA;
-        internal System.Windows.Forms.TextBox TXT_BROJ_UGOVORA;
-        internal System.Windows.Forms.TextBox TXT_BROJ_KARTICE;
+        internal System.Windows.Forms.TextBox txtBrojUgovora;
+        internal System.Windows.Forms.TextBox txtBrojKartice;
         internal System.Windows.Forms.Label LBL_BROJ_KARTICE;
-        internal System.Windows.Forms.DataGridView DGV_KARTICE;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn broj_kartice;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn ugovor;
-        internal System.Windows.Forms.DataGridViewTextBoxColumn datum;
+        internal System.Windows.Forms.DataGridView dgvKartice;
+        internal System.Windows.Forms.Button btnPovratak;
     }
 }

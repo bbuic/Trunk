@@ -9,7 +9,7 @@ namespace DNTv2.DataModel.Converters
 {
     public interface IModel2Gui
     {
-        Form Convert2Form(AbstractModelService modelService);
-        UserControl Convert2UserControl(AbstractModelService modelService);
+        Form Convert2Form();
+        UserControl Convert2UserControl();
     }
 }

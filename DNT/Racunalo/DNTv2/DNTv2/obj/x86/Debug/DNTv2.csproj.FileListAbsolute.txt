@@ -2,3 +2,10 @@ G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.Properties.Reso
 G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.csproj.GenerateResource.Cache
 G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.csprojResolveAssemblyReference.cache
 G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmMain.resources
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.exe.config
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmUser.resources
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmPoruka.resources
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.exe
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.pdb
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.exe
+g:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.pdb

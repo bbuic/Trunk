@@ -25,7 +25,8 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\\DNTbaza.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"C:\\Users\\Bojan\\Google disk\\DNT\\Baza" +
+            "\\DNTbaza.mdb\"")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

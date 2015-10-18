@@ -57,8 +57,12 @@
     <Compile Include="DataAccess\Transakcija.cs" />
     <Compile Include="DataModel\CommonModel.cs" />
     <Compile Include="DataModel\Converters\IModel2Gui.cs" />
+    <Compile Include="DataModel\Converters\KorisnikModel2Gui.cs" />
     <Compile Include="DataModel\Converters\TransakcijaModel2Gui.cs" />
+    <Compile Include="DataModel\KarticaModel.cs" />
     <Compile Include="DataModel\Services\AbstractModelService.cs" />
+    <Compile Include="DataModel\KorisnikModel.cs" />
+    <Compile Include="DataModel\Services\KarticaModelService.cs" />
     <Compile Include="DataModel\Services\KorisnikModelService.cs" />
     <Compile Include="DataModel\Services\TransakcijeModelService.cs" />
     <Compile Include="DataModel\TransakcijeModel.cs" />
@@ -67,6 +71,12 @@
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPoruka.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPoruka.Designer.cs">
+      <DependentUpon>frmPoruka.cs</DependentUpon>
     </Compile>
     <Compile Include="frmUser.cs">
       <SubType>Form</SubType>
@@ -81,6 +91,9 @@
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPoruka.resx">
+      <DependentUpon>frmPoruka.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUser.resx">
       <DependentUpon>frmUser.cs</DependentUpon>

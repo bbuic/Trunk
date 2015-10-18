@@ -6,21 +6,30 @@ namespace DNTv2.DataModel.Converters
 {
     public class TransakcijaModel2Gui : IModel2Gui
     {
-        public Form Convert2Form(AbstractModelService modelService)
+        public Form Convert2Form()
         {
-            TransakcijeModelService service = (TransakcijeModelService) modelService;
+            TransakcijeModelService service = new TransakcijeModelService();
 
-            frmMain main = new frmMain {dataGridView1 = {DataSource = service.bindingSource}};
+            frmMain main = new frmMain { dataGridView1 = {DataSource = service.bindingSource} };
             main.lblPraznjenjeTrezora.LinkClicked += delegate
             {
-                main.dataGridView1.Height = 1000;
+                if (MessageBox.Show(@"Jeste sigurni da želite ispraznuti trezor?", "",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    ObjectFactory.TransakcijaDataService.IsprazniTrezor();
+                }
+            };
+
+            main.lblAdministracijaKorisnika.LinkClicked += delegate
+            {
+                new KorisnikModel2Gui().Convert2Form().ShowDialog();
             };
 
             service.Refresh();
             return main;
         }
 
-        public UserControl Convert2UserControl(AbstractModelService modelService)
+        public UserControl Convert2UserControl()
         {
             throw new System.NotImplementedException();
         }

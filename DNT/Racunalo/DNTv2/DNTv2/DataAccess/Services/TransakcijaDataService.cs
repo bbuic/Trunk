@@ -9,6 +9,24 @@ namespace DNTv2.DataAccess.Services
 {
     public class TransakcijaDataService: AbstractAutoDataService
     {
+        public void IsprazniTrezor()
+        {
+            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
+            {
+                OleDbCommand command = new OleDbCommand("UPDATE SISTEM Set TREZOR_PRAZAN_VRIJEME = ? WHERE ID = 1", connection);
+                command.Parameters.Add("@VrijemePraznjenja", OleDbType.Date).Value = DateTime.Now;
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
         public IList<Transakcija> DajSveUTrezoru()
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))

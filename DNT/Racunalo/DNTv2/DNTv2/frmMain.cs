@@ -3,7 +3,6 @@ using System.Data.OleDb;
 using System.Threading;
 using System.Windows.Forms;
 using DNTv2.DataModel;
-using DNTv2.DataModel.Services;
 using Timer = System.Windows.Forms.Timer;
 
 namespace DNTv2
@@ -33,7 +32,7 @@ namespace DNTv2
             {
                 _timerVrataOtvorena.Stop();
 
-                FRM_PORUKA_VRATA1.Show();
+                new frmPoruka("Vrata otvorena").ShowDialog();
 
                 //TODO: upis alarma
                 /*'KONEKCIJA.Open()
@@ -112,14 +111,14 @@ namespace DNTv2
 
                             WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.BrojVrecica + "");
 
-                            OleDbCommand komanda = new OleDbCommand("UPDATE DNTTransakcije Set vrecica = ? WHERE dolazak = ?");
-                            komanda.Parameters.Add("@Vrecice", OleDbType.Integer).Value = BROJ_VRECICA;
-                            komanda.Parameters.Add("@Dolazak", OleDbType.Date).Value = VRIJEME_DOLASKA;
-                            UPDATE_NAREDBA(komanda);
+                            //OleDbCommand komanda = new OleDbCommand("UPDATE DNTTransakcije Set vrecica = ? WHERE dolazak = ?");
+                            //komanda.Parameters.Add("@Vrecice", OleDbType.Integer).Value = BROJ_VRECICA;
+                            //komanda.Parameters.Add("@Dolazak", OleDbType.Date).Value = VRIJEME_DOLASKA;
+                            //UPDATE_NAREDBA(komanda);
 
                             
-                            //POKAŽI U LABELI BROJ VREČICA
-                            LABELA_VRECICE_TREZOR();
+                            ////POKAŽI U LABELI BROJ VREČICA
+                            //LABELA_VRECICE_TREZOR();
 
                             break;
 
@@ -135,12 +134,12 @@ namespace DNTv2
                             
                             _transakcija = null;
 
-                            FRM_PORUKA_VRATA1.Close();
+                            //FRM_PORUKA_VRATA1.Close();
                             break;
 
                          case 24: //blokada na fotoceliji
 
-                            FRM_PORUKA_FOTO1.Show();
+                            //FRM_PORUKA_FOTO1.Show();
                             WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
 
                             //TODO: napraviti upis alarma
@@ -152,7 +151,7 @@ namespace DNTv2
                             break;
 
                         case 27: //maknula se blokada sa fotocelije
-                            FRM_PORUKA_FOTO1.Close();
+                            //FRM_PORUKA_FOTO1.Close();
                             break;
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using DNTv2.DataAccess;
 
 namespace DNTv2.DataModel
 {
