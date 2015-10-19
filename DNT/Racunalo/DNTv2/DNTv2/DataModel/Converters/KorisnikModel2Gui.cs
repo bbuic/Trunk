@@ -57,7 +57,7 @@ namespace DNTv2.DataModel.Converters
                 else
                     ObjectFactory.KorisnikDataService.Update(korisnikModel.Korisnik);
 
-                ((IList<KorisnikModel>)service.bindingSource.List).Select(c => {c.modelState = ModelState.Unchanged; return c;}).ToList();
+                ((List<KorisnikModel>)service.bindingSource.List).All(x => { x.ModelState = ModelState.Unchanged; return true; });
             };
 
             user.btnObrisi.Click += delegate

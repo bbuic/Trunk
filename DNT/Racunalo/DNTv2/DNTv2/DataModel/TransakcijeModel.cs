@@ -2,18 +2,9 @@
 
 namespace DNTv2.DataModel
 {
-    public class TransakcijeModel : Transakcija, INotifyPropertyChanged
+    public class TransakcijeModel : CommonModel
     {
-        private ModelState _modelState = ModelState.Unchanged;
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        } 
-
+        Transakcija _transakcija = new Transakcija();
 
     }
 }

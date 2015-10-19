@@ -6,6 +6,17 @@ namespace DNTv2.DataModel
     {
         internal ModelState modelState = ModelState.Unchanged;
 
+        public ModelState ModelState
+        {
+            get { return modelState; }
+            set
+            {
+                if (value == ModelState.Modified && (modelState == ModelState.Inserted || modelState == ModelState.Cancel))
+                    return;
+                modelState = value;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal void OnPropertyChanged(string propertyName)
