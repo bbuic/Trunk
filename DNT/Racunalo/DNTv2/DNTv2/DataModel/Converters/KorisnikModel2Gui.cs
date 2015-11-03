@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using DNTv2.DataAccess;
 using DNTv2.DataModel.Services;
 
 namespace DNTv2.DataModel.Converters
@@ -11,80 +10,75 @@ namespace DNTv2.DataModel.Converters
     {
         public Form Convert2Form()
         {
-            KorisnikModelService service = new KorisnikModelService();
+            KorisnikModelService korisnikModelService = new KorisnikModelService();
+            KarticaModelService karticaModelService = korisnikModelService.KarticaModelService;
 
-            frmUser user = new frmUser {dataGridView1 = {DataSource = service.bindingSource}};
-            service.Refresh();
+            frmUser user = new frmUser {dataGridView1 = {DataSource = korisnikModelService.bindingSource}};
+            korisnikModelService.Refresh();
 
-            user.txtIme.DataBindings.Add("Text", service.bindingSource, "Ime");
-            user.txtPrezime.DataBindings.Add("Text", service.bindingSource, "Prezime");
-            user.txtUlica.DataBindings.Add("Text", service.bindingSource, "Adresa");
-            user.txtKucniBroj.DataBindings.Add("Text", service.bindingSource, "KucniBroj");
-            user.txtGrad.DataBindings.Add("Text", service.bindingSource, "Grad");
-            user.txtTelefon.DataBindings.Add("Text", service.bindingSource, "Telefon");
-            user.dgvKartice.DataSource = service.KarticaModelService.bindingSource;
-            service.bindingSource.CurrentChanged += delegate
+            user.txtIme.DataBindings.Add("Text", korisnikModelService.bindingSource, "Ime");
+            user.txtPrezime.DataBindings.Add("Text", korisnikModelService.bindingSource, "Prezime");
+            user.txtUlica.DataBindings.Add("Text", korisnikModelService.bindingSource, "Adresa");
+            user.txtKucniBroj.DataBindings.Add("Text", korisnikModelService.bindingSource, "KucniBroj");
+            user.txtGrad.DataBindings.Add("Text", korisnikModelService.bindingSource, "Grad");
+            user.txtTelefon.DataBindings.Add("Text", korisnikModelService.bindingSource, "Telefon");            
+            user.dgvKartice.DataSource = karticaModelService.bindingSource;
+            korisnikModelService.bindingSource.CurrentChanged += delegate
             {
-                service.KarticaModelService.bindingSource.DataSource = ((KorisnikModel) service.bindingSource.Current).Kartice;
+                karticaModelService.bindingSource.DataSource = ((KorisnikModel) korisnikModelService.bindingSource.Current).Kartice;
             };
-            if (service.bindingSource.Current != null)
-                service.KarticaModelService.bindingSource.DataSource = ((KorisnikModel)service.bindingSource.Current).Kartice;
-
+            if (korisnikModelService.bindingSource.Current != null)
+                karticaModelService.bindingSource.DataSource = ((KorisnikModel)korisnikModelService.bindingSource.Current).Kartice;
+            
             user.btnNovi.Click += delegate
             {
-                if (user.TabControl1.SelectedIndex == 0)
+                switch (user.TabControl1.SelectedIndex)
                 {
-                    KorisnikModel korisnikModel = (KorisnikModel) service.bindingSource.AddNew();
-                    korisnikModel.modelState = ModelState.Inserted;
-                    user.txtIme.Focus();
-                }
-                else
-                {
-                    KarticaModel o = (KarticaModel) service.KarticaModelService.bindingSource.AddNew();
-                    o.modelState = ModelState.Inserted;
-                    user.txtBrojKartice.Focus();
+                    case 0:
+                        KorisnikModel korisnikModel = (KorisnikModel)korisnikModelService.bindingSource.AddNew();
+                        if (korisnikModel != null) 
+                            korisnikModel.modelState = ModelState.Inserted;
+                        user.txtIme.Focus();
+                        break;
+                    default:
+                        KarticaModel o = (KarticaModel)karticaModelService.bindingSource.AddNew();
+                        if (o != null) 
+                            o.modelState = ModelState.Inserted;
+                        user.txtBrojKartice.Focus();
+                        break;
                 }
             };
 
             
             user.btnZapamti.Click += delegate
             {
-                KorisnikModel korisnikModel = ((KorisnikModel)service.bindingSource.Current);
-                if (korisnikModel.modelState == ModelState.Unchanged) return;
-
-                if (korisnikModel.modelState == ModelState.Inserted)
-                    ObjectFactory.KorisnikDataService.Insert(korisnikModel.Korisnik);
-                else
-                    ObjectFactory.KorisnikDataService.Update(korisnikModel.Korisnik);
-
-                ((List<KorisnikModel>)service.bindingSource.List).All(x => { x.ModelState = ModelState.Unchanged; return true; });
+                switch (user.TabControl1.SelectedIndex)
+                {
+                    case 0:
+                        korisnikModelService.Insert();
+                        break;
+                    default:
+                        karticaModelService.Insert();
+                        break;
+                }
             };
 
             user.btnObrisi.Click += delegate
             {
-                if (user.TabControl1.SelectedIndex == 0)
+                switch (user.TabControl1.SelectedIndex)
                 {
-                    KorisnikModel korisnikModel = ((KorisnikModel) service.bindingSource.Current);
-                    if (korisnikModel.Id <= 0)
-                        service.bindingSource.RemoveCurrent();
-                    else
-                    {
-                        if (MessageBox.Show(@"Želite obrisati odabranog korisnika?", "",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            ObjectFactory.KorisnikDataService.ObrisiKorisnika(korisnikModel.Korisnik);
-                    }
-                    //((IList<KorisnikModel>)service.bindingSource.List).Select(c => { c.modelState = ModelState.Unchanged; return c; }).ToList();
-                    service.Refresh();
-                }
-                else
-                {
-                    
+                    case 0:
+                        korisnikModelService.Delete();
+                        break;
+                    default:
+                        karticaModelService.Delete();
+                        break;
                 }
             };
 
             user.btnPovratak.Click += delegate
             {
-                if(!((IList<KorisnikModel>)service.bindingSource.List).Select(x => x.modelState != ModelState.Unchanged).Any()
+                if(!((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Select(x => x.modelState != ModelState.Unchanged).Any()
                     || MessageBox.Show(@"Želite odustati od promjena?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     user.Close();
             };

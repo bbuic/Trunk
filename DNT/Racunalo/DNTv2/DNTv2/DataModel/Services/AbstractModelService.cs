@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DNTv2.DataModel.Converters;
 
 namespace DNTv2.DataModel.Services
 {
@@ -25,10 +26,39 @@ namespace DNTv2.DataModel.Services
                             };
         }
 
+
+        public EventHandler GenericEventHandler(EventContext context)
+        {
+            return delegate(object sender, EventArgs e)
+            {
+                context.EventObject = sender;
+                EventHandler(context);
+            };
+        }
+
+        public virtual void EventHandler(EventContext context)
+        {
+        }
+
         public virtual void Refresh()
         {
             bindingSource.DataSource = null;
         }
 
+        public virtual void Insert()
+        {
+        }
+
+        public virtual void Delete()
+        {
+        }
+
+        public virtual void Update()
+        {
+        }
+
+        public virtual void Cancel()
+        {
+        }
     }
 }

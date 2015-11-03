@@ -56,6 +56,7 @@
     <Compile Include="DataAccess\PersistentObject.cs" />
     <Compile Include="DataAccess\Transakcija.cs" />
     <Compile Include="DataModel\CommonModel.cs" />
+    <Compile Include="DataModel\Converters\EventContext.cs" />
     <Compile Include="DataModel\Converters\IModel2Gui.cs" />
     <Compile Include="DataModel\Converters\KorisnikModel2Gui.cs" />
     <Compile Include="DataModel\Converters\TransakcijaModel2Gui.cs" />

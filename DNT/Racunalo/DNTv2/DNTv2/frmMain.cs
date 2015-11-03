@@ -162,32 +162,37 @@ namespace DNTv2
             };
         }
 
-        private void KursorPozicija(byte stupac, byte red)
-        {
-            SerialPortLcd.Write(new byte[]{27, 108, stupac, red}, 0, 4);
-        }
+        #region LCD
 
-        private void EraseLcd()
-        {
-            SerialPortLcd.Write(new byte[] { 12 }, 0, 1);
-        }
+        //private void KursorPozicija(byte stupac, byte red)
+        //{
+        //    SerialPortLcd.Write(new byte[] {27, 108, stupac, red}, 0, 4);
+        //}
 
-        private void VerticalModeLcd()
-        {
-            SerialPortLcd.Write(new byte[] { 27, 18 }, 0, 2);
-        }
+        //private void EraseLcd()
+        //{
+        //    SerialPortLcd.Write(new byte[] {12}, 0, 1);
+        //}
 
-        private void UvodnaPoruka()
-        {
-            _timerLcd.Start();
-        }
+        //private void VerticalModeLcd()
+        //{
+        //    SerialPortLcd.Write(new byte[] {27, 18}, 0, 2);
+        //}
 
-        private void WriteMessage2Lcd(string poruka)
-        {
-            _timerLcd.Stop();
-            EraseLcd();
-            KursorPozicija(1,1);
-            SerialPortLcd.Write(poruka);
-        }
+        //private void UvodnaPoruka()
+        //{
+        //    _timerLcd.Start();
+        //}
+
+        //private void WriteMessage2Lcd(string poruka)
+        //{
+        //    _timerLcd.Stop();
+        //    EraseLcd();
+        //    KursorPozicija(1, 1);
+        //    SerialPortLcd.Write(poruka);
+        //}
+
+        #endregion
+
     }
 }
