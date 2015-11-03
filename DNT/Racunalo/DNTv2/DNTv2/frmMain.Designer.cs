@@ -35,9 +35,11 @@
             this.GRB_INFORMACIJE = new System.Windows.Forms.GroupBox();
             this.Label35 = new System.Windows.Forms.Label();
             this.LBL_PRAZNJENJE_TREZORA = new System.Windows.Forms.Label();
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA = new System.Windows.Forms.Label();
+            this.lbBrojVrecica = new System.Windows.Forms.Label();
             this.Label14 = new System.Windows.Forms.Label();
             this.GRB_TRANSAKCIJE = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.PictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblAdministracijaKorisnika = new System.Windows.Forms.LinkLabel();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
@@ -53,16 +55,14 @@
             this.BTN_PRINTER = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.SerialPortLcd = new System.IO.Ports.SerialPort(this.components);
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.Panel1.SuspendLayout();
             this.GRB_INFORMACIJE.SuspendLayout();
             this.GRB_TRANSAKCIJE.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.GRB_ODABIR_UZ_UVIJET.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // Panel1
@@ -83,7 +83,7 @@
             this.GRB_INFORMACIJE.BackColor = System.Drawing.SystemColors.Window;
             this.GRB_INFORMACIJE.Controls.Add(this.Label35);
             this.GRB_INFORMACIJE.Controls.Add(this.LBL_PRAZNJENJE_TREZORA);
-            this.GRB_INFORMACIJE.Controls.Add(this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA);
+            this.GRB_INFORMACIJE.Controls.Add(this.lbBrojVrecica);
             this.GRB_INFORMACIJE.Controls.Add(this.Label14);
             this.GRB_INFORMACIJE.Location = new System.Drawing.Point(12, 158);
             this.GRB_INFORMACIJE.Name = "GRB_INFORMACIJE";
@@ -111,15 +111,15 @@
             this.LBL_PRAZNJENJE_TREZORA.Text = "Datum pražnjenja";
             this.LBL_PRAZNJENJE_TREZORA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA
+            // lbBrojVrecica
             // 
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.AutoSize = true;
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.Location = new System.Drawing.Point(53, 41);
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.Name = "LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA";
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.Size = new System.Drawing.Size(57, 39);
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.TabIndex = 1;
-            this.LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA.Text = "00";
+            this.lbBrojVrecica.AutoSize = true;
+            this.lbBrojVrecica.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbBrojVrecica.Location = new System.Drawing.Point(53, 41);
+            this.lbBrojVrecica.Name = "lbBrojVrecica";
+            this.lbBrojVrecica.Size = new System.Drawing.Size(57, 39);
+            this.lbBrojVrecica.TabIndex = 1;
+            this.lbBrojVrecica.Text = "00";
             // 
             // Label14
             // 
@@ -144,6 +144,26 @@
             this.GRB_TRANSAKCIJE.Size = new System.Drawing.Size(174, 110);
             this.GRB_TRANSAKCIJE.TabIndex = 0;
             this.GRB_TRANSAKCIJE.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(6, 78);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(19, 21);
+            this.pictureBox3.TabIndex = 6;
+            this.pictureBox3.TabStop = false;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.linkLabel1.Location = new System.Drawing.Point(26, 84);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(111, 15);
+            this.linkLabel1.TabIndex = 5;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Pretrazi transakcije";
             // 
             // PictureBox2
             // 
@@ -292,26 +312,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(658, 315);
             this.dataGridView1.TabIndex = 38;
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.linkLabel1.Location = new System.Drawing.Point(26, 84);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(111, 15);
-            this.linkLabel1.TabIndex = 5;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Pretrazi transakcije";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(6, 78);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(19, 21);
-            this.pictureBox3.TabIndex = 6;
-            this.pictureBox3.TabStop = false;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,12 +327,12 @@
             this.GRB_INFORMACIJE.PerformLayout();
             this.GRB_TRANSAKCIJE.ResumeLayout(false);
             this.GRB_TRANSAKCIJE.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.GRB_ODABIR_UZ_UVIJET.ResumeLayout(false);
             this.GRB_ODABIR_UZ_UVIJET.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -345,7 +345,7 @@
         internal System.Windows.Forms.GroupBox GRB_INFORMACIJE;
         internal System.Windows.Forms.Label Label35;
         internal System.Windows.Forms.Label LBL_PRAZNJENJE_TREZORA;
-        internal System.Windows.Forms.Label LBL_BROJ_UBACENIH_VRECICA_NAKON_RESETA;
+        internal System.Windows.Forms.Label lbBrojVrecica;
         internal System.Windows.Forms.Label Label14;
         internal System.Windows.Forms.GroupBox GRB_TRANSAKCIJE;
         internal System.Windows.Forms.PictureBox PictureBox2;

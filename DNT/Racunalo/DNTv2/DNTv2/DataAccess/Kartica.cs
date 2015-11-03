@@ -7,8 +7,8 @@ namespace DNTv2.DataModel
     {
         [Id]
         public string Broj { get; set; }
-
         public string Ugovor { get; set; }
-        public DateTime DatumIzdavanja { get; set; }
+        public DateTime Datum { get; set; }
+        public int VlasnikId { get; set; }
     }
 }

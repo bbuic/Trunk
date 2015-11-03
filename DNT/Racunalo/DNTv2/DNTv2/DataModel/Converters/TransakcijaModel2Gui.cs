@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using DNTv2.DataModel.Services;
 
@@ -24,6 +27,17 @@ namespace DNTv2.DataModel.Converters
             {
                 new KorisnikModel2Gui().Convert2Form().ShowDialog();
             };
+
+            service.bindingSource.ListChanged +=
+                            delegate(object sender, ListChangedEventArgs e)
+                            {
+                                switch (e.ListChangedType)
+                                {
+                                    case ListChangedType.ItemChanged:
+                                        main.lbBrojVrecica.Text = ((IList<TransakcijeModel>)service.bindingSource.List).Sum(x => x.BrojVrecica).ToString();
+                                        break;
+                                }
+                            };
 
             service.Refresh();
             return main;

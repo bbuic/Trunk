@@ -32,12 +32,9 @@ namespace DNTv2.DataAccess.Services
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
                 StringBuilder builder = new StringBuilder();
-                builder.Append("SELECT t.kartica, ko.ime, ko.prezime, t.dolazak, t.vrecica, t.odlazak, t.trezor");
-                builder.Append("FROM DNTTransakcije t ");
-                builder.Append("INNER JOIN Kartice ka ON ka.Broj = t.kartica ");
-                builder.Append("INNER JOIN DNTKorisnici ko ON ka.VlasnikID = ko.ID ");
-                builder.Append("WHERE t.trezor = True ");
-                builder.Append("ORDER BY DNTTransakcije.dolazak DESC ");
+                builder.Append("SELECT DNTTransakcije.kartica, DNTKorisnici.ime, DNTKorisnici.prezime, DNTTransakcije.dolazak, DNTTransakcije.vrecica, DNTTransakcije.odlazak, DNTTransakcije.trezor ");
+                builder.Append("FROM (Kartice INNER JOIN DNTKorisnici ON Kartice.VlasnikID = DNTKorisnici.ID) INNER JOIN DNTTransakcije ON Kartice.Broj = DNTTransakcije.kartica ");
+                builder.Append("WHERE DNTTransakcije.trezor = True ORDER BY DNTTransakcije.dolazak DESC");
 
                 DataTable table = new DataTable();
                 OleDbCommand command = new OleDbCommand(builder.ToString(), connection);

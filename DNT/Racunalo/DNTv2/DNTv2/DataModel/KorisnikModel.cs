@@ -14,6 +14,11 @@ namespace DNTv2.DataModel
             set { _korisnik = value; }
         }
 
+        public override bool IsValid()
+        {
+            return !string.IsNullOrEmpty(Ime);
+        }
+
         public int Id
         {
             get { return _korisnik.Id; }

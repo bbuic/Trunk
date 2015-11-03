@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using DNTv2.DataModel.Services;
@@ -12,7 +13,7 @@ namespace DNTv2.DataModel.Converters
         {
             KorisnikModelService korisnikModelService = new KorisnikModelService();
             KarticaModelService karticaModelService = korisnikModelService.KarticaModelService;
-
+            
             frmUser user = new frmUser {dataGridView1 = {DataSource = korisnikModelService.bindingSource}};
             korisnikModelService.Refresh();
 
@@ -21,34 +22,42 @@ namespace DNTv2.DataModel.Converters
             user.txtUlica.DataBindings.Add("Text", korisnikModelService.bindingSource, "Adresa");
             user.txtKucniBroj.DataBindings.Add("Text", korisnikModelService.bindingSource, "KucniBroj");
             user.txtGrad.DataBindings.Add("Text", korisnikModelService.bindingSource, "Grad");
-            user.txtTelefon.DataBindings.Add("Text", korisnikModelService.bindingSource, "Telefon");            
+            user.txtTelefon.DataBindings.Add("Text", korisnikModelService.bindingSource, "Telefon"); 
+           
             user.dgvKartice.DataSource = karticaModelService.bindingSource;
-            korisnikModelService.bindingSource.CurrentChanged += delegate
-            {
-                karticaModelService.bindingSource.DataSource = ((KorisnikModel) korisnikModelService.bindingSource.Current).Kartice;
-            };
-            if (korisnikModelService.bindingSource.Current != null)
-                karticaModelService.bindingSource.DataSource = ((KorisnikModel)korisnikModelService.bindingSource.Current).Kartice;
             
+            user.txtBrojKartice.DataBindings.Add("Text", karticaModelService.bindingSource, "Broj"); 
+            user.txtBrojUgovora.DataBindings.Add("Text", karticaModelService.bindingSource, "Ugovor");
+            //user.dtpDatumKartice.DataBindings.Add("Value", karticaModelService.bindingSource, "Datum"); 
+
+            user.txtBrojKartice.KeyPress += delegate(object sender, KeyPressEventArgs e)
+            {
+                e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+            };
+
+            user.txtIme.Validating += delegate(object sender, CancelEventArgs e)
+            {
+                if (user.txtIme.Text.Length > 0 && ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.Ime == user.txtIme.Text))
+                {
+                    MessageBox.Show(@"Korisnik sa imenom " + user.txtIme.Text + @" već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }
+            };
+
             user.btnNovi.Click += delegate
             {
                 switch (user.TabControl1.SelectedIndex)
                 {
                     case 0:
-                        KorisnikModel korisnikModel = (KorisnikModel)korisnikModelService.bindingSource.AddNew();
-                        if (korisnikModel != null) 
-                            korisnikModel.modelState = ModelState.Inserted;
+                        korisnikModelService.New();
                         user.txtIme.Focus();
                         break;
-                    default:
-                        KarticaModel o = (KarticaModel)karticaModelService.bindingSource.AddNew();
-                        if (o != null) 
-                            o.modelState = ModelState.Inserted;
+                    case 1:
+                        karticaModelService.New();
                         user.txtBrojKartice.Focus();
                         break;
                 }
-            };
-
+            }; 
             
             user.btnZapamti.Click += delegate
             {
@@ -57,7 +66,7 @@ namespace DNTv2.DataModel.Converters
                     case 0:
                         korisnikModelService.Insert();
                         break;
-                    default:
+                    case 1:
                         karticaModelService.Insert();
                         break;
                 }
@@ -78,9 +87,13 @@ namespace DNTv2.DataModel.Converters
 
             user.btnPovratak.Click += delegate
             {
-                if(!((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Select(x => x.modelState != ModelState.Unchanged).Any()
-                    || MessageBox.Show(@"Želite odustati od promjena?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    user.Close();
+                if ((((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.modelState != ModelState.Unchanged)
+                        ||
+                    ((IList<KarticaModel>)karticaModelService.bindingSource.List).Any(x => x.modelState != ModelState.Unchanged))
+                    &&
+                    MessageBox.Show(@"Želite odustati od promjena?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+                user.Close();
             };
 
             return user;

@@ -17,8 +17,8 @@ namespace DNTv2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new TransakcijaModel2Gui().Convert2Form());
-            Application.Run(new KorisnikModel2Gui().Convert2Form());
+            Application.Run(new TransakcijaModel2Gui().Convert2Form());
+            //Application.Run(new KorisnikModel2Gui().Convert2Form());
         }
     }
 }

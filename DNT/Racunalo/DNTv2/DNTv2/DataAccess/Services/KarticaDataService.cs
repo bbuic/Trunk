@@ -8,20 +8,15 @@ namespace DNTv2.DataAccess.Services
 {
     public class KarticaDataService:AbstractAutoDataService
     {
-        public void Update(Korisnik korisnik)
+        public void Update(Kartica kartica)
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
-                OleDbCommand command =
-                    new OleDbCommand("UPDATE DNTKorisnici SET ime = ?, prezime = ?, ulica = ?, kucni = ?, mjesto = ?, telefon = ? WHERE ID = ?", connection);
+                OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ? WHERE Broj = ?", connection);
 
-                command.Parameters.Add("@ime", OleDbType.VarChar).Value = korisnik.Ime;
-                command.Parameters.Add("@prezime", OleDbType.VarChar).Value = korisnik.Prezime ?? (object)DBNull.Value;
-                command.Parameters.Add("@ulica", OleDbType.VarChar).Value = korisnik.Adresa ?? (object)DBNull.Value;
-                command.Parameters.Add("@kucni", OleDbType.VarChar).Value = korisnik.KucniBroj ?? (object)DBNull.Value;
-                command.Parameters.Add("@mjesto", OleDbType.VarChar).Value = korisnik.Grad ?? (object)DBNull.Value;
-                command.Parameters.Add("@telefon", OleDbType.VarChar).Value = korisnik.Telefon ?? (object)DBNull.Value;
-                command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
+                command.Parameters.Add("@Ugovor", OleDbType.VarChar).Value = kartica.Ugovor ?? (object)DBNull.Value;
+                command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
 
                 try
                 {
@@ -35,27 +30,23 @@ namespace DNTv2.DataAccess.Services
             }
         }
 
-        public void Insert(Korisnik korisnik)
+        public void Insert(Kartica kartica)
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
 
                 OleDbCommand command =
-                    new OleDbCommand("INSERT INTO DNTKorisnici (ime, prezime, ulica, kucni, mjesto, telefon) Values (?, ?, ?, ?, ?, ?)", connection);
+                    new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum) Values (?, ?, ?, ?)", connection);
 
-                command.Parameters.Add("@ime", OleDbType.VarChar).Value = korisnik.Ime;
-                command.Parameters.Add("@prezime", OleDbType.VarChar).Value = korisnik.Prezime ?? (object)DBNull.Value;
-                command.Parameters.Add("@ulica", OleDbType.VarChar).Value = korisnik.Adresa ?? (object)DBNull.Value;
-                command.Parameters.Add("@kucni", OleDbType.VarChar).Value = korisnik.KucniBroj ?? (object)DBNull.Value;
-                command.Parameters.Add("@mjesto", OleDbType.VarChar).Value = korisnik.Grad ?? (object)DBNull.Value;
-                command.Parameters.Add("@telefon", OleDbType.VarChar).Value = korisnik.Telefon ?? (object)DBNull.Value;
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
+                command.Parameters.Add("@VlasnikID", OleDbType.Integer).Value = kartica.VlasnikId;
+                command.Parameters.Add("@Ugovor", OleDbType.VarChar).Value = kartica.Ugovor ?? (object)DBNull.Value;
+                command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
 
                 try
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
-                    OleDbCommand dbCommand = new OleDbCommand("SELECT @@IDENTITY", connection);
-                    korisnik.Id = (int)dbCommand.ExecuteScalar();
                 }
                 finally
                 {
@@ -64,12 +55,12 @@ namespace DNTv2.DataAccess.Services
             }
         }
 
-        public void Delete(Korisnik korisnik)
+        public void ObrisiKarticu(Kartica kartica)
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
-                OleDbCommand command = new OleDbCommand("DELETE FROM DNTKorisnici WHERE ID = ?", connection);
-                command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
+                OleDbCommand command = new OleDbCommand("DELETE FROM Kartice WHERE Broj = ?", connection);
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
 
                 try
                 {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using DNTv2.DataAccess;
-using DNTv2.DataModel.Converters;
 
 namespace DNTv2.DataModel.Services
 {
@@ -12,13 +9,22 @@ namespace DNTv2.DataModel.Services
         internal KarticaModelService KarticaModelService = new KarticaModelService();
 
         public KorisnikModelService()
-        {
-            
+        {            
+            bindingSource.CurrentChanged += delegate
+            {
+                if (bindingSource.Current == null) 
+                    return;
+                
+                KarticaModelService.Korisnik = (KorisnikModel) bindingSource.Current;
+                KarticaModelService.Refresh();
+            };            
         }
 
-        public override void EventHandler(EventContext context)
+        public override void New()
         {
-
+            KorisnikModel korisnikModel = (KorisnikModel)bindingSource.AddNew();
+            if (korisnikModel != null)
+                korisnikModel.modelState = ModelState.Inserted;                        
         }
 
         public override void Refresh()
@@ -29,29 +35,42 @@ namespace DNTv2.DataModel.Services
 
         public override void Insert()
         {
-            KorisnikModel korisnikModel = ((KorisnikModel)bindingSource.Current);
-            if (korisnikModel.modelState == ModelState.Unchanged) return;
+            IList<KorisnikModel> list = ((IList<KorisnikModel>)bindingSource.List);
 
-            if (korisnikModel.modelState == ModelState.Inserted)
-                ObjectFactory.KorisnikDataService.Insert(korisnikModel.Korisnik);
-            else
-                ObjectFactory.KorisnikDataService.Update(korisnikModel.Korisnik);
+            IList<KorisnikModel> neValidni = list.Where(x => !x.IsValid()).ToList();            
+            if (neValidni.Count > 0)
+            {
+                bindingSource.Position = bindingSource.IndexOf(neValidni[0]);
+                MessageBox.Show(@"Odabranom korisniku nije upisan podatak: Ime.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                return;
+            }
 
-            ((List<KorisnikModel>)bindingSource.List).All(x => { x.ModelState = ModelState.Unchanged; return true; });
+            foreach (KorisnikModel model in list.Where(x => x.modelState != ModelState.Unchanged).ToList())
+            {
+                switch (model.modelState)
+                {
+                    case ModelState.Inserted:
+                        ObjectFactory.KorisnikDataService.Insert(model);
+                        break;
+                    case ModelState.Modified:
+                        ObjectFactory.KorisnikDataService.Update(model);
+                        break;
+                }  
+            }
+            
+            list.All(x => { x.ModelState = ModelState.Unchanged; return true; });
         }
 
         public override void Delete()
         {
-            KorisnikModel korisnikModel = ((KorisnikModel)bindingSource.Current);
-            if (korisnikModel.Id <= 0)
-                bindingSource.RemoveCurrent();
-            else
+            KorisnikModel model = ((KorisnikModel)bindingSource.Current);
+            if (model.Id > 0)
             {
-                if (MessageBox.Show(@"Želite obrisati odabranog korisnika?", "",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    ObjectFactory.KorisnikDataService.ObrisiKorisnika(korisnikModel.Korisnik);
+                if (MessageBox.Show(@"Želite obrisati odabranog korisnika?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    ObjectFactory.KorisnikDataService.ObrisiKorisnika(model.Korisnik);
             }
-            //((IList<KorisnikModel>)service.bindingSource.List).Select(c => { c.modelState = ModelState.Unchanged; return c; }).ToList();
+            else
+                bindingSource.RemoveCurrent();
             Refresh();
         }
 

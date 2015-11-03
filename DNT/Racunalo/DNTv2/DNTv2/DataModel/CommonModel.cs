@@ -17,6 +17,11 @@ namespace DNTv2.DataModel
             }
         }
 
+        public virtual bool IsValid()
+        {
+            return false;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal void OnPropertyChanged(string propertyName)

@@ -11,7 +11,7 @@ namespace DNTv2
     {
         private readonly Timer _timerVrataZasun;
         private readonly Timer _timerVrataOtvorena;
-        private readonly Timer _timerLcd;
+        //private readonly Timer _timerLcd;
         private bool _obradaSerijskogPorta;
         private Transakcija _transakcija;
         
@@ -24,7 +24,7 @@ namespace DNTv2
             {
                 _timerVrataZasun.Stop();
                 SerialPortElektronika.Write(new byte[] {17}, 0, 1); //Zatvori zasun
-                UvodnaPoruka();
+                //UvodnaPoruka();
             };
 
             _timerVrataOtvorena = new Timer {Interval = Properties.Settings.Default.TimerVrataOtvorena};
@@ -42,29 +42,29 @@ namespace DNTv2
                 'KONEKCIJA.Close()*/
 
                 SerialPortElektronika.Write(new byte[] {0x18}, 0, 1);
-                WriteMessage2Lcd("Molimo da zatvorite vrata...");
+                //WriteMessage2Lcd("Molimo da zatvorite vrata...");
             };
 
             if (!SerialPortElektronika. IsOpen)
                 SerialPortElektronika.Open();
 
-            if(Properties.Settings.Default.KoristiLcd && !SerialPortLcd.IsOpen)
-            {
-                SerialPortLcd.Open();
-                _timerLcd = new Timer{Interval = Properties.Settings.Default.TimerLcd};
-                _timerLcd.Tick += delegate
-                {
-                    short pozicija = 0;
-                    EraseLcd();
-                    VerticalModeLcd();
-                    KursorPozicija(1,1);
+            //if(Properties.Settings.Default.KoristiLcd && !SerialPortLcd.IsOpen)
+            //{
+            //    SerialPortLcd.Open();
+            //    _timerLcd = new Timer{Interval = Properties.Settings.Default.TimerLcd};
+            //    _timerLcd.Tick += delegate
+            //    {
+            //        short pozicija = 0;
+            //        EraseLcd();
+            //        VerticalModeLcd();
+            //        KursorPozicija(1,1);
 
-                    SerialPortLcd.Write(new[]{Properties.Settings.Default.PorukaLcd[pozicija]}, 0, 1);
-                    pozicija += 1;
+            //        SerialPortLcd.Write(new[]{Properties.Settings.Default.PorukaLcd[pozicija]}, 0, 1);
+            //        pozicija += 1;
 
-                    if (pozicija > Properties.Settings.Default.PorukaLcd.Length) pozicija = 1;
-                };
-            }
+            //        if (pozicija > Properties.Settings.Default.PorukaLcd.Length) pozicija = 1;
+            //    };
+            //}
             
             SerialPortElektronika.DataReceived += delegate
             {
@@ -92,14 +92,14 @@ namespace DNTv2
                                 _transakcija = new Transakcija {Kartica = kartica, DatumOd = DateTime.Now, Trezor = true};
                                 ObjectFactory.TransakcijaDataService.Insert(_transakcija);
                                 _timerVrataZasun.Start();
-                                WriteMessage2Lcd("   OTORITE VRATA      Ubacujte vrecice");
+                                //WriteMessage2Lcd("   OTORITE VRATA      Ubacujte vrecice");
                             }
                             break;
 
                         case 21: //vrata otvorena
                             _timerVrataZasun.Stop();
                             _timerVrataOtvorena.Start();
-                            WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = 0");
+                            //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = 0");
 
                             break;
                             
@@ -109,7 +109,7 @@ namespace DNTv2
 
                             Utils.ResetTimer(_timerVrataOtvorena);
 
-                            WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.BrojVrecica + "");
+                            //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.BrojVrecica + "");
 
                             //OleDbCommand komanda = new OleDbCommand("UPDATE DNTTransakcije Set vrecica = ? WHERE dolazak = ?");
                             //komanda.Parameters.Add("@Vrecice", OleDbType.Integer).Value = BROJ_VRECICA;
@@ -128,9 +128,9 @@ namespace DNTv2
                             _transakcija.DatumDo = DateTime.Now;
                             ObjectFactory.TransakcijaDataService.Update(_transakcija);
                             
-                            WriteMessage2Lcd("HVALA NA POVJERENJU!");
-                            Thread.Sleep(3000);
-                            UvodnaPoruka();
+                            //WriteMessage2Lcd("HVALA NA POVJERENJU!");
+                            //Thread.Sleep(3000);
+                            //UvodnaPoruka();
                             
                             _transakcija = null;
 
@@ -140,7 +140,7 @@ namespace DNTv2
                          case 24: //blokada na fotoceliji
 
                             //FRM_PORUKA_FOTO1.Show();
-                            WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
+                            //WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
 
                             //TODO: napraviti upis alarma
                             //KONEKCIJA.Open()

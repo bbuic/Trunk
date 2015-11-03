@@ -57,6 +57,10 @@ namespace DNTv2.DataModel.Services
         {
         }
 
+        public virtual void New()
+        {
+        }
+
         public virtual void Cancel()
         {
         }

@@ -99,10 +99,10 @@ namespace DNTv2.DataAccess.Services
                 }
 
                 IList<Korisnik> list = ToList<Korisnik>(GetArrayList(table));
-                foreach (Korisnik korisnik in list)
-                {
-                    korisnik.Kartice = ObjectFactory.KarticaDataService.DajKarticeKorisnika(korisnik.Id);
-                }
+                //foreach (Korisnik korisnik in list)
+                //{
+                //    korisnik.Kartice = ObjectFactory.KarticaDataService.DajKarticeKorisnika(korisnik.Id);
+                //}
                 return list;
             }
         }
