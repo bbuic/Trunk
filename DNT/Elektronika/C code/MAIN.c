@@ -84,7 +84,15 @@ ISR(INT1_vect)
 	timer0_start();
 	INDALA_BB--;
 	if(INDALA_BB<=13){BROJ_KARTICE<<=1;BROJ_KARTICE|=0x1;if(INDALA_BB==8){BROJ_KARTICE_1=BROJ_KARTICE;BROJ_KARTICE=0;}}
-	if(INDALA_BB==0){SendBrojKartice();}
+	if(INDALA_BB==0){
+		timer0_stop();
+		if(flag.vrata_unutra == 1){
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+		}else{
+			OTVORI_BRAVU();
+		}
+		INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;
+	}
 }
 ISR(INT0_vect)
 {
@@ -92,16 +100,14 @@ ISR(INT0_vect)
 	timer0_start();
 	INDALA_BB--;
 	if(INDALA_BB<=13){BROJ_KARTICE<<=1;BROJ_KARTICE&=0xFFFE;if(INDALA_BB==8){BROJ_KARTICE_1=BROJ_KARTICE;BROJ_KARTICE=0;}}
-	if(INDALA_BB==0){SendBrojKartice();}
-}
-
-
-void SendBrojKartice(void){
-	timer0_stop();
-	if(flag.vrata_unutra == 1){
-		putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;
-	}else{
-		OTVORI_BRAVU();
+	if(INDALA_BB==0){
+		timer0_stop();
+		if(flag.vrata_unutra == 1){
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+		}else{
+			OTVORI_BRAVU();
+		}
+		INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;
 	}
 }
 
@@ -122,8 +128,8 @@ int main(void)
 	{
 		 wdt_reset();//RESETIRANJE WATCHDOG-A(koji se dogaða svakih 2 sekunde)
 		
-		if(bit_is_set(PINC,PINC2) && flag.vrata_otvorena==0){ flag.vrata_unutra = 1;}
-		if(bit_is_clear(PINC,PINC2) && flag.vrata_otvorena==1){ flag.vrata_unutra = 0;}
+		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); putchr(0x25); flag.vrata_unutra = 1;}
+		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); putchr(0x26); flag.vrata_unutra = 0;}
 
 		//OTVORI ako vrata nisu prislonjena
 		if(bit_is_set(PINC,PINC5) && flag.vrata_otvorena==0){

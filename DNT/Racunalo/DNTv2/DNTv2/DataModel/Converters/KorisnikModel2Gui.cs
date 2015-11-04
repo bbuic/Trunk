@@ -14,8 +14,14 @@ namespace DNTv2.DataModel.Converters
             KorisnikModelService korisnikModelService = new KorisnikModelService();
             KarticaModelService karticaModelService = korisnikModelService.KarticaModelService;
             
-            frmUser user = new frmUser {dataGridView1 = {DataSource = korisnikModelService.bindingSource}};
+            frmUser user = new frmUser {dgvKorisnici = {DataSource = korisnikModelService.bindingSource}};
             korisnikModelService.Refresh();
+
+            user.dgvKorisnici.Columns["Korisnik"].Visible = false;
+            user.dgvKorisnici.Columns["Id"].Visible = false;
+            user.dgvKorisnici.Columns["Kartice"].Visible = false;
+            user.dgvKorisnici.Columns["ModelState"].Visible = false;
+
 
             user.txtIme.DataBindings.Add("Text", korisnikModelService.bindingSource, "Ime");
             user.txtPrezime.DataBindings.Add("Text", korisnikModelService.bindingSource, "Prezime");

@@ -13,8 +13,19 @@ namespace DNTv2.DataAccess.Services
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
-                OleDbCommand command = new OleDbCommand("UPDATE SISTEM Set TREZOR_PRAZAN_VRIJEME = ? WHERE ID = 1", connection);
+                OleDbCommand command = new OleDbCommand("UPDATE SISTEM SET TREZOR_PRAZAN_VRIJEME = ? WHERE ID = 1", connection);
                 command.Parameters.Add("@VrijemePraznjenja", OleDbType.Date).Value = DateTime.Now;
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                command = new OleDbCommand("UPDATE DNTTransakcije SET Trezor = false WHERE Trezor = true", connection);                
                 try
                 {
                     connection.Open();
@@ -61,6 +72,23 @@ namespace DNTv2.DataAccess.Services
                 {
                     connection.Open();
                     return (short) command.ExecuteScalar();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public DateTime ZadnjePraznjenjeTrezora()
+        {
+            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
+            {
+                OleDbCommand command = new OleDbCommand("SELECT TREZOR_PRAZAN_VRIJEME FROM SISTEM WHERE ID = 1", connection);
+                try
+                {
+                    connection.Open();
+                    return (DateTime)command.ExecuteScalar();
                 }
                 finally
                 {

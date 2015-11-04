@@ -10,7 +10,7 @@ namespace DNTv2.DataModel.Services
 
         public override void New()
         {
-            if (Korisnik == null)
+            if (Korisnik == null || Korisnik.Id < 0)
             {
                 MessageBox.Show(@"Niste odabrali korisnika za kojeg želite unijeti kartice.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
