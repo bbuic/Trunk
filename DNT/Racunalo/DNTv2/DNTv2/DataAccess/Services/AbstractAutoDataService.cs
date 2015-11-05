@@ -1,16 +1,34 @@
 ﻿using System;
 using System.Collections;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
-using DNTv2.DataModel.Attributes;
 using DNTv2.DataModel.DataServices;
 
 namespace DNTv2.DataAccess.Services
 {
     public abstract class AbstractAutoDataService : AbstractDataService
     {
+        internal void ExecuteNonQuery(OleDbCommand command)
+        {
+            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
+            {
+                command.Connection = connection;
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
         protected override object CreateObject()
         {
             return ObjectType.Assembly.CreateInstance(ObjectType.FullName);

@@ -24,7 +24,7 @@ namespace DNTv2
             }
             catch (Exception e)
             {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Log.txt"))
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Log.txt", true))
                 {
                     file.WriteLine("Greska: " + e.Message + "  StacTrace: " + e.StackTrace);
                 }

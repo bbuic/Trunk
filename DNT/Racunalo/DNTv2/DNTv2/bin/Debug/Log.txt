@@ -1,14 +1,54 @@
-Greska: Syntax error (missing operator) in query expression 'DNTTransakcije.vrecica 'bb''.  StacTrace:    at System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
-   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
-   at System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
-   at System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
-   at System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
-   at System.Data.OleDb.OleDbCommand.ExecuteReader(CommandBehavior behavior)
-   at System.Data.OleDb.OleDbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
-   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
-   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
-   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
-   at DNTv2.DataAccess.Services.TransakcijaDataService.DajSveUTrezoru() in C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\DataAccess\Services\TransakcijaDataService.cs:line 55
-   at DNTv2.DataModel.Services.TransakcijeModelService.Refresh() in C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\DataModel\Services\TransakcijeModelService.cs:line 14
-   at DNTv2.DataModel.Converters.TransakcijaModel2Gui.Convert2Form() in C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\DataModel\Converters\TransakcijaModel2Gui.cs:line 57
-   at DNTv2.Program.Main() in C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\Program.cs:line 22
+Greska: Object reference not set to an instance of an object.  StacTrace:    at DNTv2.Report.frmReportViewer..ctor(IList`1 models) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Report\frmReportViewer.cs:line 22
+   at DNTv2.DataModel.Converters.TransakcijaModel2Gui.<>c__DisplayClass7.<Convert2Form>b__4(Object , EventArgs ) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\DataModel\Converters\TransakcijaModel2Gui.cs:line 42
+   at System.Windows.Forms.Control.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   at System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   at System.Windows.Forms.Button.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   at System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   at System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(Int32 dwComponentID, Int32 reason, Int32 pvLoopData)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.Run(Form mainForm)
+   at DNTv2.Program.Main() in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Program.cs:line 22
+Greska: Object reference not set to an instance of an object.  StacTrace:    at DNTv2.Report.frmReportViewer..ctor(IList`1 models) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Report\frmReportViewer.cs:line 22
+   at DNTv2.DataModel.Converters.TransakcijaModel2Gui.<>c__DisplayClass7.<Convert2Form>b__4(Object , EventArgs ) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\DataModel\Converters\TransakcijaModel2Gui.cs:line 42
+   at System.Windows.Forms.Control.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   at System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   at System.Windows.Forms.Button.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   at System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   at System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(Int32 dwComponentID, Int32 reason, Int32 pvLoopData)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.Run(Form mainForm)
+   at DNTv2.Program.Main() in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Program.cs:line 22
+Greska: Object reference not set to an instance of an object.  StacTrace:    at DNTv2.Report.frmReportViewer..ctor(IList`1 models) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Report\frmReportViewer.cs:line 22
+   at DNTv2.DataModel.Converters.TransakcijaModel2Gui.<>c__DisplayClass7.<Convert2Form>b__4(Object , EventArgs ) in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\DataModel\Converters\TransakcijaModel2Gui.cs:line 42
+   at System.Windows.Forms.Control.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   at System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   at System.Windows.Forms.Button.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   at System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   at System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(Int32 dwComponentID, Int32 reason, Int32 pvLoopData)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.Run(Form mainForm)
+   at DNTv2.Program.Main() in G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\Program.cs:line 22

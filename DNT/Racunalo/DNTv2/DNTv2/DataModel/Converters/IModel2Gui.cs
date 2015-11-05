@@ -10,6 +10,5 @@ namespace DNTv2.DataModel.Converters
     public interface IModel2Gui
     {
         Form Convert2Form();
-        UserControl Convert2UserControl();
     }
 }

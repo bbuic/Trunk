@@ -18,7 +18,8 @@ namespace DNTv2
         public frmMain()
         {
             InitializeComponent();
-            
+            //TopMost = true;
+
             _timerVrataZasun = new Timer {Interval = Properties.Settings.Default.TimerZasun};
             _timerVrataZasun.Tick += delegate
             {

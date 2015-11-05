@@ -75,11 +75,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Report\DNTbazaDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DNTbazaDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,17 +125,7 @@
     <None Include="app.config" />
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.AbstractModelService.datasource" />
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.TransakcijeModelService.datasource" />
-    <None Include="Report\DNTbazaDataSet.xsc">
-      <DependentUpon>DNTbazaDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="Report\DNTbazaDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DNTbazaDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Report\DNTbazaDataSet.xss">
-      <DependentUpon>DNTbazaDataSet.xsd</DependentUpon>
-    </None>
+    <None Include="Properties\DataSources\DNTv2.DataModel.TransakcijeModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -162,6 +147,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Go-back-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-user-group-new-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-user-group-delete-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom-icon_mala.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

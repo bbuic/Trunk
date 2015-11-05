@@ -31,18 +31,15 @@
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.DNTbazaDataSet = new DNTv2.Report.DNTbazaDataSet();
-            this.DNTTransakcijeBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.DNTTransakcijeTableAdapter = new DNTv2.Report.DNTbazaDataSetTableAdapters.DNTTransakcijeTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.DNTbazaDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DNTTransakcijeBindingSource)).BeginInit();
+            this.TransakcijeModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.TransakcijeModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // reportViewer1
             // 
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "Transakcije";
-            reportDataSource1.Value = this.DNTTransakcijeBindingSource;
+            reportDataSource1.Name = "TransakcijeModel";
+            reportDataSource1.Value = this.TransakcijeModelBindingSource;
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "DNTv2.Report.Transakcije.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
@@ -50,19 +47,9 @@
             this.reportViewer1.Size = new System.Drawing.Size(284, 262);
             this.reportViewer1.TabIndex = 0;
             // 
-            // DNTbazaDataSet
+            // TransakcijeModelBindingSource
             // 
-            this.DNTbazaDataSet.DataSetName = "DNTbazaDataSet";
-            this.DNTbazaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // DNTTransakcijeBindingSource
-            // 
-            this.DNTTransakcijeBindingSource.DataMember = "DNTTransakcije";
-            this.DNTTransakcijeBindingSource.DataSource = this.DNTbazaDataSet;
-            // 
-            // DNTTransakcijeTableAdapter
-            // 
-            this.DNTTransakcijeTableAdapter.ClearBeforeFill = true;
+            this.TransakcijeModelBindingSource.DataSource = typeof(DNTv2.DataModel.TransakcijeModel);
             // 
             // frmReportViewer
             // 
@@ -72,9 +59,9 @@
             this.Controls.Add(this.reportViewer1);
             this.Name = "frmReportViewer";
             this.Text = "frmReportViewer";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmReportViewer_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.DNTbazaDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DNTTransakcijeBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TransakcijeModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -82,8 +69,6 @@
         #endregion
 
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-        private System.Windows.Forms.BindingSource DNTTransakcijeBindingSource;
-        private DNTbazaDataSet DNTbazaDataSet;
-        private DNTbazaDataSetTableAdapters.DNTTransakcijeTableAdapter DNTTransakcijeTableAdapter;
+        private System.Windows.Forms.BindingSource TransakcijeModelBindingSource;
     }
 }

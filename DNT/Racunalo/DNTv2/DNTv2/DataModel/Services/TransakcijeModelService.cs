@@ -17,7 +17,8 @@ namespace DNTv2.DataModel.Services
 
         public override void Refresh()
         {
-            bindingSource.DataSource = ObjectFactory.TransakcijaDataService.DajSveUTrezoru().Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList(); ;
+            bindingSource.DataSource = 
+                ObjectFactory.TransakcijaDataService.DajTransakcije().Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList(); ;
         }
     }
 }

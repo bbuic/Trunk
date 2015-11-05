@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUser));
             this.dgvKorisnici = new System.Windows.Forms.DataGridView();
             this.GRB_KORISNICI_DNT = new System.Windows.Forms.GroupBox();
-            this.btnPovratak = new System.Windows.Forms.Button();
             this.btnNovi = new System.Windows.Forms.Button();
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnZapamti = new System.Windows.Forms.Button();
@@ -66,6 +65,7 @@
             this.txtPrezimeFilter = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnPovratak = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKorisnici)).BeginInit();
             this.GRB_KORISNICI_DNT.SuspendLayout();
             this.TabControl1.SuspendLayout();
@@ -76,12 +76,16 @@
             // 
             // dgvKorisnici
             // 
+            this.dgvKorisnici.AllowUserToAddRows = false;
+            this.dgvKorisnici.AllowUserToDeleteRows = false;
+            this.dgvKorisnici.AllowUserToResizeRows = false;
             this.dgvKorisnici.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKorisnici.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvKorisnici.Location = new System.Drawing.Point(2, 31);
             this.dgvKorisnici.Name = "dgvKorisnici";
+            this.dgvKorisnici.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKorisnici.Size = new System.Drawing.Size(661, 170);
             this.dgvKorisnici.TabIndex = 39;
             // 
@@ -98,46 +102,38 @@
             this.GRB_KORISNICI_DNT.TabIndex = 40;
             this.GRB_KORISNICI_DNT.TabStop = false;
             // 
-            // btnPovratak
-            // 
-            this.btnPovratak.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPovratak.Location = new System.Drawing.Point(577, 482);
-            this.btnPovratak.Name = "btnPovratak";
-            this.btnPovratak.Size = new System.Drawing.Size(78, 23);
-            this.btnPovratak.TabIndex = 64;
-            this.btnPovratak.Text = "Povratak";
-            this.btnPovratak.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnPovratak.UseVisualStyleBackColor = true;
-            // 
             // btnNovi
             // 
-            this.btnNovi.Location = new System.Drawing.Point(448, 214);
+            this.btnNovi.Image = global::DNTv2.Properties.Resources.Actions_user_group_new_icon;
+            this.btnNovi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNovi.Location = new System.Drawing.Point(439, 214);
             this.btnNovi.Name = "btnNovi";
-            this.btnNovi.Size = new System.Drawing.Size(78, 23);
+            this.btnNovi.Size = new System.Drawing.Size(87, 23);
             this.btnNovi.TabIndex = 63;
             this.btnNovi.Text = "Novi";
-            this.btnNovi.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNovi.UseVisualStyleBackColor = true;
             // 
             // btnObrisi
             // 
-            this.btnObrisi.BackColor = System.Drawing.Color.White;
-            this.btnObrisi.Location = new System.Drawing.Point(448, 245);
+            this.btnObrisi.BackColor = System.Drawing.SystemColors.Control;
+            this.btnObrisi.Image = global::DNTv2.Properties.Resources.Actions_user_group_delete_icon;
+            this.btnObrisi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnObrisi.Location = new System.Drawing.Point(439, 245);
             this.btnObrisi.Name = "btnObrisi";
-            this.btnObrisi.Size = new System.Drawing.Size(78, 23);
+            this.btnObrisi.Size = new System.Drawing.Size(87, 23);
             this.btnObrisi.TabIndex = 62;
             this.btnObrisi.Text = "Obriši";
-            this.btnObrisi.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnObrisi.UseVisualStyleBackColor = false;
             // 
             // btnZapamti
             // 
-            this.btnZapamti.Location = new System.Drawing.Point(448, 274);
+            this.btnZapamti.Image = global::DNTv2.Properties.Resources.Save_icon;
+            this.btnZapamti.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnZapamti.Location = new System.Drawing.Point(439, 274);
             this.btnZapamti.Name = "btnZapamti";
-            this.btnZapamti.Size = new System.Drawing.Size(78, 23);
+            this.btnZapamti.Size = new System.Drawing.Size(87, 23);
             this.btnZapamti.TabIndex = 40;
             this.btnZapamti.Text = "Zapamti";
-            this.btnZapamti.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnZapamti.UseVisualStyleBackColor = true;
             // 
             // TabControl1
@@ -170,7 +166,7 @@
             this.TabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.TabPage1.Size = new System.Drawing.Size(410, 252);
             this.TabPage1.TabIndex = 0;
-            this.TabPage1.Text = "Korisnici DNT-a";
+            this.TabPage1.Text = "Korisnici";
             this.TabPage1.UseVisualStyleBackColor = true;
             // 
             // Label9
@@ -368,56 +364,56 @@
             this.dgvKartice.AllowUserToDeleteRows = false;
             this.dgvKartice.AllowUserToResizeColumns = false;
             this.dgvKartice.AllowUserToResizeRows = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvKartice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvKartice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvKartice.Location = new System.Drawing.Point(6, 7);
             this.dgvKartice.Name = "dgvKartice";
             this.dgvKartice.ReadOnly = true;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvKartice.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvKartice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKartice.Size = new System.Drawing.Size(398, 174);
             this.dgvKartice.TabIndex = 0;
             // 
             // txtImeFilter
             // 
-            this.txtImeFilter.Location = new System.Drawing.Point(33, 5);
+            this.txtImeFilter.Location = new System.Drawing.Point(32, 5);
             this.txtImeFilter.Name = "txtImeFilter";
-            this.txtImeFilter.Size = new System.Drawing.Size(113, 20);
+            this.txtImeFilter.Size = new System.Drawing.Size(164, 20);
             this.txtImeFilter.TabIndex = 41;
             // 
             // txtPrezimeFilter
             // 
-            this.txtPrezimeFilter.Location = new System.Drawing.Point(213, 5);
+            this.txtPrezimeFilter.Location = new System.Drawing.Point(255, 5);
             this.txtPrezimeFilter.Name = "txtPrezimeFilter";
-            this.txtPrezimeFilter.Size = new System.Drawing.Size(113, 20);
+            this.txtPrezimeFilter.Size = new System.Drawing.Size(164, 20);
             this.txtPrezimeFilter.TabIndex = 42;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 9);
+            this.label2.Location = new System.Drawing.Point(2, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(27, 13);
             this.label2.TabIndex = 65;
@@ -426,20 +422,32 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(160, 9);
+            this.label3.Location = new System.Drawing.Point(202, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 66;
             this.label3.Text = "Prezime:";
+            // 
+            // btnPovratak
+            // 
+            this.btnPovratak.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPovratak.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratak.Image")));
+            this.btnPovratak.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPovratak.Location = new System.Drawing.Point(551, 478);
+            this.btnPovratak.Name = "btnPovratak";
+            this.btnPovratak.Size = new System.Drawing.Size(104, 26);
+            this.btnPovratak.TabIndex = 67;
+            this.btnPovratak.Text = "Povratak";
+            this.btnPovratak.UseVisualStyleBackColor = true;
             // 
             // frmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(667, 517);
+            this.Controls.Add(this.btnPovratak);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnPovratak);
             this.Controls.Add(this.txtPrezimeFilter);
             this.Controls.Add(this.txtImeFilter);
             this.Controls.Add(this.GRB_KORISNICI_DNT);
@@ -492,10 +500,10 @@
         internal System.Windows.Forms.TextBox txtBrojKartice;
         internal System.Windows.Forms.Label LBL_BROJ_KARTICE;
         internal System.Windows.Forms.DataGridView dgvKartice;
-        internal System.Windows.Forms.Button btnPovratak;
         private System.Windows.Forms.TextBox txtImeFilter;
         private System.Windows.Forms.TextBox txtPrezimeFilter;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        internal System.Windows.Forms.Button btnPovratak;
     }
 }
