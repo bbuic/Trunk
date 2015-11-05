@@ -12,6 +12,8 @@ namespace DNTv2.DataModel.Services
     {
         public BindingSource bindingSource = new BindingSource();
 
+
+
         protected AbstractModelService()
         {
             bindingSource.ListChanged +=

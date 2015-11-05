@@ -43,7 +43,7 @@ namespace DNTv2.DataAccess.Services
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
                 StringBuilder builder = new StringBuilder();
-                builder.Append("SELECT DNTTransakcije.kartica, DNTKorisnici.ime, DNTKorisnici.prezime, DNTTransakcije.dolazak, DNTTransakcije.vrecica, DNTTransakcije.odlazak, DNTTransakcije.trezor ");
+                builder.Append("SELECT DNTTransakcije.kartica, DNTKorisnici.ime, DNTKorisnici.prezime, DNTTransakcije.dolazak, DNTTransakcije.vrecica AS BrojVrecica, DNTTransakcije.odlazak, DNTTransakcije.trezor ");
                 builder.Append("FROM (Kartice INNER JOIN DNTKorisnici ON Kartice.VlasnikID = DNTKorisnici.ID) INNER JOIN DNTTransakcije ON Kartice.Broj = DNTTransakcije.kartica ");
                 builder.Append("WHERE DNTTransakcije.trezor = True ORDER BY DNTTransakcije.dolazak DESC");
 
@@ -88,7 +88,8 @@ namespace DNTv2.DataAccess.Services
                 try
                 {
                     connection.Open();
-                    return (DateTime)command.ExecuteScalar();
+                    object executeScalar = command.ExecuteScalar();
+                    return DateTime.Parse(executeScalar.ToString());
                 }
                 finally
                 {

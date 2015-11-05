@@ -109,7 +109,7 @@ namespace DNTv2
 
                             Utils.ResetTimer(_timerVrataOtvorena);
 
-                            //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.BrojVrecica + "");
+                            //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.vrecica + "");
 
                             //OleDbCommand komanda = new OleDbCommand("UPDATE DNTTransakcije Set vrecica = ? WHERE dolazak = ?");
                             //komanda.Parameters.Add("@Vrecice", OleDbType.Integer).Value = BROJ_VRECICA;

@@ -6,6 +6,16 @@ namespace DNTv2.DataModel
     {
         Transakcija _transakcija = new Transakcija();
 
-        public short BrojVrecica { get; set; }
+        public Transakcija Transakcija
+        {
+            get { return _transakcija; }
+            set { _transakcija = value; }
+        }
+
+        public short BrojVrecica
+        {
+            get { return _transakcija.BrojVrecica; }
+            set { _transakcija.BrojVrecica = value; }
+        }
     }
 }

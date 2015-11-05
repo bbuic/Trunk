@@ -39,18 +39,8 @@ namespace DNTv2.DataModel.Converters
 
             main.btnPrint.Click += delegate { new frmReportViewer().ShowDialog(main); };
 
-            service.bindingSource.ListChanged +=
-                            delegate(object sender, ListChangedEventArgs e)
-                            {
-                                switch (e.ListChangedType)
-                                {
-                                    case ListChangedType.ItemChanged:
-                                    case ListChangedType.ItemAdded:
-                                    case ListChangedType.ItemDeleted:
-                                        main.lbBrojVrecica.Text = ((IList<TransakcijeModel>)service.bindingSource.List).Sum(x => x.BrojVrecica).ToString();
-                                        break;
-                                }
-                            };
+            service.bindingSource.DataSourceChanged += delegate{ 
+                main.lbBrojVrecica.Text = ((IList<TransakcijeModel>)service.bindingSource.List).Sum(x => x.BrojVrecica).ToString(); };
 
             main.lblDatumPraznjenjaTrezora.Text = ObjectFactory.TransakcijaDataService.ZadnjePraznjenjeTrezora().ToString(CultureInfo.CurrentCulture);
             
