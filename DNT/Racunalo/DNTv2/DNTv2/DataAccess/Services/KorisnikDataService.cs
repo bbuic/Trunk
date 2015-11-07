@@ -8,30 +8,18 @@ namespace DNTv2.DataAccess.Services
     public class KorisnikDataService : AbstractAutoDataService
     {
         public void Update(Korisnik korisnik)
-        {
-            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
-            {
-                OleDbCommand command = 
-                    new OleDbCommand("UPDATE DNTKorisnici SET ime = ?, prezime = ?, ulica = ?, kucni = ?, mjesto = ?, telefon = ? WHERE ID = ?", connection);
+        {            
+            OleDbCommand command = new OleDbCommand("UPDATE DNTKorisnici SET ime = ?, prezime = ?, ulica = ?, kucni = ?, mjesto = ?, telefon = ? WHERE ID = ?");
 
-                command.Parameters.Add("@ime", OleDbType.VarChar).Value = korisnik.Ime;
-                command.Parameters.Add("@prezime", OleDbType.VarChar).Value = korisnik.Prezime ?? (object)DBNull.Value;
-                command.Parameters.Add("@ulica", OleDbType.VarChar).Value = korisnik.Adresa ?? (object)DBNull.Value;
-                command.Parameters.Add("@kucni", OleDbType.VarChar).Value = korisnik.KucniBroj ?? (object)DBNull.Value;
-                command.Parameters.Add("@mjesto", OleDbType.VarChar).Value = korisnik.Grad ?? (object)DBNull.Value;
-                command.Parameters.Add("@telefon", OleDbType.VarChar).Value = korisnik.Telefon ?? (object)DBNull.Value;
-                command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
+            command.Parameters.Add("@ime", OleDbType.VarChar).Value = korisnik.Ime;
+            command.Parameters.Add("@prezime", OleDbType.VarChar).Value = korisnik.Prezime ?? (object)DBNull.Value;
+            command.Parameters.Add("@ulica", OleDbType.VarChar).Value = korisnik.Adresa ?? (object)DBNull.Value;
+            command.Parameters.Add("@kucni", OleDbType.VarChar).Value = korisnik.KucniBroj ?? (object)DBNull.Value;
+            command.Parameters.Add("@mjesto", OleDbType.VarChar).Value = korisnik.Grad ?? (object)DBNull.Value;
+            command.Parameters.Add("@telefon", OleDbType.VarChar).Value = korisnik.Telefon ?? (object)DBNull.Value;
+            command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
                 
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+             ExecuteNonQuery(command);
         }
 
         public void Insert(Korisnik korisnik)
@@ -65,21 +53,10 @@ namespace DNTv2.DataAccess.Services
 
         public void ObrisiKorisnika(Korisnik korisnik)
         {
-            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
-            {
-                OleDbCommand command = new OleDbCommand("DELETE FROM DNTKorisnici WHERE ID = ?", connection);
-                command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
+            OleDbCommand command = new OleDbCommand("DELETE FROM DNTKorisnici WHERE ID = ?");
+            command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
 
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+            ExecuteNonQuery(command);
         }
 
         public IList<Korisnik> DajSveKorisnike()

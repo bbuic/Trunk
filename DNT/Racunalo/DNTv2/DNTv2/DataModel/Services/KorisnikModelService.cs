@@ -59,6 +59,8 @@ namespace DNTv2.DataModel.Services
             }
             
             list.All(x => { x.ModelState = ModelState.Unchanged; return true; });
+
+            MessageBox.Show(@"Uspješno ste zapamtili korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public override void Delete()
@@ -67,7 +69,10 @@ namespace DNTv2.DataModel.Services
             if (model.Id > 0)
             {
                 if (MessageBox.Show(@"Želite obrisati odabranog korisnika?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
                     ObjectFactory.KorisnikDataService.ObrisiKorisnika(model.Korisnik);
+                    MessageBox.Show(@"Uspješno ste obrisali korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
                 bindingSource.RemoveCurrent();

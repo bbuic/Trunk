@@ -62,9 +62,7 @@
             this.LBL_BROJ_KARTICE = new System.Windows.Forms.Label();
             this.dgvKartice = new System.Windows.Forms.DataGridView();
             this.txtImeFilter = new System.Windows.Forms.TextBox();
-            this.txtPrezimeFilter = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnPovratak = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKorisnici)).BeginInit();
             this.GRB_KORISNICI_DNT.SuspendLayout();
@@ -84,9 +82,11 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKorisnici.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvKorisnici.Location = new System.Drawing.Point(2, 31);
+            this.dgvKorisnici.MultiSelect = false;
             this.dgvKorisnici.Name = "dgvKorisnici";
+            this.dgvKorisnici.ReadOnly = true;
             this.dgvKorisnici.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvKorisnici.Size = new System.Drawing.Size(661, 170);
+            this.dgvKorisnici.Size = new System.Drawing.Size(778, 215);
             this.dgvKorisnici.TabIndex = 39;
             // 
             // GRB_KORISNICI_DNT
@@ -96,9 +96,9 @@
             this.GRB_KORISNICI_DNT.Controls.Add(this.btnObrisi);
             this.GRB_KORISNICI_DNT.Controls.Add(this.btnZapamti);
             this.GRB_KORISNICI_DNT.Controls.Add(this.TabControl1);
-            this.GRB_KORISNICI_DNT.Location = new System.Drawing.Point(2, 207);
+            this.GRB_KORISNICI_DNT.Location = new System.Drawing.Point(2, 252);
             this.GRB_KORISNICI_DNT.Name = "GRB_KORISNICI_DNT";
-            this.GRB_KORISNICI_DNT.Size = new System.Drawing.Size(534, 307);
+            this.GRB_KORISNICI_DNT.Size = new System.Drawing.Size(556, 307);
             this.GRB_KORISNICI_DNT.TabIndex = 40;
             this.GRB_KORISNICI_DNT.TabStop = false;
             // 
@@ -106,9 +106,9 @@
             // 
             this.btnNovi.Image = global::DNTv2.Properties.Resources.Actions_user_group_new_icon;
             this.btnNovi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNovi.Location = new System.Drawing.Point(439, 214);
+            this.btnNovi.Location = new System.Drawing.Point(439, 211);
             this.btnNovi.Name = "btnNovi";
-            this.btnNovi.Size = new System.Drawing.Size(87, 23);
+            this.btnNovi.Size = new System.Drawing.Size(104, 26);
             this.btnNovi.TabIndex = 63;
             this.btnNovi.Text = "Novi";
             this.btnNovi.UseVisualStyleBackColor = true;
@@ -118,9 +118,9 @@
             this.btnObrisi.BackColor = System.Drawing.SystemColors.Control;
             this.btnObrisi.Image = global::DNTv2.Properties.Resources.Actions_user_group_delete_icon;
             this.btnObrisi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnObrisi.Location = new System.Drawing.Point(439, 245);
+            this.btnObrisi.Location = new System.Drawing.Point(439, 242);
             this.btnObrisi.Name = "btnObrisi";
-            this.btnObrisi.Size = new System.Drawing.Size(87, 23);
+            this.btnObrisi.Size = new System.Drawing.Size(104, 26);
             this.btnObrisi.TabIndex = 62;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = false;
@@ -129,9 +129,9 @@
             // 
             this.btnZapamti.Image = global::DNTv2.Properties.Resources.Save_icon;
             this.btnZapamti.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnZapamti.Location = new System.Drawing.Point(439, 274);
+            this.btnZapamti.Location = new System.Drawing.Point(439, 271);
             this.btnZapamti.Name = "btnZapamti";
-            this.btnZapamti.Size = new System.Drawing.Size(87, 23);
+            this.btnZapamti.Size = new System.Drawing.Size(104, 26);
             this.btnZapamti.TabIndex = 40;
             this.btnZapamti.Text = "Zapamti";
             this.btnZapamti.UseVisualStyleBackColor = true;
@@ -235,11 +235,11 @@
             // LBL_GRAD_MJESTO
             // 
             this.LBL_GRAD_MJESTO.AutoSize = true;
-            this.LBL_GRAD_MJESTO.Location = new System.Drawing.Point(28, 122);
+            this.LBL_GRAD_MJESTO.Location = new System.Drawing.Point(64, 122);
             this.LBL_GRAD_MJESTO.Name = "LBL_GRAD_MJESTO";
-            this.LBL_GRAD_MJESTO.Size = new System.Drawing.Size(67, 13);
+            this.LBL_GRAD_MJESTO.Size = new System.Drawing.Size(30, 13);
             this.LBL_GRAD_MJESTO.TabIndex = 70;
-            this.LBL_GRAD_MJESTO.Text = "Grad(Mjesto)";
+            this.LBL_GRAD_MJESTO.Text = "Grad";
             // 
             // LBL_TELEFON
             // 
@@ -382,6 +382,7 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvKartice.Location = new System.Drawing.Point(6, 7);
+            this.dgvKartice.MultiSelect = false;
             this.dgvKartice.Name = "dgvKartice";
             this.dgvKartice.ReadOnly = true;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -403,13 +404,6 @@
             this.txtImeFilter.Size = new System.Drawing.Size(164, 20);
             this.txtImeFilter.TabIndex = 41;
             // 
-            // txtPrezimeFilter
-            // 
-            this.txtPrezimeFilter.Location = new System.Drawing.Point(255, 5);
-            this.txtPrezimeFilter.Name = "txtPrezimeFilter";
-            this.txtPrezimeFilter.Size = new System.Drawing.Size(164, 20);
-            this.txtPrezimeFilter.TabIndex = 42;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -419,21 +413,12 @@
             this.label2.TabIndex = 65;
             this.label2.Text = "Ime:";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(202, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 66;
-            this.label3.Text = "Prezime:";
-            // 
             // btnPovratak
             // 
             this.btnPovratak.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPovratak.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratak.Image")));
             this.btnPovratak.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPovratak.Location = new System.Drawing.Point(551, 478);
+            this.btnPovratak.Location = new System.Drawing.Point(564, 524);
             this.btnPovratak.Name = "btnPovratak";
             this.btnPovratak.Size = new System.Drawing.Size(104, 26);
             this.btnPovratak.TabIndex = 67;
@@ -444,15 +429,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 517);
+            this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.btnPovratak);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtPrezimeFilter);
             this.Controls.Add(this.txtImeFilter);
             this.Controls.Add(this.GRB_KORISNICI_DNT);
             this.Controls.Add(this.dgvKorisnici);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "frmUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Korisnici dnevno-noćnog trezora";
@@ -500,10 +484,8 @@
         internal System.Windows.Forms.TextBox txtBrojKartice;
         internal System.Windows.Forms.Label LBL_BROJ_KARTICE;
         internal System.Windows.Forms.DataGridView dgvKartice;
-        private System.Windows.Forms.TextBox txtImeFilter;
-        private System.Windows.Forms.TextBox txtPrezimeFilter;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         internal System.Windows.Forms.Button btnPovratak;
+        internal System.Windows.Forms.TextBox txtImeFilter;
     }
 }

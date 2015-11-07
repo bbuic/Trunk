@@ -38,30 +38,30 @@
             this.lbBrojVrecica = new System.Windows.Forms.Label();
             this.Label14 = new System.Windows.Forms.Label();
             this.grbMainIzbornik = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblPretragaTransakcija = new System.Windows.Forms.LinkLabel();
+            this.PictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblAdministracijaKorisnika = new System.Windows.Forms.LinkLabel();
+            this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblPraznjenjeTrezora = new System.Windows.Forms.LinkLabel();
             this.gbPretragaTransakcija = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnPovratakIzPretrazivanja = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.DTP_ZAVRSNI_DATUM = new System.Windows.Forms.DateTimePicker();
-            this.DTP_POCETNI_DATUM = new System.Windows.Forms.DateTimePicker();
+            this.dtpDatumDo = new System.Windows.Forms.DateTimePicker();
+            this.dtpDatumOd = new System.Windows.Forms.DateTimePicker();
+            this.btnPretrazi = new System.Windows.Forms.Button();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.dgvTransakcije = new System.Windows.Forms.DataGridView();
             this.SerialPortLcd = new System.IO.Ports.SerialPort(this.components);
-            this.btnPovratak = new System.Windows.Forms.Button();
-            this.BTN_PRETRAZI_UZ_UVIJET = new System.Windows.Forms.Button();
-            this.btnPrint = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.PictureBox2 = new System.Windows.Forms.PictureBox();
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.Panel1.SuspendLayout();
             this.grbInfo.SuspendLayout();
             this.grbMainIzbornik.SuspendLayout();
-            this.gbPretragaTransakcija.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
+            this.gbPretragaTransakcija.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).BeginInit();
             this.SuspendLayout();
             // 
             // Panel1
@@ -126,7 +126,7 @@
             this.Label14.Name = "Label14";
             this.Label14.Size = new System.Drawing.Size(107, 13);
             this.Label14.TabIndex = 0;
-            this.Label14.Text = "Broj vrečica u trezoru";
+            this.Label14.Text = "Broj pologa u trezoru";
             // 
             // grbMainIzbornik
             // 
@@ -143,6 +143,15 @@
             this.grbMainIzbornik.TabIndex = 0;
             this.grbMainIzbornik.TabStop = false;
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::DNTv2.Properties.Resources.User_Group_icon;
+            this.pictureBox3.Location = new System.Drawing.Point(4, 76);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(27, 26);
+            this.pictureBox3.TabIndex = 6;
+            this.pictureBox3.TabStop = false;
+            // 
             // lblPretragaTransakcija
             // 
             this.lblPretragaTransakcija.AutoSize = true;
@@ -154,6 +163,15 @@
             this.lblPretragaTransakcija.TabStop = true;
             this.lblPretragaTransakcija.Text = "Pretraga transakcija";
             // 
+            // PictureBox2
+            // 
+            this.PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox2.Image")));
+            this.PictureBox2.Location = new System.Drawing.Point(6, 46);
+            this.PictureBox2.Name = "PictureBox2";
+            this.PictureBox2.Size = new System.Drawing.Size(26, 26);
+            this.PictureBox2.TabIndex = 4;
+            this.PictureBox2.TabStop = false;
+            // 
             // lblAdministracijaKorisnika
             // 
             this.lblAdministracijaKorisnika.AutoSize = true;
@@ -164,6 +182,15 @@
             this.lblAdministracijaKorisnika.TabIndex = 2;
             this.lblAdministracijaKorisnika.TabStop = true;
             this.lblAdministracijaKorisnika.Text = "Administracija korisnika\r\n";
+            // 
+            // PictureBox1
+            // 
+            this.PictureBox1.Image = global::DNTv2.Properties.Resources.Safe_icon;
+            this.PictureBox1.Location = new System.Drawing.Point(6, 16);
+            this.PictureBox1.Name = "PictureBox1";
+            this.PictureBox1.Size = new System.Drawing.Size(27, 26);
+            this.PictureBox1.TabIndex = 3;
+            this.PictureBox1.TabStop = false;
             // 
             // lblPraznjenjeTrezora
             // 
@@ -180,138 +207,110 @@
             // 
             this.gbPretragaTransakcija.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbPretragaTransakcija.Controls.Add(this.btnPovratak);
             this.gbPretragaTransakcija.Controls.Add(this.label2);
+            this.gbPretragaTransakcija.Controls.Add(this.btnPovratakIzPretrazivanja);
             this.gbPretragaTransakcija.Controls.Add(this.label1);
-            this.gbPretragaTransakcija.Controls.Add(this.DTP_ZAVRSNI_DATUM);
-            this.gbPretragaTransakcija.Controls.Add(this.DTP_POCETNI_DATUM);
-            this.gbPretragaTransakcija.Controls.Add(this.BTN_PRETRAZI_UZ_UVIJET);
+            this.gbPretragaTransakcija.Controls.Add(this.dtpDatumDo);
+            this.gbPretragaTransakcija.Controls.Add(this.dtpDatumOd);
+            this.gbPretragaTransakcija.Controls.Add(this.btnPretrazi);
             this.gbPretragaTransakcija.Controls.Add(this.btnPrint);
             this.gbPretragaTransakcija.Location = new System.Drawing.Point(202, 350);
             this.gbPretragaTransakcija.Name = "gbPretragaTransakcija";
-            this.gbPretragaTransakcija.Size = new System.Drawing.Size(658, 83);
+            this.gbPretragaTransakcija.Size = new System.Drawing.Size(819, 83);
             this.gbPretragaTransakcija.TabIndex = 37;
             this.gbPretragaTransakcija.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(223, 25);
+            this.label2.Location = new System.Drawing.Point(180, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
-            this.label2.TabIndex = 47;
+            this.label2.TabIndex = 50;
             this.label2.Text = "do";
+            // 
+            // btnPovratakIzPretrazivanja
+            // 
+            this.btnPovratakIzPretrazivanja.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratakIzPretrazivanja.Image")));
+            this.btnPovratakIzPretrazivanja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPovratakIzPretrazivanja.Location = new System.Drawing.Point(472, 18);
+            this.btnPovratakIzPretrazivanja.Name = "btnPovratakIzPretrazivanja";
+            this.btnPovratakIzPretrazivanja.Size = new System.Drawing.Size(104, 26);
+            this.btnPovratakIzPretrazivanja.TabIndex = 49;
+            this.btnPovratakIzPretrazivanja.Text = "Povratak";
+            this.btnPovratakIzPretrazivanja.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 25);
+            this.label1.Location = new System.Drawing.Point(12, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 46;
-            this.label1.Text = "Dolazak od";
+            this.label1.Text = "Od";
             // 
-            // DTP_ZAVRSNI_DATUM
+            // dtpDatumDo
             // 
-            this.DTP_ZAVRSNI_DATUM.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.DTP_ZAVRSNI_DATUM.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.DTP_ZAVRSNI_DATUM.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP_ZAVRSNI_DATUM.Location = new System.Drawing.Point(248, 20);
-            this.DTP_ZAVRSNI_DATUM.Name = "DTP_ZAVRSNI_DATUM";
-            this.DTP_ZAVRSNI_DATUM.ShowUpDown = true;
-            this.DTP_ZAVRSNI_DATUM.Size = new System.Drawing.Size(142, 21);
-            this.DTP_ZAVRSNI_DATUM.TabIndex = 28;
+            this.dtpDatumDo.CustomFormat = "dd.MM.yyyy HH:mm:ss";
+            this.dtpDatumDo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dtpDatumDo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDatumDo.Location = new System.Drawing.Point(203, 18);
+            this.dtpDatumDo.Name = "dtpDatumDo";
+            this.dtpDatumDo.ShowUpDown = true;
+            this.dtpDatumDo.Size = new System.Drawing.Size(142, 21);
+            this.dtpDatumDo.TabIndex = 28;
             // 
-            // DTP_POCETNI_DATUM
+            // dtpDatumOd
             // 
-            this.DTP_POCETNI_DATUM.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.DTP_POCETNI_DATUM.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.DTP_POCETNI_DATUM.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP_POCETNI_DATUM.Location = new System.Drawing.Point(76, 20);
-            this.DTP_POCETNI_DATUM.Name = "DTP_POCETNI_DATUM";
-            this.DTP_POCETNI_DATUM.ShowUpDown = true;
-            this.DTP_POCETNI_DATUM.Size = new System.Drawing.Size(141, 21);
-            this.DTP_POCETNI_DATUM.TabIndex = 27;
+            this.dtpDatumOd.CustomFormat = "dd.MM.yyyy HH:mm:ss";
+            this.dtpDatumOd.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dtpDatumOd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDatumOd.Location = new System.Drawing.Point(35, 18);
+            this.dtpDatumOd.Name = "dtpDatumOd";
+            this.dtpDatumOd.ShowUpDown = true;
+            this.dtpDatumOd.Size = new System.Drawing.Size(141, 21);
+            this.dtpDatumOd.TabIndex = 27;
             // 
-            // dgvTransakcije
+            // btnPretrazi
             // 
-            this.dgvTransakcije.AllowUserToAddRows = false;
-            this.dgvTransakcije.AllowUserToDeleteRows = false;
-            this.dgvTransakcije.AllowUserToResizeRows = false;
-            this.dgvTransakcije.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvTransakcije.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTransakcije.Location = new System.Drawing.Point(192, 0);
-            this.dgvTransakcije.Name = "dgvTransakcije";
-            this.dgvTransakcije.Size = new System.Drawing.Size(676, 344);
-            this.dgvTransakcije.TabIndex = 38;
-            // 
-            // btnPovratak
-            // 
-            this.btnPovratak.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratak.Image")));
-            this.btnPovratak.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPovratak.Location = new System.Drawing.Point(548, 18);
-            this.btnPovratak.Name = "btnPovratak";
-            this.btnPovratak.Size = new System.Drawing.Size(104, 26);
-            this.btnPovratak.TabIndex = 49;
-            this.btnPovratak.Text = "Povratak";
-            this.btnPovratak.UseVisualStyleBackColor = true;
-            // 
-            // BTN_PRETRAZI_UZ_UVIJET
-            // 
-            this.BTN_PRETRAZI_UZ_UVIJET.Image = global::DNTv2.Properties.Resources.Zoom_icon_mala;
-            this.BTN_PRETRAZI_UZ_UVIJET.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_PRETRAZI_UZ_UVIJET.Location = new System.Drawing.Point(397, 19);
-            this.BTN_PRETRAZI_UZ_UVIJET.Name = "BTN_PRETRAZI_UZ_UVIJET";
-            this.BTN_PRETRAZI_UZ_UVIJET.Size = new System.Drawing.Size(104, 26);
-            this.BTN_PRETRAZI_UZ_UVIJET.TabIndex = 39;
-            this.BTN_PRETRAZI_UZ_UVIJET.Text = "Pretraži";
-            this.BTN_PRETRAZI_UZ_UVIJET.UseVisualStyleBackColor = true;
+            this.btnPretrazi.Image = global::DNTv2.Properties.Resources.Zoom_icon_mala;
+            this.btnPretrazi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPretrazi.Location = new System.Drawing.Point(362, 18);
+            this.btnPretrazi.Name = "btnPretrazi";
+            this.btnPretrazi.Size = new System.Drawing.Size(104, 26);
+            this.btnPretrazi.TabIndex = 39;
+            this.btnPretrazi.Text = "Traži";
+            this.btnPretrazi.UseVisualStyleBackColor = true;
             // 
             // btnPrint
             // 
             this.btnPrint.Image = ((System.Drawing.Image)(resources.GetObject("btnPrint.Image")));
             this.btnPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPrint.Location = new System.Drawing.Point(397, 48);
+            this.btnPrint.Location = new System.Drawing.Point(362, 47);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(104, 26);
             this.btnPrint.TabIndex = 43;
             this.btnPrint.Text = "Ispiši";
             this.btnPrint.UseVisualStyleBackColor = false;
             // 
-            // pictureBox3
+            // dgvTransakcije
             // 
-            this.pictureBox3.Image = global::DNTv2.Properties.Resources.User_Group_icon;
-            this.pictureBox3.Location = new System.Drawing.Point(4, 76);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(27, 26);
-            this.pictureBox3.TabIndex = 6;
-            this.pictureBox3.TabStop = false;
-            // 
-            // PictureBox2
-            // 
-            this.PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox2.Image")));
-            this.PictureBox2.Location = new System.Drawing.Point(6, 46);
-            this.PictureBox2.Name = "PictureBox2";
-            this.PictureBox2.Size = new System.Drawing.Size(26, 26);
-            this.PictureBox2.TabIndex = 4;
-            this.PictureBox2.TabStop = false;
-            // 
-            // PictureBox1
-            // 
-            this.PictureBox1.Image = global::DNTv2.Properties.Resources.Safe_icon;
-            this.PictureBox1.Location = new System.Drawing.Point(6, 16);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(27, 26);
-            this.PictureBox1.TabIndex = 3;
-            this.PictureBox1.TabStop = false;
+            this.dgvTransakcije.AllowUserToAddRows = false;
+            this.dgvTransakcije.AllowUserToDeleteRows = false;
+            this.dgvTransakcije.AllowUserToResizeRows = false;
+            this.dgvTransakcije.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTransakcije.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvTransakcije.Location = new System.Drawing.Point(197, 0);
+            this.dgvTransakcije.Name = "dgvTransakcije";
+            this.dgvTransakcije.ReadOnly = true;
+            this.dgvTransakcije.Size = new System.Drawing.Size(829, 344);
+            this.dgvTransakcije.TabIndex = 38;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 439);
+            this.ClientSize = new System.Drawing.Size(1026, 439);
             this.ControlBox = false;
             this.Controls.Add(this.dgvTransakcije);
             this.Controls.Add(this.gbPretragaTransakcija);
@@ -324,12 +323,12 @@
             this.grbInfo.PerformLayout();
             this.grbMainIzbornik.ResumeLayout(false);
             this.grbMainIzbornik.PerformLayout();
-            this.gbPretragaTransakcija.ResumeLayout(false);
-            this.gbPretragaTransakcija.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
+            this.gbPretragaTransakcija.ResumeLayout(false);
+            this.gbPretragaTransakcija.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -349,17 +348,17 @@
         internal System.Windows.Forms.PictureBox PictureBox1;
         internal System.Windows.Forms.LinkLabel lblPraznjenjeTrezora;
         internal System.Windows.Forms.GroupBox gbPretragaTransakcija;
-        internal System.Windows.Forms.Button BTN_PRETRAZI_UZ_UVIJET;
+        internal System.Windows.Forms.Button btnPretrazi;
         internal System.Windows.Forms.Button btnPrint;
-        internal System.Windows.Forms.DateTimePicker DTP_ZAVRSNI_DATUM;
-        internal System.Windows.Forms.DateTimePicker DTP_POCETNI_DATUM;
+        internal System.Windows.Forms.DateTimePicker dtpDatumDo;
+        internal System.Windows.Forms.DateTimePicker dtpDatumOd;
         private System.IO.Ports.SerialPort SerialPortLcd;
         internal System.Windows.Forms.DataGridView dgvTransakcije;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.LinkLabel lblPretragaTransakcija;
         internal System.Windows.Forms.PictureBox pictureBox3;
-        internal System.Windows.Forms.Button btnPovratak;
+        internal System.Windows.Forms.Button btnPovratakIzPretrazivanja;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -29,7 +29,7 @@ namespace DNTv2.DataAccess.Services
                 builder.Append("INNER JOIN DNTTransakcije AS tr ON ka.Broj = tr.kartica ");
                 builder.Append("WHERE ");
                 if (datumOd.HasValue && datumDo.HasValue)
-                    builder.Append("tr.dolazak = @DatumOd AND tr.odlazak = @DatumDo ");
+                    builder.Append("tr.dolazak >= ? AND tr.dolazak <= ? ");
                 else
                     builder.Append("tr.trezor = True ");
                 builder.Append("ORDER BY tr.dolazak DESC");

@@ -10,7 +10,7 @@ namespace DNTv2.DataModel.Services
 
         public override void New()
         {
-            if (Korisnik == null || Korisnik.Id < 0)
+            if (Korisnik == null || Korisnik.Id <= 0)
             {
                 MessageBox.Show(@"Niste odabrali korisnika za kojeg želite unijeti kartice.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -26,16 +26,15 @@ namespace DNTv2.DataModel.Services
 
         public override void Refresh()
         {
-            if(Korisnik != null && Korisnik.Id > 0)
-            {
-                IList<KarticaModel> karticas = ObjectFactory.KarticaDataService.DajKarticeKorisnika(Korisnik.Id).Select(kartica => new KarticaModel { Kartica = kartica }).ToList();
-                bindingSource.DataSource = karticas;
-            }
+            bindingSource.DataSource = 
+                ObjectFactory.KarticaDataService.DajKarticeKorisnika(Korisnik.Id).Select(kartica => new KarticaModel { Kartica = kartica }).ToList();            
         }
 
         public override void Insert()
         {
-            IList<KarticaModel> list = ((IList<KarticaModel>)bindingSource.List);
+            IList<KarticaModel> list = ((IList<KarticaModel>)bindingSource.List).Where(x => x.modelState != ModelState.Unchanged).ToList();
+            if(list.Count <= 0)
+                return;
 
             IList<KarticaModel> neValidni = list.Where(x => !x.IsValid()).ToList();
             if (neValidni.Count > 0)
@@ -45,7 +44,7 @@ namespace DNTv2.DataModel.Services
                 return;
             }
 
-            foreach (KarticaModel model in list.Where(x => x.modelState != ModelState.Unchanged).ToList())
+            foreach (KarticaModel model in list)
             {
                 switch (model.modelState)
                 {
@@ -59,6 +58,8 @@ namespace DNTv2.DataModel.Services
             }
 
             list.All(x => { x.ModelState = ModelState.Unchanged; return true; });
+
+            MessageBox.Show(@"Uspješno ste zapamtili karticu.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public override void Delete()
@@ -77,6 +78,7 @@ namespace DNTv2.DataModel.Services
             {                
                 ObjectFactory.KarticaDataService.ObrisiKarticu(model.Kartica);            
                 Refresh();
+                MessageBox.Show(@"Uspješno ste obrisali karticu.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
