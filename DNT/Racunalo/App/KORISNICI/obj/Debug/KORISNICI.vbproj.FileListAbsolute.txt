@@ -20,3 +20,7 @@ d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\bin\Debug\DNT.exe.config
 d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.exe
 d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.xml
 d:\Svasta\BojanTrunk\Trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.pdb
+C:\Users\bojanb.IN2\Desktop\bbuic\trunk\DNT\Racunalo\App\KORISNICI\bin\Debug\DNT.exe.config
+C:\Users\bojanb.IN2\Desktop\bbuic\trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.exe
+C:\Users\bojanb.IN2\Desktop\bbuic\trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.xml
+C:\Users\bojanb.IN2\Desktop\bbuic\trunk\DNT\Racunalo\App\KORISNICI\obj\Debug\DNT.pdb
