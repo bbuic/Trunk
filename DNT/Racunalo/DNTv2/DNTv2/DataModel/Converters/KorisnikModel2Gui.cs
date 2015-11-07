@@ -44,10 +44,13 @@ namespace DNTv2.DataModel.Converters
                 }
             };
 
-            user.txtImeFilter.KeyPress += delegate(object sender, KeyPressEventArgs e)
+            user.KeyPress += delegate(object sender, KeyPressEventArgs e)
             {
                 if (e.KeyChar == (int) Keys.Escape)
+                {
                     user.dgvKorisnici.Focus();
+                    e.Handled = true;
+                }
             };
             
             user.txtImeFilter.TextChanged += delegate
@@ -81,6 +84,7 @@ namespace DNTv2.DataModel.Converters
                 switch (user.TabControl1.SelectedIndex)
                 {
                     case 0:
+                        user.txtImeFilter.Clear();
                         korisnikModelService.New();                        
                         user.txtIme.Focus();
                         break;

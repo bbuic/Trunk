@@ -56,7 +56,7 @@ namespace DNTv2.DataAccess.Services
             }
         }
 
-        public short DajBrojVrecicaUTrezoru()
+        public int DajBrojVrecicaUTrezoru()
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
@@ -64,7 +64,7 @@ namespace DNTv2.DataAccess.Services
                 try
                 {
                     connection.Open();
-                    return (short) command.ExecuteScalar();
+                    return int.Parse(command.ExecuteScalar().ToString());
                 }
                 finally
                 {

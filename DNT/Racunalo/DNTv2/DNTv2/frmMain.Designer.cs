@@ -77,8 +77,8 @@
             // 
             // grbInfo
             // 
-            this.grbInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grbInfo.BackColor = System.Drawing.SystemColors.Window;
             this.grbInfo.Controls.Add(this.Label35);
             this.grbInfo.Controls.Add(this.lblDatumPraznjenjaTrezora);
@@ -205,8 +205,8 @@
             // 
             // gbPretragaTransakcija
             // 
-            this.gbPretragaTransakcija.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbPretragaTransakcija.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbPretragaTransakcija.Controls.Add(this.label2);
             this.gbPretragaTransakcija.Controls.Add(this.btnPovratakIzPretrazivanja);
             this.gbPretragaTransakcija.Controls.Add(this.label1);
@@ -223,7 +223,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(180, 22);
+            this.label2.Location = new System.Drawing.Point(181, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 50;
@@ -243,7 +243,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 22);
+            this.label1.Location = new System.Drawing.Point(12, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 46;
@@ -252,23 +252,23 @@
             // dtpDatumDo
             // 
             this.dtpDatumDo.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.dtpDatumDo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dtpDatumDo.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.dtpDatumDo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumDo.Location = new System.Drawing.Point(203, 18);
+            this.dtpDatumDo.Location = new System.Drawing.Point(203, 20);
             this.dtpDatumDo.Name = "dtpDatumDo";
             this.dtpDatumDo.ShowUpDown = true;
-            this.dtpDatumDo.Size = new System.Drawing.Size(142, 21);
+            this.dtpDatumDo.Size = new System.Drawing.Size(142, 23);
             this.dtpDatumDo.TabIndex = 28;
             // 
             // dtpDatumOd
             // 
             this.dtpDatumOd.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.dtpDatumOd.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dtpDatumOd.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.dtpDatumOd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumOd.Location = new System.Drawing.Point(35, 18);
+            this.dtpDatumOd.Location = new System.Drawing.Point(35, 20);
             this.dtpDatumOd.Name = "dtpDatumOd";
             this.dtpDatumOd.ShowUpDown = true;
-            this.dtpDatumOd.Size = new System.Drawing.Size(141, 21);
+            this.dtpDatumOd.Size = new System.Drawing.Size(141, 23);
             this.dtpDatumOd.TabIndex = 27;
             // 
             // btnPretrazi

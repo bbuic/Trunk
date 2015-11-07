@@ -67,6 +67,8 @@ namespace DNTv2
             //    };
             //}
             
+
+            //HENDLANJE PORUKA ELEKTRONIKE
             SerialPortElektronika.DataReceived += delegate
             {
                 if(_obradaSerijskogPorta)

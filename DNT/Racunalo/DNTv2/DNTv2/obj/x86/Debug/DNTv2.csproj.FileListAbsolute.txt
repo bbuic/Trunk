@@ -15,7 +15,6 @@ G:\New folder\Trunk\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.Report.frmRepor
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.exe.config
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.exe
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\bin\Debug\DNTv2.pdb
-C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.csprojResolveAssemblyReference.cache
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmMain.resources
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmPoruka.resources
 C:\Users\bojanb.IN2\Desktop\bbuic\branches\DNTv2Beta\DNT\Racunalo\DNTv2\DNTv2\obj\x86\Debug\DNTv2.frmUser.resources

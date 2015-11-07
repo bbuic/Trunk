@@ -93,8 +93,8 @@ namespace DNTv2.DataModel.Converters
             };
 
             service.bindingSource.DataSourceChanged += delegate
-            { 
-                main.lbBrojVrecica.Text = ((IList<TransakcijeModel>)service.bindingSource.List).Sum(x => x.BrojVrecica).ToString();
+            {
+                main.lbBrojVrecica.Text = ObjectFactory.TransakcijaDataService.DajBrojVrecicaUTrezoru().ToString();
                 main.lbBrojVrecica.Left = (main.grbInfo.Width - main.lbBrojVrecica.Width) / 2;
             };
             

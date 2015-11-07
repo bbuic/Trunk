@@ -35,7 +35,9 @@ namespace DNTv2.DataModel.Services
 
         public override void Insert()
         {
-            IList<KorisnikModel> list = ((IList<KorisnikModel>)bindingSource.List);
+            IList<KorisnikModel> list = ((IList<KorisnikModel>)bindingSource.List).Where(x => x.modelState != ModelState.Unchanged).ToList();
+            if (list.Count <= 0)
+                return;
 
             IList<KorisnikModel> neValidni = list.Where(x => !x.IsValid()).ToList();            
             if (neValidni.Count > 0)
@@ -45,7 +47,7 @@ namespace DNTv2.DataModel.Services
                 return;
             }
 
-            foreach (KorisnikModel model in list.Where(x => x.modelState != ModelState.Unchanged).ToList())
+            foreach (KorisnikModel model in list)
             {
                 switch (model.modelState)
                 {

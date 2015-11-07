@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Aha-Soft-Large-Business-Safe.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -122,7 +125,9 @@
       <DependentUpon>frmReportViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Transakcije.rdlc" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.AbstractModelService.datasource" />
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.TransakcijeModelService.datasource" />
     <None Include="Properties\DataSources\DNTv2.DataModel.TransakcijeModel.datasource" />
@@ -162,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Zoom-icon_mala.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print-icon1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Aha-Soft-Large-Business-Safe.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
