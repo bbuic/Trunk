@@ -7,7 +7,7 @@ namespace DNTv2.DataAccess.Services
 {
     public class KorisnikDataService : AbstractAutoDataService
     {
-        public void Update(Korisnik korisnik)
+        public void PromjeniKorisnika(Korisnik korisnik)
         {            
             OleDbCommand command = new OleDbCommand("UPDATE DNTKorisnici SET ime = ?, prezime = ?, ulica = ?, kucni = ?, mjesto = ?, telefon = ? WHERE ID = ?");
 
@@ -22,7 +22,7 @@ namespace DNTv2.DataAccess.Services
              ExecuteNonQuery(command);
         }
 
-        public void Insert(Korisnik korisnik)
+        public void UnesiKorisnika(Korisnik korisnik)
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
@@ -64,7 +64,7 @@ namespace DNTv2.DataAccess.Services
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
                 DataTable table = new DataTable();
-                OleDbCommand command = new OleDbCommand("SELECT * FROM DNTKorisnici ORDER BY ime, prezime", connection);
+                OleDbCommand command = new OleDbCommand("SELECT Id, ime, prezime, ulica AS Adresa, kucni AS KucniBroj, mjesto AS Grad, telefon FROM DNTKorisnici ORDER BY ime, prezime", connection);
                 try
                 {
                     connection.Open();

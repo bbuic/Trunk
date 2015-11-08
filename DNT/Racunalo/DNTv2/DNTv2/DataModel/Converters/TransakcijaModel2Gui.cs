@@ -13,9 +13,10 @@ namespace DNTv2.DataModel.Converters
         {
             TransakcijeModelService service = new TransakcijeModelService();
 
-            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource} };            
+            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource}, TransakcijeModelService = service};            
             main.dgvTransakcije.SelectionChanged += delegate { main.dgvTransakcije.ClearSelection(); };
             
+            //Pražnjenje trezora
             main.lblPraznjenjeTrezora.LinkClicked += delegate
             {
                 IList<TransakcijeModel> list = (IList<TransakcijeModel>)service.bindingSource.List;
@@ -32,6 +33,7 @@ namespace DNTv2.DataModel.Converters
                     ObjectFactory.TransakcijaDataService.IsprazniTrezor();
                     main.lblDatumPraznjenjaTrezora.Text =
                         ObjectFactory.TransakcijaDataService.ZadnjePraznjenjeTrezora().ToString("dd.MM.yyyy HH:mm:ss");
+                    service.Refresh();
                 }
             };
 
@@ -74,6 +76,9 @@ namespace DNTv2.DataModel.Converters
             
             main.btnPrint.Click += delegate
             {
+                service.bindingSource.DataSource = ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
+                    Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
+
                 IList<TransakcijeModel> list = (IList<TransakcijeModel>)service.bindingSource.List;
                 if (list.Count <= 0)
                 {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -21,6 +22,7 @@ namespace DNTv2.DataModel.Services
             {
                 o.modelState = ModelState.Inserted;
                 o.VlasnikId = Korisnik.Id;
+                o.Datum = DateTime.Now;
             }         
         }
 
@@ -49,16 +51,15 @@ namespace DNTv2.DataModel.Services
                 switch (model.modelState)
                 {
                     case ModelState.Inserted:
-                        ObjectFactory.KorisnikDataService.Insert(model);
+                        ObjectFactory.KarticaDataService.UnesiKarticu(model.Kartica);
                         break;
                     case ModelState.Modified:
-                        ObjectFactory.KorisnikDataService.Update(model);
+                        ObjectFactory.KarticaDataService.PromjeniKarticu(model.Kartica);
                         break;
                 }
             }
-
-            list.All(x => { x.ModelState = ModelState.Unchanged; return true; });
-
+            Refresh();
+            bindingSource.Position = bindingSource.IndexOf(list[0]);
             MessageBox.Show(@"Uspješno ste zapamtili karticu.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -71,15 +72,17 @@ namespace DNTv2.DataModel.Services
             if(string.IsNullOrEmpty(model.Broj))
             {
                 bindingSource.RemoveCurrent();
+                bindingSource.Position = -1;
                 return;
             }
 
-            if (MessageBox.Show(@"Želite obrisati odabranu karticu?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(@"Želite obrisati karticu: " + model.Broj + @" ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {                
                 ObjectFactory.KarticaDataService.ObrisiKarticu(model.Kartica);            
                 Refresh();
                 MessageBox.Show(@"Uspješno ste obrisali karticu.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            bindingSource.Position = -1;
         }
 
     }

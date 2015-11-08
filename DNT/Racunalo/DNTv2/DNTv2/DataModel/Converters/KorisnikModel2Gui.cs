@@ -37,9 +37,10 @@ namespace DNTv2.DataModel.Converters
 
             user.txtIme.Validating += delegate(object sender, CancelEventArgs e)
             {
-                if (user.txtIme.Text.Length > 0 && ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.Ime == user.txtIme.Text))
+                if (user.txtIme.Text.Length > 0 && 
+                    ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.Ime.Trim() == user.txtIme.Text.Trim()))
                 {
-                    MessageBox.Show(@"Korisnik sa imenom " + user.txtIme.Text + @" već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Korisnik sa imenom (" + user.txtIme.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.Cancel = true;
                 }
             };
@@ -132,6 +133,12 @@ namespace DNTv2.DataModel.Converters
                 user.Close();
             };
 
+            korisnikModelService.bindingSource.CurrentChanged += delegate
+            {
+                user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
+            };
+            user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
+
             user.dgvKorisnici.Columns["Korisnik"].Visible = false;
             user.dgvKorisnici.Columns["Id"].Visible = false;
             user.dgvKorisnici.Columns["Kartice"].Visible = false;
@@ -158,14 +165,17 @@ namespace DNTv2.DataModel.Converters
             user.dgvKorisnici.Columns["Telefon"].Width = 80;
             user.dgvKorisnici.Columns["Telefon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            user.dgvKartice.Columns["Kartica"].Visible = false;
-            user.dgvKartice.Columns["ModelState"].Visible = false;
-            user.dgvKartice.Columns["VlasnikId"].Visible = false;
-            user.dgvKartice.Columns["Broj"].HeaderText = "Broj kartice";
-            user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
+            korisnikModelService.bindingSource.CurrentChanged += delegate
+            {
+                user.dgvKartice.Columns["Kartica"].Visible = false;
+                user.dgvKartice.Columns["ModelState"].Visible = false;
+                user.dgvKartice.Columns["VlasnikId"].Visible = false;
+                user.dgvKartice.Columns["Broj"].HeaderText = "Broj kartice";
+                user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                user.dgvKartice.Columns["Datum"].DefaultCellStyle.Format = "dd.MM.yyyy";
+            };
             return user;
         }
     }

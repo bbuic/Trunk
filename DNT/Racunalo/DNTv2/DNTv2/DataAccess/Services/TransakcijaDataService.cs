@@ -9,6 +9,30 @@ namespace DNTv2.DataAccess.Services
 {
     public class TransakcijaDataService: AbstractAutoDataService
     {
+        public void PromjeniTransakciju(Transakcija transakcija)
+        {
+            OleDbCommand command = new OleDbCommand("UPDATE DNTTransakcije SET vrecica = ?, odlazak = ? WHERE dolazak = ?");
+
+            command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
+            command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
+            command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
+
+            ExecuteNonQuery(command);
+        }
+
+        public void UnesiTransakciju(Transakcija transakcija)
+        {
+            OleDbCommand command = new OleDbCommand("INSERT INTO DNTTransakcije (kartica, dolazak, vrecica, odlazak, trezor) VALUES (?, ?, ?, ?, ?)");
+
+            command.Parameters.Add("@kartica", OleDbType.VarChar).Value = transakcija.Kartica;
+            command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
+            command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
+            command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
+            command.Parameters.Add("@trezor", OleDbType.Boolean).Value = transakcija.Trezor;
+
+            ExecuteNonQuery(command);
+        }
+
         public void IsprazniTrezor()
         {            
             OleDbCommand command = new OleDbCommand("UPDATE SISTEM SET TREZOR_PRAZAN_VRIJEME = ? WHERE ID = 1");
@@ -64,7 +88,8 @@ namespace DNTv2.DataAccess.Services
                 try
                 {
                     connection.Open();
-                    return int.Parse(command.ExecuteScalar().ToString());
+                    object o = command.ExecuteScalar();
+                    return o is double || o is int ? int.Parse(o.ToString()) : 0;
                 }
                 finally
                 {

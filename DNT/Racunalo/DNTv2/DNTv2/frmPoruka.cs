@@ -21,5 +21,10 @@ namespace DNTv2
             InitializeComponent();
             label1.Text = poruka;
         }
+
+        private void btnPovratakIzPretrazivanja_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

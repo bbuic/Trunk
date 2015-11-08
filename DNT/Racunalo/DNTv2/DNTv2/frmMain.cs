@@ -1,166 +1,225 @@
 ﻿using System;
-using System.Data.OleDb;
 using System.Threading;
 using System.Windows.Forms;
 using DNTv2.DataModel;
-using Timer = System.Windows.Forms.Timer;
+using DNTv2.DataModel.Services;
+using DNTv2.Properties;
+using Timer = System.Threading.Timer;
 
 namespace DNTv2
 {
     public partial class frmMain : Form
     {
-        private readonly Timer _timerVrataZasun;
-        private readonly Timer _timerVrataOtvorena;
+        private Timer _timerVrataZasun;
+        private Timer _timerVrataOtvorena;
         //private readonly Timer _timerLcd;
-        private bool _obradaSerijskogPorta;
+        private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
-        
+        private bool _transakcijaUTijeku;
+        internal TransakcijeModelService TransakcijeModelService { get; set; }
+        private frmPoruka _frmPoruka;
+
+        #region Timer zasun
+
+        private void ZatvoriZasun()
+        {
+            TimerZasunStop();
+            _transakcijaUTijeku = false;
+            _transakcija = null;
+            SerialPortElektronika.Write(new byte[] {0x11}, 0, 1);
+            //UvodnaPoruka();
+        }
+
+        private void TimerZasunStart()
+        {
+            _timerVrataZasun = new Timer(_ => ZatvoriZasun());
+            _timerVrataZasun.Change(Settings.Default.TimerZasun * 1000, Timeout.Infinite);
+        }
+
+        private void TimerZasunStop()
+        {
+            if (_timerVrataZasun != null)
+            {
+                _timerVrataZasun.Change(Timeout.Infinite, Timeout.Infinite);
+                _timerVrataZasun.Dispose();
+                _timerVrataZasun = null;
+            }
+        }
+
+        #endregion
+
+        #region Timer vrata
+
+        private void TimerVrataOtvorenaReStart()
+        {
+            if(_timerVrataOtvorena != null)
+                _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena * 1000, Timeout.Infinite);
+        }
+
+        private void TimerVrataOtvorenaStart()
+        {
+            _timerVrataOtvorena = new Timer(_ => ZatvoriVrata());
+            _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena * 1000, Timeout.Infinite);
+        }
+
+        private void ZatvoriVrata()
+        {
+            TimerVrataOtvorenaStop();
+
+            SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
+            //WriteMessage2Lcd("Molimo da zatvorite vrata...");            
+
+            //TODO: upis alarma u bazu
+
+            _frmPoruka = 
+                new frmPoruka("Vanjska vrata trezora su otvorena duže od " + Settings.Default.TimerVrataOtvorena + " sec."){Tag = "Vrata"};
+            Invoke(new MethodInvoker(delegate { _frmPoruka.Show(this); }));                        
+        }
+
+        private void TimerVrataOtvorenaStop()
+        {
+            if (_timerVrataOtvorena != null)
+            {
+                _timerVrataOtvorena.Change(Timeout.Infinite, Timeout.Infinite);
+                _timerVrataOtvorena.Dispose();
+                _timerVrataOtvorena = null;
+            }
+        }
+
+        #endregion
+
+
         public frmMain()
         {
             InitializeComponent();
             //TopMost = true;
 
-            _timerVrataZasun = new Timer {Interval = Properties.Settings.Default.TimerZasun};
-            _timerVrataZasun.Tick += delegate
-            {
-                _timerVrataZasun.Stop();
-                SerialPortElektronika.Write(new byte[] {17}, 0, 1); //Zatvori zasun
-                //UvodnaPoruka();
-            };
-
-            _timerVrataOtvorena = new Timer {Interval = Properties.Settings.Default.TimerVrataOtvorena};
-            _timerVrataOtvorena.Tick += delegate
-            {
-                _timerVrataOtvorena.Stop();
-
-                new frmPoruka("Vrata otvorena").ShowDialog();
-
-                //TODO: upis alarma
-                /*'KONEKCIJA.Open()
-                'Dim NAREDBA As New System.Data.OleDb.OleDbCommand("INSERT INTO ALARM" & _
-                '"(dolazak_OT, otvoreno) Values ('" & VRIJEME_DOLASKA & "','" & Now & "')", KONEKCIJA)
-                'Dim recordsAffected As Int32 = NAREDBA.ExecuteNonQuery()
-                'KONEKCIJA.Close()*/
-
-                SerialPortElektronika.Write(new byte[] {0x18}, 0, 1);
-                //WriteMessage2Lcd("Molimo da zatvorite vrata...");
-            };
-
             if (!SerialPortElektronika. IsOpen)
                 SerialPortElektronika.Open();
 
-            //if(Properties.Settings.Default.KoristiLcd && !SerialPortLcd.IsOpen)
+            #region LCD
+
+            //if (Properties.Settings.Default.KoristiLcd && !SerialPortLcd.IsOpen)
             //{
             //    SerialPortLcd.Open();
-            //    _timerLcd = new Timer{Interval = Properties.Settings.Default.TimerLcd};
+            //    _timerLcd = new Timer { Interval = Properties.Settings.Default.TimerLcd };
             //    _timerLcd.Tick += delegate
             //    {
             //        short pozicija = 0;
             //        EraseLcd();
             //        VerticalModeLcd();
-            //        KursorPozicija(1,1);
+            //        KursorPozicija(1, 1);
 
-            //        SerialPortLcd.Write(new[]{Properties.Settings.Default.PorukaLcd[pozicija]}, 0, 1);
+            //        SerialPortLcd.Write(new[] { Properties.Settings.Default.PorukaLcd[pozicija] }, 0, 1);
             //        pozicija += 1;
 
             //        if (pozicija > Properties.Settings.Default.PorukaLcd.Length) pozicija = 1;
             //    };
             //}
-            
 
+            #endregion
+            
             //HENDLANJE PORUKA ELEKTRONIKE
             SerialPortElektronika.DataReceived += delegate
             {
-                if(_obradaSerijskogPorta)
+                if(_obradaSerijskogPortaUTijeku)
                     return;
-
                 try
                 {
-                    _obradaSerijskogPorta = true;
+                    _obradaSerijskogPortaUTijeku = true;
 
                     switch (SerialPortElektronika.ReadByte())
                     {
-                        case 20:
+                        case 0x20:
 
-                            string kartica = null;
-                            byte[] buffer = new byte[3];
+                            if(SerialPortElektronika.BytesToRead < 2 || _transakcijaUTijeku)
+                                break;
+
+                            byte[] buffer = new byte[2];
                             buffer[1] = (byte)this.SerialPortElektronika.ReadByte();
                             buffer[0] = (byte)this.SerialPortElektronika.ReadByte();
-                            kartica = ((BitConverter.ToInt16(buffer, 0)).ToString()).PadLeft(5, '0');
+                            var kartica = ((BitConverter.ToInt16(buffer, 0)).ToString()).PadLeft(5, '0');
 
-                            if (ObjectFactory.KarticaDataService.ExistsById(kartica))
+                            if (ObjectFactory.KarticaDataService.PostojiBrojKartice(kartica))
                             {
-                                SerialPortElektronika.Write(new byte[] { 16 }, 0, 1);
+                                SerialPortElektronika.Write(new byte[] { 0x10 }, 0, 1);
                                 
                                 _transakcija = new Transakcija {Kartica = kartica, DatumOd = DateTime.Now, Trezor = true};
-                                ObjectFactory.TransakcijaDataService.Insert(_transakcija);
-                                _timerVrataZasun.Start();
+                                ObjectFactory.TransakcijaDataService.UnesiTransakciju(_transakcija);
+
+                                TimerZasunStart();
+                                _transakcijaUTijeku = true;
                                 //WriteMessage2Lcd("   OTORITE VRATA      Ubacujte vrecice");
                             }
                             break;
 
-                        case 21: //vrata otvorena
-                            _timerVrataZasun.Stop();
-                            _timerVrataOtvorena.Start();
+                        case 0x21: //vrata otvorena
+                            TimerZasunStop();
+                            TimerVrataOtvorenaStart();
                             //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = 0");
+                            break;                            
+                        case 0x23: //ubacaj vrecica
 
-                            break;
+                            if(!_transakcijaUTijeku)
+                                break;
                             
-                        case 23: //ubacaj vrecica
-
-                            _transakcija.BrojVrecica += 1;
-
-                            Utils.ResetTimer(_timerVrataOtvorena);
+                            TimerVrataOtvorenaReStart();
 
                             //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.vrecica + "");
 
-                            //OleDbCommand komanda = new OleDbCommand("UPDATE DNTTransakcije Set vrecica = ? WHERE dolazak = ?");
-                            //komanda.Parameters.Add("@Vrecice", OleDbType.Integer).Value = BROJ_VRECICA;
-                            //komanda.Parameters.Add("@Dolazak", OleDbType.Date).Value = VRIJEME_DOLASKA;
-                            //UPDATE_NAREDBA(komanda);
-
-                            
-                            ////POKAŽI U LABELI BROJ VREČICA
-                            //LABELA_VRECICE_TREZOR();
-
+                            _transakcija.BrojVrecica += 1;
+                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);                            
                             break;
 
-                        case 22: //vrata zatorena
-                            _timerVrataOtvorena.Stop();
+                        case 0x22: //vrata zatorena
+
+                            TimerVrataOtvorenaStop();
+
+                            _transakcijaUTijeku = false;
 
                             _transakcija.DatumDo = DateTime.Now;
-                            ObjectFactory.TransakcijaDataService.Update(_transakcija);
-                            
+                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
+                            _transakcija = null;
+
                             //WriteMessage2Lcd("HVALA NA POVJERENJU!");
                             //Thread.Sleep(3000);
                             //UvodnaPoruka();
                             
-                            _transakcija = null;
-
-                            //FRM_PORUKA_VRATA1.Close();
+                            if(_frmPoruka != null && (string) _frmPoruka.Tag == "Vrata")
+                            {
+                                _frmPoruka.Close();
+                                _frmPoruka.Dispose();
+                            }
                             break;
 
-                         case 24: //blokada na fotoceliji
+                         case 0x24: //blokada na fotoceliji
 
-                            //FRM_PORUKA_FOTO1.Show();
+                            _frmPoruka = 
+                                new frmPoruka("Blokada fotosenzora."){Tag = "Foto"};
+                            Invoke(new MethodInvoker(delegate { _frmPoruka.Show(this); })); 
+
                             //WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
 
                             //TODO: napraviti upis alarma
-                            //KONEKCIJA.Open()
-                            //Dim NAREDBA As New System.Data.OleDbCommand("INSERT INTO ALARM" & _
-                            //"(dolazak_ZA,zapunjeno) Values ('" & VRIJEME_DOLASKA & "','" & Now & "')", KONEKCIJA)
-                            //Dim recordsAffected As Int32 = NAREDBA.ExecuteNonQuery()
-                            //KONEKCIJA.Close()
                             break;
 
-                        case 27: //maknula se blokada sa fotocelije
-                            //FRM_PORUKA_FOTO1.Close();
+                        case 0x27: //maknula se blokada sa fotocelije
+                            if (_frmPoruka != null && (string)_frmPoruka.Tag == "Foto")
+                            {
+                                _frmPoruka.Close();
+                                _frmPoruka.Dispose();
+                            }
                             break;
                     }
                 }
                 finally
                 {
-                    _obradaSerijskogPorta = false;
+                    if (SerialPortElektronika.BytesToRead > 0)
+                        SerialPortElektronika.DiscardInBuffer();
+
+                    this.Invoke(new MethodInvoker(delegate { TransakcijeModelService.Refresh(); }));
+                
+                    _obradaSerijskogPortaUTijeku = false;
                 }
             };
         }

@@ -27,7 +27,7 @@ namespace DNTv2.DataModel
 
         public string Kartica { get; set; }
         public DateTime DatumOd { get; set; }
-        public DateTime DatumDo { get; set; }
+        public DateTime? DatumDo { get; set; }
         public short BrojVrecica { get; set; }
         public bool Trezor { get; set; }
         

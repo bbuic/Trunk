@@ -8,7 +8,7 @@ namespace DNTv2.DataAccess.Services
 {
     public class KarticaDataService:AbstractAutoDataService
     {
-        public void Update(Kartica kartica)
+        public void PromjeniKarticu(Kartica kartica)
         {            
             OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ? WHERE Broj = ?");
 
@@ -19,7 +19,7 @@ namespace DNTv2.DataAccess.Services
              ExecuteNonQuery(command);
         }
 
-        public void Insert(Kartica kartica)
+        public void UnesiKarticu(Kartica kartica)
         {
             OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum) Values (?, ?, ?, ?)");
 

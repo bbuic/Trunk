@@ -42,7 +42,7 @@ namespace DNTv2.DataModel
             set { _transakcija.BrojVrecica = value; }
         }
 
-        public DateTime DatumDo
+        public DateTime? DatumDo
         {
             get { return _transakcija.DatumDo; }
             set { _transakcija.DatumDo = value; }

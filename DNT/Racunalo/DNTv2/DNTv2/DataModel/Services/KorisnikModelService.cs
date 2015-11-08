@@ -17,6 +17,9 @@ namespace DNTv2.DataModel.Services
                 
                 KarticaModelService.Korisnik = (KorisnikModel) bindingSource.Current;
                 KarticaModelService.Refresh();
+
+                if(KarticaModelService.bindingSource.Count <= 0)
+                    KarticaModelService.New();
             };            
         }
 
@@ -52,16 +55,16 @@ namespace DNTv2.DataModel.Services
                 switch (model.modelState)
                 {
                     case ModelState.Inserted:
-                        ObjectFactory.KorisnikDataService.Insert(model);
+                        ObjectFactory.KorisnikDataService.UnesiKorisnika(model.Korisnik);
                         break;
                     case ModelState.Modified:
-                        ObjectFactory.KorisnikDataService.Update(model);
+                        ObjectFactory.KorisnikDataService.PromjeniKorisnika(model.Korisnik);
                         break;
                 }  
-            }
-            
-            list.All(x => { x.ModelState = ModelState.Unchanged; return true; });
-
+            }            
+            Refresh();
+            List<KorisnikModel> models = ((IList<KorisnikModel>)bindingSource.DataSource).Where(x=>x.Ime.ToLower() == list[0].Ime.ToLower()).ToList();
+            bindingSource.Position = models.Count > 0 ? bindingSource.IndexOf(models[0]) : -1;
             MessageBox.Show(@"Uspješno ste zapamtili korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -70,15 +73,17 @@ namespace DNTv2.DataModel.Services
             KorisnikModel model = ((KorisnikModel)bindingSource.Current);
             if (model.Id > 0)
             {
-                if (MessageBox.Show(@"Želite obrisati odabranog korisnika?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    ObjectFactory.KorisnikDataService.ObrisiKorisnika(model.Korisnik);
-                    MessageBox.Show(@"Uspješno ste obrisali korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                if (MessageBox.Show(@"Želite obrisati korisnika: " + model.Ime + @" ?", "", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)                
+                    return;
+                
+                ObjectFactory.KorisnikDataService.ObrisiKorisnika(model.Korisnik);
+                MessageBox.Show(@"Uspješno ste obrisali korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);                
             }
             else
                 bindingSource.RemoveCurrent();
             Refresh();
+            bindingSource.Position = -1;
         }
 
 
