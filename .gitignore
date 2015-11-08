@@ -17,3 +17,5 @@
 *.exe
 *.pdb
 *.manifest
+*.config
+DNT/Racunalo/DNTv2/DNTv2/app.config
