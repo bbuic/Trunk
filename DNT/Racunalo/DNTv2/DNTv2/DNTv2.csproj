@@ -32,9 +32,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Aha-Soft-Large-Business-Safe.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -44,39 +50,87 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel\Attributes\IdAttribute.cs" />
-    <Compile Include="DataModel\DataServices\AbstractAutoDataService.cs" />
-    <Compile Include="DataModel\DataServices\AbstractDataService.cs" />
-    <Compile Include="DataModel\DataServices\KarticaDataService.cs" />
-    <Compile Include="DataModel\DataServices\KorisnikDataService.cs" />
-    <Compile Include="DataModel\DataServices\TransakcijaDataService.cs" />
-    <Compile Include="DataModel\Kartica.cs" />
-    <Compile Include="DataModel\Korisnik.cs" />
-    <Compile Include="DataModel\PersistentObject.cs" />
-    <Compile Include="DataModel\Transakcija.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DataAccess\Attributes\IdAttribute.cs" />
+    <Compile Include="DataAccess\Services\AbstractAutoDataService.cs" />
+    <Compile Include="DataAccess\Services\AbstractDataService.cs" />
+    <Compile Include="DataAccess\Services\KarticaDataService.cs" />
+    <Compile Include="DataAccess\Services\KorisnikDataService.cs" />
+    <Compile Include="DataAccess\Services\TransakcijaDataService.cs" />
+    <Compile Include="DataAccess\Kartica.cs" />
+    <Compile Include="DataAccess\Korisnik.cs" />
+    <Compile Include="DataAccess\PersistentObject.cs" />
+    <Compile Include="DataAccess\Transakcija.cs" />
+    <Compile Include="DataModel\CommonModel.cs" />
+    <Compile Include="DataModel\Converters\EventContext.cs" />
+    <Compile Include="DataModel\Converters\IModel2Gui.cs" />
+    <Compile Include="DataModel\Converters\KorisnikModel2Gui.cs" />
+    <Compile Include="DataModel\Converters\TransakcijaModel2Gui.cs" />
+    <Compile Include="DataModel\KarticaModel.cs" />
+    <Compile Include="DataModel\Services\AbstractModelService.cs" />
+    <Compile Include="DataModel\KorisnikModel.cs" />
+    <Compile Include="DataModel\Services\KarticaModelService.cs" />
+    <Compile Include="DataModel\Services\KorisnikModelService.cs" />
+    <Compile Include="DataModel\Services\TransakcijeModelService.cs" />
+    <Compile Include="DataModel\TransakcijeModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPoruka.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPoruka.Designer.cs">
+      <DependentUpon>frmPoruka.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUser.Designer.cs">
+      <DependentUpon>frmUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\frmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmReportViewer.Designer.cs">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPoruka.resx">
+      <DependentUpon>frmPoruka.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUser.resx">
+      <DependentUpon>frmUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="app.config" />
+    <EmbeddedResource Include="Report\frmReportViewer.resx">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Transakcije.rdlc" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\DNTv2.DataModel.Services.AbstractModelService.datasource" />
+    <None Include="Properties\DataSources\DNTv2.DataModel.Services.TransakcijeModelService.datasource" />
+    <None Include="Properties\DataSources\DNTv2.DataModel.TransakcijeModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -86,6 +140,40 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\User-Group-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Safe-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Go-back-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-user-group-new-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-user-group-delete-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom-icon_mala.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print-icon1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Aha-Soft-Large-Business-Safe.ico" />
+    <None Include="Resources\Folders-OS-Info-Metro-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

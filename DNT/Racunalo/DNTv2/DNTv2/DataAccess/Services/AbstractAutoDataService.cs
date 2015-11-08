@@ -1,17 +1,34 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using DNTv2.DataModel.Attributes;
+using DNTv2.DataModel.DataServices;
 
-namespace DNTv2.DataModel.DataServices
+namespace DNTv2.DataAccess.Services
 {
     public abstract class AbstractAutoDataService : AbstractDataService
     {
+        internal void ExecuteNonQuery(OleDbCommand command)
+        {
+            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
+            {
+                command.Connection = connection;
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
         protected override object CreateObject()
         {
             return ObjectType.Assembly.CreateInstance(ObjectType.FullName);
@@ -482,20 +499,30 @@ namespace DNTv2.DataModel.DataServices
 
         public PropertyInfo[] UniqueProperties
         {
-            get { return AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(UniqueAttribute)); }
+            get
+            {
+                return null;
+                //AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(UniqueAttribute)); 
+            }
         }
 
         public PropertyInfo[] IgnoredProperties
         {
-            get { return AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IgnoreAttribute)); }
+            get
+            {
+                return null;
+                //AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IgnoreAttribute));
+            }
         }
 
         public PropertyInfo IdProperty
         {
             get
             {
-                PropertyInfo[] properties = AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IdAttribute));
-                return properties.Length > 0 ? properties[0] : null;
+                //PropertyInfo[] properties = AttributeUtils.GetPropertiesWithAttribute(ObjectType, typeof(IdAttribute));
+                //return properties.Length > 0 ? properties[0] : null;
+
+                return null;
             }
         }
 

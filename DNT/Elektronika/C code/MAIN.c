@@ -50,6 +50,7 @@ volatile struct
   uint8_t fotocelija: 1;//ovime obilježavam da je nešto na fotoèeliji 
   uint8_t vrata_zatvori: 1;//obilježava da bi trebalo zatvoriti vanjska vrata jer su bila otvorena dulje od 30sek. (zvuèni signal)
   uint8_t vrata_kartica: 1;//bit koji pokazuje da je raèunalo naredilo da se otvore vrata
+  uint8_t vrata_unutra: 1;
 }
 flag;
 
@@ -83,7 +84,15 @@ ISR(INT1_vect)
 	timer0_start();
 	INDALA_BB--;
 	if(INDALA_BB<=13){BROJ_KARTICE<<=1;BROJ_KARTICE|=0x1;if(INDALA_BB==8){BROJ_KARTICE_1=BROJ_KARTICE;BROJ_KARTICE=0;}}
-	if(INDALA_BB==0){timer0_stop();putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;/*putchr(0xD);*/}
+	if(INDALA_BB==0){
+		timer0_stop();
+		if(flag.vrata_unutra == 1){
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+		}else{
+			OTVORI_BRAVU();
+		}
+		INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;
+	}
 }
 ISR(INT0_vect)
 {
@@ -91,9 +100,16 @@ ISR(INT0_vect)
 	timer0_start();
 	INDALA_BB--;
 	if(INDALA_BB<=13){BROJ_KARTICE<<=1;BROJ_KARTICE&=0xFFFE;if(INDALA_BB==8){BROJ_KARTICE_1=BROJ_KARTICE;BROJ_KARTICE=0;}}
-	if(INDALA_BB==0){timer0_stop();putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;/*putchr(0xD);*/}
+	if(INDALA_BB==0){
+		timer0_stop();
+		if(flag.vrata_unutra == 1){
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+		}else{
+			OTVORI_BRAVU();
+		}
+		INDALA_BB=27;BROJ_KARTICE=0;BROJ_KARTICE_1=0;
+	}
 }
-
 
 
 int main(void)
@@ -105,12 +121,15 @@ int main(void)
 	flag.vrata_kartica = 0;
 	flag.vrata_zatvori = 0;		
 	flag.fotocelija = 0;
+	flag.vrata_unutra = 0;
 	INDALA_BB = 27;
 	
 	for (;;)
 	{
 		 wdt_reset();//RESETIRANJE WATCHDOG-A(koji se dogaða svakih 2 sekunde)
 		
+		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); putchr(0x25); flag.vrata_unutra = 1;}
+		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); putchr(0x26); flag.vrata_unutra = 0;}
 
 		//OTVORI ako vrata nisu prislonjena
 		if(bit_is_set(PINC,PINC5) && flag.vrata_otvorena==0){
