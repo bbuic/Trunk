@@ -16,10 +16,7 @@ namespace DNTv2.DataModel.Services
                     return;
                 
                 KarticaModelService.Korisnik = (KorisnikModel) bindingSource.Current;
-                KarticaModelService.Refresh();
-
-                if(KarticaModelService.bindingSource.Count <= 0)
-                    KarticaModelService.New();
+                KarticaModelService.Refresh();                
             };            
         }
 
@@ -32,7 +29,7 @@ namespace DNTv2.DataModel.Services
 
         public override void Refresh()
         {
-            bindingSource.DataSource =
+            bindingSource.DataSource = 
                 ObjectFactory.KorisnikDataService.DajSveKorisnike().Select(korisnik => new KorisnikModel { Korisnik = korisnik }).ToList();
         }
 
@@ -71,19 +68,22 @@ namespace DNTv2.DataModel.Services
         public override void Delete()
         {
             KorisnikModel model = ((KorisnikModel)bindingSource.Current);
+            if(model == null)
+                return;
+
             if (model.Id > 0)
             {
-                if (MessageBox.Show(@"Želite obrisati korisnika: " + model.Ime + @" ?", "", 
+                if (MessageBox.Show(@"Želite obrisati korisnika " + model.Ime + @" i sve njegove kartice?", "", 
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)                
                     return;
                 
                 ObjectFactory.KorisnikDataService.ObrisiKorisnika(model.Korisnik);
+                Refresh();
+                bindingSource.Position = -1;
                 MessageBox.Show(@"Uspješno ste obrisali korisnika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);                
             }
             else
-                bindingSource.RemoveCurrent();
-            Refresh();
-            bindingSource.Position = -1;
+                bindingSource.RemoveCurrent();                        
         }
 
 

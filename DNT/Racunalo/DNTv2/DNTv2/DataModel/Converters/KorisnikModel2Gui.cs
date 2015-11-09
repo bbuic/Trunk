@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace DNTv2.DataModel.Converters
             user.txtIme.Validating += delegate(object sender, CancelEventArgs e)
             {
                 if (user.txtIme.Text.Length > 0 && 
-                    ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.Ime.Trim() == user.txtIme.Text.Trim()))
+                    ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => !string.IsNullOrEmpty(x.Ime) && x.Ime.Trim() == user.txtIme.Text.Trim()))
                 {
                     MessageBox.Show(@"Korisnik sa imenom (" + user.txtIme.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.Cancel = true;
@@ -76,8 +77,11 @@ namespace DNTv2.DataModel.Converters
 
             user.txtBrojKartice.Validating += delegate(object sender, CancelEventArgs e)
             {
-                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text))
-                    e.Cancel = ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text);
+                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text))
+                {
+                    MessageBox.Show(@"Broj kartice (" + user.txtBrojKartice.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }                    
             };
 
             user.btnNovi.Click += delegate
@@ -139,6 +143,14 @@ namespace DNTv2.DataModel.Converters
             };
             user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
 
+
+            KorisnikModel korisnik = null;
+            if (korisnikModelService.bindingSource.List.Count <= 0)
+            {
+                korisnik = new KorisnikModel();
+                korisnikModelService.bindingSource.List.Add(korisnik);
+            }
+
             user.dgvKorisnici.Columns["Korisnik"].Visible = false;
             user.dgvKorisnici.Columns["Id"].Visible = false;
             user.dgvKorisnici.Columns["Kartice"].Visible = false;
@@ -165,17 +177,28 @@ namespace DNTv2.DataModel.Converters
             user.dgvKorisnici.Columns["Telefon"].Width = 80;
             user.dgvKorisnici.Columns["Telefon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            korisnikModelService.bindingSource.CurrentChanged += delegate
+            if(korisnik != null)
+                korisnikModelService.bindingSource.List.Remove(korisnik);
+            
+            KarticaModel kartica = null;
+            if(karticaModelService.bindingSource.List.Count <= 0)
             {
-                user.dgvKartice.Columns["Kartica"].Visible = false;
-                user.dgvKartice.Columns["ModelState"].Visible = false;
-                user.dgvKartice.Columns["VlasnikId"].Visible = false;
-                user.dgvKartice.Columns["Broj"].HeaderText = "Broj kartice";
-                user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                user.dgvKartice.Columns["Datum"].DefaultCellStyle.Format = "dd.MM.yyyy";
-            };
+                kartica = new KarticaModel();                
+                karticaModelService.bindingSource.DataSource = new List<KarticaModel>{kartica};
+            }
+
+            user.dgvKartice.Columns["Kartica"].Visible = false;
+            user.dgvKartice.Columns["ModelState"].Visible = false;
+            user.dgvKartice.Columns["VlasnikId"].Visible = false;
+            user.dgvKartice.Columns["Broj"].HeaderText = "Broj kartice";
+            user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Datum"].DefaultCellStyle.Format = "dd.MM.yyyy";
+
+            if(kartica != null)
+                karticaModelService.bindingSource.Clear();
+            
             return user;
         }
     }

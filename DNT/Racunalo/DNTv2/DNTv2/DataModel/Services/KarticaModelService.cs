@@ -29,7 +29,7 @@ namespace DNTv2.DataModel.Services
         public override void Refresh()
         {
             bindingSource.DataSource = 
-                ObjectFactory.KarticaDataService.DajKarticeKorisnika(Korisnik.Id).Select(kartica => new KarticaModel { Kartica = kartica }).ToList();            
+                ObjectFactory.KarticaDataService.DajKarticeKorisnika(Korisnik.Id).Select(kartica => new KarticaModel { Kartica = kartica }).ToList();
         }
 
         public override void Insert()
@@ -72,17 +72,16 @@ namespace DNTv2.DataModel.Services
             if(string.IsNullOrEmpty(model.Broj))
             {
                 bindingSource.RemoveCurrent();
-                bindingSource.Position = -1;
                 return;
             }
 
-            if (MessageBox.Show(@"Želite obrisati karticu: " + model.Broj + @" ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(@"Želite obrisati karticu: " + model.Broj + @" ?" + Environment.NewLine + @"(NAPOMENA: brisanjem kartice više neće vidjeti transakcije za tog korisnika)", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {                
                 ObjectFactory.KarticaDataService.ObrisiKarticu(model.Kartica);            
                 Refresh();
+                bindingSource.Position = -1;
                 MessageBox.Show(@"Uspješno ste obrisali karticu.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            bindingSource.Position = -1;
+            }            
         }
 
     }
