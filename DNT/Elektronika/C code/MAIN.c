@@ -128,35 +128,41 @@ int main(void)
 	{
 		 wdt_reset();//RESETIRANJE WATCHDOG-A(koji se dogaða svakih 2 sekunde)
 		
-		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); putchr(0x25); flag.vrata_unutra = 1;}
-		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); putchr(0x26); flag.vrata_unutra = 0;}
+		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); flag.vrata_unutra = 1;}
+		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); flag.vrata_unutra = 0;}
 
 		//OTVORI ako vrata nisu prislonjena
 		if(bit_is_set(PINC,PINC5) && flag.vrata_otvorena==0){
+			
+			flag.vrata_otvorena = 1;
 			
 			OTVORI_BRAVU();
 			
 			if(flag.vrata_kartica==1){
 				putchr(0x21);
-			}
-			
-			flag.vrata_otvorena = 1;
+			}					
 		}
 
 		
 		//ZATVORI ako su vrata prislonjena
 		if(bit_is_clear(PINC,PINC5) && flag.vrata_otvorena==1){			
 			
+			flag.vrata_otvorena = 0;
+			
 			ZATVORI_BRAVU();
 			
-			if(flag.vrata_kartica==1){
-				putchr(0x22);
-			}
+			_delay_ms(1000); //Èekam da vidim da li èe i nakon sekunde vrata biti zatvorena
 			
-			flag.vrata_otvorena = 0;
-			flag.vrata_kartica = 0;
-			flag.vrata_zatvori = 0;		
-			flag.fotocelija=0;
+			if(bit_is_clear(PINC,PINC5)){	
+			
+				if(flag.vrata_kartica==1){
+					putchr(0x22);
+				}
+								
+				flag.vrata_kartica = 0;
+				flag.vrata_zatvori = 0;		
+				flag.fotocelija=0;
+			}
 		}
 		
 
@@ -174,6 +180,7 @@ int main(void)
 				putchr(0x23);
 			}
 			
+			//Èekam da vreèica proðe fotosenzor
 			delay_foto();
 			
 			if(bit_is_set(PINC,PINC1)){
