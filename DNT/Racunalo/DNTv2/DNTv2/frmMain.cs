@@ -15,16 +15,17 @@ namespace DNTv2
         //private readonly Timer _timerLcd;
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
-        private bool _transakcijaUTijeku;
+        internal bool TransakcijaUTijeku { get; set; }
         internal TransakcijeModelService TransakcijeModelService { get; set; }
-        private frmPoruka _frmPoruka;
+        private frmPoruka _frmPorukaVrata;
+        private frmPoruka _frmPorukaFoto;
 
         #region Timer zasun
 
         private void ZatvoriZasun()
         {
             TimerZasunStop();
-            _transakcijaUTijeku = false;
+            TransakcijaUTijeku = false;
             _transakcija = null;
             SerialPortElektronika.Write(new byte[] {0x11}, 0, 1);
             //UvodnaPoruka();
@@ -52,28 +53,20 @@ namespace DNTv2
 
         private void TimerVrataOtvorenaReStart()
         {
-            if(_timerVrataOtvorena != null)
-                _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena * 1000, Timeout.Infinite);
+            if (_timerVrataOtvorena != null)
+                _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena*1000, Timeout.Infinite);
+            else
+                TimerVrataOtvorenaStart();
         }
 
         private void TimerVrataOtvorenaStart()
         {
-            _timerVrataOtvorena = new Timer(_ => ZatvoriVrata());
-            _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena * 1000, Timeout.Infinite);
-        }
-
-        private void ZatvoriVrata()
-        {
-            TimerVrataOtvorenaStop();
-
-            SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
-            //WriteMessage2Lcd("Molimo da zatvorite vrata...");            
-
-            //TODO: upis alarma u bazu
-
-            _frmPoruka = 
-                new frmPoruka("Vanjska vrata trezora su otvorena duže od " + Settings.Default.TimerVrataOtvorena + " sec."){Tag = "Vrata"};
-            Invoke(new MethodInvoker(delegate { _frmPoruka.Show(this); }));                        
+            if (_timerVrataOtvorena == null)
+            {
+                _timerVrataOtvorena = new Timer(_ => ZatvoriVrata());
+                _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena*1000, Timeout.Infinite);
+            }else
+                TimerVrataOtvorenaReStart();
         }
 
         private void TimerVrataOtvorenaStop()
@@ -86,13 +79,26 @@ namespace DNTv2
             }
         }
 
+        private void ZatvoriVrata()
+        {
+            TimerVrataOtvorenaStop();
+
+            SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
+            //WriteMessage2Lcd("Molimo da zatvorite vrata...");            
+
+            //TODO: upis alarma u bazu
+
+            _frmPorukaVrata = 
+                new frmPoruka("Vanjska vrata trezora su otvorena duže od " + Settings.Default.TimerVrataOtvorena + " sec.");
+            Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Show(this); }));                        
+        }
+
         #endregion
 
 
         public frmMain()
         {
             InitializeComponent();
-            //TopMost = true;
 
             if (!SerialPortElektronika. IsOpen)
                 SerialPortElektronika.Open();
@@ -132,7 +138,7 @@ namespace DNTv2
                     {
                         case 0x20:
 
-                            if(SerialPortElektronika.BytesToRead < 2 || _transakcijaUTijeku)
+                            if(SerialPortElektronika.BytesToRead < 2 || TransakcijaUTijeku)
                                 break;
 
                             byte[] buffer = new byte[2];
@@ -148,7 +154,7 @@ namespace DNTv2
                                 ObjectFactory.TransakcijaDataService.UnesiTransakciju(_transakcija);
 
                                 TimerZasunStart();
-                                _transakcijaUTijeku = true;
+                                TransakcijaUTijeku = true;
                                 //WriteMessage2Lcd("   OTORITE VRATA      Ubacujte vrecice");
                             }
                             break;
@@ -160,7 +166,7 @@ namespace DNTv2
                             break;                            
                         case 0x23: //ubacaj vrecica
 
-                            if(!_transakcijaUTijeku)
+                            if(!TransakcijaUTijeku)
                                 break;
                             
                             TimerVrataOtvorenaReStart();
@@ -168,14 +174,17 @@ namespace DNTv2
                             //WriteMessage2Lcd("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.vrecica + "");
 
                             _transakcija.BrojVrecica += 1;
-                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);                            
+                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
+
+                            if (_frmPorukaVrata != null)
+                                Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Close(); _frmPorukaVrata.Dispose(); _frmPorukaVrata = null; }));
                             break;
 
                         case 0x22: //vrata zatorena
 
                             TimerVrataOtvorenaStop();
 
-                            _transakcijaUTijeku = false;
+                            TransakcijaUTijeku = false;
 
                             _transakcija.DatumDo = DateTime.Now;
                             ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
@@ -184,19 +193,16 @@ namespace DNTv2
                             //WriteMessage2Lcd("HVALA NA POVJERENJU!");
                             //Thread.Sleep(3000);
                             //UvodnaPoruka();
-                            
-                            if(_frmPoruka != null && (string) _frmPoruka.Tag == "Vrata")
-                            {
-                                _frmPoruka.Close();
-                                _frmPoruka.Dispose();
-                            }
+
+                            if (_frmPorukaVrata != null)
+                                Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Close(); _frmPorukaVrata.Dispose(); _frmPorukaVrata = null; }));
                             break;
 
                          case 0x24: //blokada na fotoceliji
 
-                            _frmPoruka = 
-                                new frmPoruka("Blokada fotosenzora."){Tag = "Foto"};
-                            Invoke(new MethodInvoker(delegate { _frmPoruka.Show(this); })); 
+                            _frmPorukaFoto = 
+                                new frmPoruka("Blokada fotosenzora.");
+                            Invoke(new MethodInvoker(delegate { _frmPorukaFoto.Show(this); })); 
 
                             //WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
 
@@ -204,11 +210,8 @@ namespace DNTv2
                             break;
 
                         case 0x27: //maknula se blokada sa fotocelije
-                            if (_frmPoruka != null && (string)_frmPoruka.Tag == "Foto")
-                            {
-                                _frmPoruka.Close();
-                                _frmPoruka.Dispose();
-                            }
+                            if (_frmPorukaFoto != null)
+                                Invoke(new MethodInvoker(delegate { _frmPorukaFoto.Close(); _frmPorukaFoto.Dispose(); _frmPorukaFoto = null; }));
                             break;
                     }
                 }

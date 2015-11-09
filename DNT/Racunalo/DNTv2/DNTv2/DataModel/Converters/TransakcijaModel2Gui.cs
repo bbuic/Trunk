@@ -19,6 +19,13 @@ namespace DNTv2.DataModel.Converters
             //Pražnjenje trezora
             main.lblPraznjenjeTrezora.LinkClicked += delegate
             {
+                if (main.TransakcijaUTijeku)
+                {
+                    MessageBox.Show(@"Nije moguće izvršiti pražnjenje trezora jer je transakcija u tijeku.", "", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
                 IList<TransakcijeModel> list = (IList<TransakcijeModel>)service.bindingSource.List;
                 if(list.Count <= 0)
                     return;
@@ -51,7 +58,7 @@ namespace DNTv2.DataModel.Converters
                 main.dgvTransakcije.Height = main.dgvTransakcije.Height - main.gbPretragaTransakcija.Height - 5;
                 main.grbMainIzbornik.Enabled = false;
                 main.dtpDatumDo.Value = DateTime.Now;
-                main.dtpDatumOd.Value = DateTime.Now.AddDays(-7);
+                main.dtpDatumOd.Value = DateTime.Now.AddDays(-1);
                 service.bindingSource.DataSource =
                     ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
                     Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
@@ -62,6 +69,7 @@ namespace DNTv2.DataModel.Converters
 
             main.btnPretrazi.Click += delegate
             {
+                service.PretrazivanjeUTijeku = true;
                 service.bindingSource.DataSource =
                     ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
                     Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
@@ -69,6 +77,7 @@ namespace DNTv2.DataModel.Converters
 
             main.btnPovratakIzPretrazivanja.Click += delegate
             {
+                service.PretrazivanjeUTijeku = false;
                 main.dgvTransakcije.Height = main.Panel1.Height;
                 main.grbMainIzbornik.Enabled = true;
                 service.Refresh();

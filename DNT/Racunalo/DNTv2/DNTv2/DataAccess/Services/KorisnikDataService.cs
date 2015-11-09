@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using DNTv2.DataModel;
 
 namespace DNTv2.DataAccess.Services
 {
@@ -53,6 +54,9 @@ namespace DNTv2.DataAccess.Services
 
         public void ObrisiKorisnika(Korisnik korisnik)
         {
+            foreach (Kartica kartica in ObjectFactory.KarticaDataService.DajKarticeKorisnika(korisnik.Id))
+                ObjectFactory.KarticaDataService.ObrisiKarticu(kartica);
+
             OleDbCommand command = new OleDbCommand("DELETE FROM DNTKorisnici WHERE ID = ?");
             command.Parameters.Add("@ID", OleDbType.Integer).Value = korisnik.Id;
 
