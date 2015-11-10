@@ -12,11 +12,17 @@ namespace DNTv2.DataModel.Services
         {            
             bindingSource.CurrentChanged += delegate
             {
-                if (bindingSource.Current == null) 
-                    return;
-                
-                KarticaModelService.Korisnik = (KorisnikModel) bindingSource.Current;
-                KarticaModelService.Refresh();                
+                object current = bindingSource.Current;
+                if (current == null)
+                {
+                    KarticaModelService.Korisnik = null;
+                    KarticaModelService.bindingSource.Clear();
+                }
+                else
+                {
+                    KarticaModelService.Korisnik = (KorisnikModel) current;
+                    KarticaModelService.Refresh();
+                }
             };            
         }
 
