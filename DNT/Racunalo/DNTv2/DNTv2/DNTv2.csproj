@@ -124,7 +124,9 @@
     <EmbeddedResource Include="Report\frmReportViewer.resx">
       <DependentUpon>frmReportViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\Transakcije.rdlc" />
+    <EmbeddedResource Include="Report\Transakcije.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>

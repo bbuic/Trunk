@@ -4,16 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DNTv2.Annotations;
 using DNTv2.DataModel.Converters;
 
 namespace DNTv2.DataModel.Services
 {
-    public abstract class AbstractModelService
+    public abstract class AbstractModelService : INotifyPropertyChanged
     {
         public BindingSource bindingSource = new BindingSource();
-
-
-
+        
         protected AbstractModelService()
         {
             bindingSource.ListChanged +=
@@ -25,7 +24,15 @@ namespace DNTv2.DataModel.Services
                                         ((CommonModel)bindingSource.Current).ModelState = ModelState.Modified;
                                         break;
                                 }
+                                OnPropertyChanged("SourceImaPodataka");
                             };
+        }
+
+
+        public bool SourceImaPodataka
+        {
+            get { return bindingSource.Count > 0; }
+            set{}
         }
 
 
@@ -65,6 +72,15 @@ namespace DNTv2.DataModel.Services
 
         public virtual void Cancel()
         {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

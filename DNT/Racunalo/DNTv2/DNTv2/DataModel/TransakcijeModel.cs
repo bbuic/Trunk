@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace DNTv2.DataModel
 {
@@ -6,6 +7,7 @@ namespace DNTv2.DataModel
     {
         Transakcija _transakcija = new Transakcija();
 
+        [Browsable(false)] 
         public Transakcija Transakcija
         {
             get { return _transakcija; }
@@ -47,6 +49,8 @@ namespace DNTv2.DataModel
             get { return _transakcija.DatumDo; }
             set { _transakcija.DatumDo = value; }
         }
+
+        [Browsable(false)] 
         public bool Trezor { get; set; }
 
         

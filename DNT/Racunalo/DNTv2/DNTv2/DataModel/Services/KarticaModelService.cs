@@ -20,7 +20,7 @@ namespace DNTv2.DataModel.Services
             KarticaModel o = (KarticaModel) bindingSource.AddNew();
             if (o != null)
             {
-                o.modelState = ModelState.Inserted;
+                o.ModelState = ModelState.Inserted;
                 o.VlasnikId = Korisnik.Id;
                 o.Datum = DateTime.Now;
             }         
@@ -34,7 +34,7 @@ namespace DNTv2.DataModel.Services
 
         public override void Insert()
         {
-            IList<KarticaModel> list = ((IList<KarticaModel>)bindingSource.List).Where(x => x.modelState != ModelState.Unchanged).ToList();
+            IList<KarticaModel> list = ((IList<KarticaModel>)bindingSource.List).Where(x => x.ModelState != ModelState.Unchanged).ToList();
             if(list.Count <= 0)
                 return;
 
@@ -48,7 +48,7 @@ namespace DNTv2.DataModel.Services
 
             foreach (KarticaModel model in list)
             {
-                switch (model.modelState)
+                switch (model.ModelState)
                 {
                     case ModelState.Inserted:
                         ObjectFactory.KarticaDataService.UnesiKarticu(model.Kartica);

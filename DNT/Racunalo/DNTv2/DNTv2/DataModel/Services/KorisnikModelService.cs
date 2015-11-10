@@ -24,7 +24,7 @@ namespace DNTv2.DataModel.Services
         {
             KorisnikModel korisnikModel = (KorisnikModel)bindingSource.AddNew();
             if (korisnikModel != null)
-                korisnikModel.modelState = ModelState.Inserted;                        
+                korisnikModel.ModelState = ModelState.Inserted;                        
         }
 
         public override void Refresh()
@@ -35,7 +35,7 @@ namespace DNTv2.DataModel.Services
 
         public override void Insert()
         {
-            IList<KorisnikModel> list = ((IList<KorisnikModel>)bindingSource.List).Where(x => x.modelState != ModelState.Unchanged).ToList();
+            IList<KorisnikModel> list = ((IList<KorisnikModel>)bindingSource.List).Where(x => x.ModelState != ModelState.Unchanged).ToList();
             if (list.Count <= 0)
                 return;
 
@@ -49,7 +49,7 @@ namespace DNTv2.DataModel.Services
 
             foreach (KorisnikModel model in list)
             {
-                switch (model.modelState)
+                switch (model.ModelState)
                 {
                     case ModelState.Inserted:
                         ObjectFactory.KorisnikDataService.UnesiKorisnika(model.Korisnik);

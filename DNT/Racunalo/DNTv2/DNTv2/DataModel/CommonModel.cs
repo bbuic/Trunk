@@ -4,8 +4,9 @@ namespace DNTv2.DataModel
 {
     public class CommonModel : INotifyPropertyChanged
     {
-        internal ModelState modelState = ModelState.Unchanged;
+        private ModelState modelState = ModelState.Unchanged;
 
+        [Browsable(false)] 
         public ModelState ModelState
         {
             get { return modelState; }

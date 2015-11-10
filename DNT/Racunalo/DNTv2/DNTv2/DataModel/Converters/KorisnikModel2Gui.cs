@@ -18,17 +18,26 @@ namespace DNTv2.DataModel.Converters
             korisnikModelService.Refresh();
             
             user.txtIme.DataBindings.Add("Text", korisnikModelService.bindingSource, "Ime");
+            user.txtIme.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
             user.txtPrezime.DataBindings.Add("Text", korisnikModelService.bindingSource, "Prezime");
+            user.txtPrezime.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
             user.txtUlica.DataBindings.Add("Text", korisnikModelService.bindingSource, "Adresa");
+            user.txtUlica.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
             user.txtKucniBroj.DataBindings.Add("Text", korisnikModelService.bindingSource, "KucniBroj");
+            user.txtKucniBroj.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
             user.txtGrad.DataBindings.Add("Text", korisnikModelService.bindingSource, "Grad");
-            user.txtTelefon.DataBindings.Add("Text", korisnikModelService.bindingSource, "Telefon"); 
-           
+            user.txtGrad.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
+            user.txtTelefon.DataBindings.Add("Text", korisnikModelService.bindingSource, "Telefon");
+            user.txtTelefon.DataBindings.Add("Enabled", korisnikModelService, "SourceImaPodataka");
+
             user.dgvKartice.DataSource = karticaModelService.bindingSource;
             
-            user.txtBrojKartice.DataBindings.Add("Text", karticaModelService.bindingSource, "Broj"); 
+            user.txtBrojKartice.DataBindings.Add("Text", karticaModelService.bindingSource, "Broj");
+            user.txtBrojKartice.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka"); 
             user.txtBrojUgovora.DataBindings.Add("Text", karticaModelService.bindingSource, "Ugovor");
-            user.dtpDatumKartice.DataBindings.Add("Value", karticaModelService.bindingSource, "Datum", true); 
+            user.txtBrojUgovora.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
+            user.dtpDatumKartice.DataBindings.Add("Value", karticaModelService.bindingSource, "Datum", true);
+            user.dtpDatumKartice.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka"); 
 
             //za broj kartice dozvoljeno samo brojeve
             user.txtBrojKartice.KeyPress += delegate(object sender, KeyPressEventArgs e)
@@ -38,7 +47,8 @@ namespace DNTv2.DataModel.Converters
 
             user.txtIme.Validating += delegate(object sender, CancelEventArgs e)
             {
-                if (user.txtIme.Text.Length > 0 && 
+                KorisnikModel model = (KorisnikModel)korisnikModelService.bindingSource.Current;
+                if (user.txtIme.Text.Length > 0 && model != null && model.ModelState != ModelState.Unchanged &&
                     ((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => !string.IsNullOrEmpty(x.Ime) && x.Ime.Trim() == user.txtIme.Text.Trim()))
                 {
                     MessageBox.Show(@"Korisnik sa imenom (" + user.txtIme.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,7 +87,9 @@ namespace DNTv2.DataModel.Converters
 
             user.txtBrojKartice.Validating += delegate(object sender, CancelEventArgs e)
             {
-                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text))
+                KarticaModel model = (KarticaModel)karticaModelService.bindingSource.Current;
+                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && model != null && model.ModelState != ModelState.Unchanged &&
+                    ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text))
                 {
                     MessageBox.Show(@"Broj kartice (" + user.txtBrojKartice.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.Cancel = true;
@@ -128,9 +140,9 @@ namespace DNTv2.DataModel.Converters
 
             user.btnPovratak.Click += delegate
             {
-                if ((((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.modelState != ModelState.Unchanged)
+                if ((((IList<KorisnikModel>)korisnikModelService.bindingSource.List).Any(x => x.ModelState != ModelState.Unchanged)
                         ||
-                    ((IList<KarticaModel>)karticaModelService.bindingSource.List).Any(x => x.modelState != ModelState.Unchanged))
+                    ((IList<KarticaModel>)karticaModelService.bindingSource.List).Any(x => x.ModelState != ModelState.Unchanged))
                     &&
                     MessageBox.Show(@"Želite odustati od promjena?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
@@ -150,12 +162,6 @@ namespace DNTv2.DataModel.Converters
                 korisnik = new KorisnikModel();
                 korisnikModelService.bindingSource.List.Add(korisnik);
             }
-
-            user.dgvKorisnici.Columns["Korisnik"].Visible = false;
-            user.dgvKorisnici.Columns["Id"].Visible = false;
-            user.dgvKorisnici.Columns["Kartice"].Visible = false;
-            user.dgvKorisnici.Columns["ModelState"].Visible = false;
-
             user.dgvKorisnici.Columns["Ime"].HeaderText = @"Ime (Naziv1)";
             user.dgvKorisnici.Columns["Ime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
@@ -176,29 +182,24 @@ namespace DNTv2.DataModel.Converters
 
             user.dgvKorisnici.Columns["Telefon"].Width = 80;
             user.dgvKorisnici.Columns["Telefon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            if(korisnik != null)
+            if (korisnik != null)
                 korisnikModelService.bindingSource.List.Remove(korisnik);
-            
-            KarticaModel kartica = null;
-            if(karticaModelService.bindingSource.List.Count <= 0)
-            {
-                kartica = new KarticaModel();                
-                karticaModelService.bindingSource.DataSource = new List<KarticaModel>{kartica};
-            }
 
-            user.dgvKartice.Columns["Kartica"].Visible = false;
-            user.dgvKartice.Columns["ModelState"].Visible = false;
-            user.dgvKartice.Columns["VlasnikId"].Visible = false;
-            user.dgvKartice.Columns["Broj"].HeaderText = "Broj kartice";
+
+            KarticaModel kartica = null;
+            if (karticaModelService.bindingSource.List.Count <= 0)
+            {
+                kartica = new KarticaModel();
+                karticaModelService.bindingSource.DataSource = new List<KarticaModel> { kartica };
+            }
+            user.dgvKartice.Columns["Broj"].HeaderText = @"Broj kartice";
             user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Datum"].DefaultCellStyle.Format = "dd.MM.yyyy";
-
-            if(kartica != null)
+            if (kartica != null)
                 karticaModelService.bindingSource.Clear();
-            
+
             return user;
         }
     }

@@ -113,10 +113,6 @@ namespace DNTv2.DataModel.Converters
             };
             
             service.Refresh();
-
-            main.dgvTransakcije.Columns["Transakcija"].Visible = false;
-            main.dgvTransakcije.Columns["Trezor"].Visible = false;
-            main.dgvTransakcije.Columns["ModelState"].Visible = false;
             
             main.dgvTransakcije.Columns["Ime"].HeaderText = @"Ime (Naziv1)";
             main.dgvTransakcije.Columns["Ime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

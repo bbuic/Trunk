@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace DNTv2.DataModel
 {
@@ -6,6 +7,7 @@ namespace DNTv2.DataModel
     {
         Kartica _kartica = new Kartica();
 
+        [Browsable(false)] 
         public Kartica Kartica
         {
             get { return _kartica; }
@@ -42,6 +44,7 @@ namespace DNTv2.DataModel
             }
         }
 
+        [Browsable(false)] 
         public int VlasnikId
         {
             get { return _kartica.VlasnikId; }

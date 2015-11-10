@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using DNTv2.DataAccess;
 
@@ -8,6 +9,7 @@ namespace DNTv2.DataModel
     {
         Korisnik _korisnik = new Korisnik();
 
+        [Browsable(false)] 
         public Korisnik Korisnik
         {
             get { return _korisnik; }
@@ -19,6 +21,7 @@ namespace DNTv2.DataModel
             return !string.IsNullOrEmpty(Ime);
         }
 
+        [Browsable(false)] 
         public int Id
         {
             get { return _korisnik.Id; }
@@ -85,6 +88,7 @@ namespace DNTv2.DataModel
             }
         }
 
+        [Browsable(false)] 
         public IList<KarticaModel> Kartice
         {
             get { return _korisnik.Kartice.Select(kartica => new KarticaModel { Kartica = kartica }).ToList(); }
