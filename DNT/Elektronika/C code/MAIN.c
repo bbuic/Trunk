@@ -160,8 +160,7 @@ int main(void)
 				}
 								
 				flag.vrata_kartica = 0;
-				flag.vrata_zatvori = 0;		
-				flag.fotocelija=0;
+				flag.vrata_zatvori = 0;				
 			}
 		}
 		

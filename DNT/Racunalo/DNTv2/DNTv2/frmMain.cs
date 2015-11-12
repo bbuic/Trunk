@@ -88,9 +88,13 @@ namespace DNTv2
 
             //TODO: upis alarma u bazu
 
-            _frmPorukaVrata = 
-                new frmPoruka("Vanjska vrata trezora su otvorena duže od " + Settings.Default.TimerVrataOtvorena + " sec.");
-            Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Show(this); }));                        
+            if (_frmPorukaVrata == null)
+            {
+                _frmPorukaVrata =
+                    new frmPoruka("Vanjska vrata trezora otvorena bez aktivnosti predaje pologa duže od " + Settings.Default.TimerVrataOtvorena +
+                                  " sekundi.");
+                Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Show(this); }));
+            }
         }
 
         #endregion
@@ -200,10 +204,12 @@ namespace DNTv2
 
                          case 0x24: //blokada na fotoceliji
 
-                            _frmPorukaFoto = 
-                                new frmPoruka("Blokada fotosenzora.");
-                            Invoke(new MethodInvoker(delegate { _frmPorukaFoto.Show(this); })); 
-
+                            if (_frmPorukaFoto == null)
+                            {
+                                _frmPorukaFoto =
+                                    new frmPoruka("Blokada fotosenzora.");
+                                Invoke(new MethodInvoker(delegate { _frmPorukaFoto.Show(this); }));
+                            }
                             //WriteMessage2Lcd("TREZOR NE RADI      Dodite kasnije");
 
                             //TODO: napraviti upis alarma
