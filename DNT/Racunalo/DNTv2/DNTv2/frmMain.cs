@@ -215,6 +215,15 @@ namespace DNTv2
                             break;
                     }
                 }
+                catch (Exception e)
+                {
+                    Utils.Log(e);
+                    try
+                    {
+                        SerialPortElektronika.Close();
+                    }catch{}
+                    Application.Restart();
+                }
                 finally
                 {
                     if (SerialPortElektronika.BytesToRead > 0)

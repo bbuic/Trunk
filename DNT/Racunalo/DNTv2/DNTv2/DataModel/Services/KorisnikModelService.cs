@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -79,7 +80,7 @@ namespace DNTv2.DataModel.Services
 
             if (model.Id > 0)
             {
-                if (MessageBox.Show(@"Želite obrisati korisnika " + model.Ime + @" i sve njegove kartice?", "", 
+                if (MessageBox.Show(@"Želite obrisati korisnika (" + model.Ime + @") i sve njegove kartice?" + Environment.NewLine + @"(NAPOMENA: brisanjem korisnika više neće vidjeti transakcije za tog korisnika)", "", 
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)                
                     return;
                 

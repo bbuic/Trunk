@@ -12,9 +12,9 @@ namespace DNTv2.DataAccess.Services
         {            
             OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ? WHERE Broj = ?");
 
-            command.Parameters.Add("@Ugovor", OleDbType.VarChar).Value = kartica.Ugovor ?? (object)DBNull.Value;
+            command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
             command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
-            command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
+            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
 
              ExecuteNonQuery(command);
         }
@@ -23,9 +23,9 @@ namespace DNTv2.DataAccess.Services
         {
             OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum) Values (?, ?, ?, ?)");
 
-            command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
+            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
             command.Parameters.Add("@VlasnikID", OleDbType.Integer).Value = kartica.VlasnikId;
-            command.Parameters.Add("@Ugovor", OleDbType.VarChar).Value = kartica.Ugovor ?? (object)DBNull.Value;
+            command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
             command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
 
              ExecuteNonQuery(command);

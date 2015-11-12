@@ -18,7 +18,7 @@ namespace DNTv2.DataModel.Converters
             
             //Pražnjenje trezora
             main.lblPraznjenjeTrezora.LinkClicked += delegate
-            {
+            {       
                 if (main.TransakcijaUTijeku)
                 {
                     MessageBox.Show(@"Nije moguće izvršiti pražnjenje trezora jer je transakcija u tijeku.", "", MessageBoxButtons.OK,
@@ -49,19 +49,44 @@ namespace DNTv2.DataModel.Converters
 
             //Administracija korisnika
             main.lblAdministracijaKorisnika.LinkClicked += delegate{
-                new KorisnikModel2Gui().Convert2Form().ShowDialog(main);
+                    try
+                    {
+                        new KorisnikModel2Gui().Convert2Form().ShowDialog(main);
+                        service.Refresh();
+                    }
+                    catch (Exception e)
+                    {
+                        Utils.Log(e);
+
+                        MessageBox.Show(@"Došlo je do nepredviđene greške u dijelu administracije korisnika. " +
+                            @"Vrijeme greške: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") +
+                            @", Opis greške: " + e.Message,
+                            "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
             };
 
             //Pretraživanje transakcija
             main.lblPretragaTransakcija.LinkClicked += delegate
             {
-                main.dgvTransakcije.Height = main.dgvTransakcije.Height - main.gbPretragaTransakcija.Height - 5;
-                main.grbMainIzbornik.Enabled = false;
-                main.dtpDatumDo.Value = DateTime.Now;
-                main.dtpDatumOd.Value = DateTime.Now.AddDays(-1);
-                service.bindingSource.DataSource =
-                    ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
-                    Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
+                try
+                {
+                    main.dgvTransakcije.Height = main.dgvTransakcije.Height - main.gbPretragaTransakcija.Height - 5;
+                    main.grbMainIzbornik.Enabled = false;
+                    main.dtpDatumDo.Value = DateTime.Now;
+                    main.dtpDatumOd.Value = DateTime.Now.AddDays(-1);
+                    service.bindingSource.DataSource =
+                        ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
+                            Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
+                }
+                catch (Exception e)
+                {
+                    Utils.Log(e);
+
+                    MessageBox.Show(@"Došlo je do nepredviđene greške u dijelu pretraživanja transakcija. " +
+                        @"Vrijeme greške: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") +
+                        @", Opis greške: " + e.Message,
+                        "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
 
             main.dtpDatumDo.ValueChanged += delegate { main.dtpDatumOd.MaxDate = main.dtpDatumDo.Value; };

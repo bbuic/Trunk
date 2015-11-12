@@ -24,18 +24,13 @@ namespace DNTv2
             }
             catch (Exception e)
             {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Log.txt", true))
-                {
-                    file.WriteLine("");
-                    file.WriteLine("Greska: " + e.Message + "  StacTrace: " + e.StackTrace);
-                }
+                Utils.Log(e);
 
                 MessageBox.Show(@"Došlo je do nepredviđene greške, kontaktirajte adminitratora. " +
                     @"Vrijeme greške: " + DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") +
                     @", Opis greške: " + e.Message, 
-                    "", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                    "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
     }
 }
