@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.OleDb;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using DNTv2.DataModel;
@@ -12,6 +14,7 @@ namespace DNTv2
     {
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
+        private Timer _timerBackUp;
         //private readonly Timer _timerLcd;
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
@@ -99,6 +102,26 @@ namespace DNTv2
 
         #endregion
 
+        #region BackUp
+
+        private void BackUp()
+        {
+            try
+            {
+                using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+                {
+                    if (connection.DataSource != null)
+                        File.Copy(connection.DataSource, Settings.Default.BackUpFolder + @"\DNTBaza.mdb", true);
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        #endregion
+
 
         public frmMain()
         {
@@ -128,7 +151,16 @@ namespace DNTv2
             //}
 
             #endregion
-            
+
+            try
+            {
+                _timerBackUp = new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(24));
+            }
+            catch
+            {
+                // ignored
+            }
+
             //HENDLANJE PORUKA ELEKTRONIKE
             SerialPortElektronika.DataReceived += delegate
             {

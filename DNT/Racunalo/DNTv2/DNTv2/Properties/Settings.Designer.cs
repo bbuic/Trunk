@@ -25,24 +25,6 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
-        public int TimerZasun {
-            get {
-                return ((int)(this["TimerZasun"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
-        public int TimerVrataOtvorena {
-            get {
-                return ((int)(this["TimerVrataOtvorena"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool KoristiLcd {
             get {
@@ -70,26 +52,6 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"d:\\Svasta\\BojanTrunk\\DNTbaza.mdb\"")]
-        public string DNTbazaConnectionString {
-            get {
-                return ((string)(this["DNTbazaConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"C:\\Users\\Bojan\\Google disk\\DNT\\Baza" +
-            "\\DNTbaza.mdb\"")]
-        public string ConnectionString {
-            get {
-                return ((string)(this["ConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("19200")]
         public int BaudRateElektronika {
             get {
@@ -103,6 +65,43 @@ namespace DNTv2.Properties {
         public string PortElektronika {
             get {
                 return ((string)(this["PortElektronika"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int TimerZasun {
+            get {
+                return ((int)(this["TimerZasun"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int TimerVrataOtvorena {
+            get {
+                return ((int)(this["TimerVrataOtvorena"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"C:\\Users\\Bojan\\Desktop\\DNTbaza.mdb\"" +
+            "")]
+        public string ConnectionString {
+            get {
+                return ((string)(this["ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("negdje")]
+        public string BackUpFolder {
+            get {
+                return ((string)(this["BackUpFolder"]));
             }
         }
     }
