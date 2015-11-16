@@ -10,5 +10,6 @@ namespace DNTv2.DataModel
         public string Ugovor { get; set; }
         public DateTime Datum { get; set; }
         public int VlasnikId { get; set; }
+        public bool Aktivnost { get; set; }
     }
 }

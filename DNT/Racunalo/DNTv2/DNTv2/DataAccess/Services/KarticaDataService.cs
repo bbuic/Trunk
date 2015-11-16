@@ -9,24 +9,26 @@ namespace DNTv2.DataAccess.Services
     public class KarticaDataService:AbstractAutoDataService
     {
         public void PromjeniKarticu(Kartica kartica)
-        {            
-            OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ? WHERE Broj = ?");
+        {
+            OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ?, Aktivnost = ? WHERE Broj = ?");
 
             command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
             command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
-            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
+            command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
+            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;            
 
              ExecuteNonQuery(command);
         }
 
         public void UnesiKarticu(Kartica kartica)
         {
-            OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum) Values (?, ?, ?, ?)");
+            OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum, Aktivnost) Values (?, ?, ?, ?, ?)");
 
             command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
             command.Parameters.Add("@VlasnikID", OleDbType.Integer).Value = kartica.VlasnikId;
             command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
             command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
+            command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
 
              ExecuteNonQuery(command);
         }
@@ -59,13 +61,13 @@ namespace DNTv2.DataAccess.Services
             }
         }
 
-        public bool PostojiBrojKartice(string brojKartice)
+        public bool PostojiBrojKartice(string brojKartice, bool aktivnost)
         {
             using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
             {
-                OleDbCommand command = new OleDbCommand("SELECT COUNT(*) FROM Kartice WHERE Broj = ?", connection);
-                command.Parameters.Add("@ime", OleDbType.VarChar).Value = brojKartice;
-
+                OleDbCommand command = new OleDbCommand("SELECT COUNT(*) FROM Kartice WHERE Broj = ?" + (aktivnost ? " AND Aktivnost = True" : ""), connection);
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = brojKartice;
+                
                 try
                 {
                     connection.Open();

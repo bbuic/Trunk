@@ -66,6 +66,7 @@
             this.btnPovratak = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblBrojKorisnika = new System.Windows.Forms.Label();
+            this.chAktivnost = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKorisnici)).BeginInit();
             this.GRB_KORISNICI_DNT.SuspendLayout();
             this.TabControl1.SuspendLayout();
@@ -79,9 +80,9 @@
             this.dgvKorisnici.AllowUserToAddRows = false;
             this.dgvKorisnici.AllowUserToDeleteRows = false;
             this.dgvKorisnici.AllowUserToResizeRows = false;
-            this.dgvKorisnici.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvKorisnici.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKorisnici.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvKorisnici.Location = new System.Drawing.Point(2, 31);
             this.dgvKorisnici.MultiSelect = false;
@@ -287,6 +288,7 @@
             // 
             // TabPage2
             // 
+            this.TabPage2.Controls.Add(this.chAktivnost);
             this.TabPage2.Controls.Add(this.Label1);
             this.TabPage2.Controls.Add(this.dtpDatumKartice);
             this.TabPage2.Controls.Add(this.LBL_DATUM_UPISA);
@@ -453,6 +455,16 @@
             this.lblBrojKorisnika.TabIndex = 69;
             this.lblBrojKorisnika.Text = "brojKorisnika";
             // 
+            // chAktivnost
+            // 
+            this.chAktivnost.AutoSize = true;
+            this.chAktivnost.Location = new System.Drawing.Point(280, 228);
+            this.chAktivnost.Name = "chAktivnost";
+            this.chAktivnost.Size = new System.Drawing.Size(70, 17);
+            this.chAktivnost.TabIndex = 90;
+            this.chAktivnost.Text = "Aktivnost";
+            this.chAktivnost.UseVisualStyleBackColor = true;
+            // 
             // frmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -520,5 +532,6 @@
         internal System.Windows.Forms.TextBox txtImeFilter;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label lblBrojKorisnika;
+        public System.Windows.Forms.CheckBox chAktivnost;
     }
 }

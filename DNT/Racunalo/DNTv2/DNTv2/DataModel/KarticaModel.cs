@@ -51,6 +51,16 @@ namespace DNTv2.DataModel
             set { _kartica.VlasnikId = value; }
         }
 
+        public bool Aktivnost
+        {
+            get { return _kartica.Aktivnost; }
+            set
+            {
+                _kartica.Aktivnost = value;
+                OnPropertyChanged("Aktivnost");
+            }
+        }
+
         public override bool IsValid()
         {
             return !string.IsNullOrEmpty(Broj) && VlasnikId > 0;

@@ -23,6 +23,7 @@ namespace DNTv2.DataModel.Services
                 o.ModelState = ModelState.Inserted;
                 o.VlasnikId = Korisnik.Id;
                 o.Datum = DateTime.Now;
+                o.Aktivnost = true;
             }         
         }
 

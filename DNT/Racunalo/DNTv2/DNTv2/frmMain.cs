@@ -182,7 +182,7 @@ namespace DNTv2
                             buffer[0] = (byte)this.SerialPortElektronika.ReadByte();
                             var kartica = ((BitConverter.ToInt16(buffer, 0)).ToString()).PadLeft(5, '0');
 
-                            if (ObjectFactory.KarticaDataService.PostojiBrojKartice(kartica))
+                            if (ObjectFactory.KarticaDataService.PostojiBrojKartice(kartica, true))
                             {
                                 SerialPortElektronika.Write(new byte[] { 0x10 }, 0, 1);
                                 

@@ -37,7 +37,9 @@ namespace DNTv2.DataModel.Converters
             user.txtBrojUgovora.DataBindings.Add("Text", karticaModelService.bindingSource, "Ugovor");
             user.txtBrojUgovora.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
             user.dtpDatumKartice.DataBindings.Add("Value", karticaModelService.bindingSource, "Datum", true);
-            user.dtpDatumKartice.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka"); 
+            user.dtpDatumKartice.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
+            user.chAktivnost.DataBindings.Add("Checked", karticaModelService.bindingSource, "Aktivnost");
+            user.chAktivnost.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka"); 
 
             //za broj kartice dozvoljeno samo brojeve
             user.txtBrojKartice.KeyPress += delegate(object sender, KeyPressEventArgs e)
@@ -89,7 +91,7 @@ namespace DNTv2.DataModel.Converters
             {
                 KarticaModel model = (KarticaModel)karticaModelService.bindingSource.Current;
                 if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && model != null && model.ModelState != ModelState.Unchanged &&
-                    ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text))
+                    ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text, false))
                 {
                     MessageBox.Show(@"Broj kartice (" + user.txtBrojKartice.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.Cancel = true;
@@ -196,7 +198,12 @@ namespace DNTv2.DataModel.Converters
             user.dgvKartice.Columns["Broj"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Ugovor"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Datum"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Datum"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             user.dgvKartice.Columns["Datum"].DefaultCellStyle.Format = "dd.MM.yyyy";
+            
+            user.dgvKartice.Columns["Aktivnost"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Aktivnost"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            user.dgvKartice.Columns["Aktivnost"].Width = 55;
             if (kartica != null)
                 karticaModelService.bindingSource.Clear();
 
