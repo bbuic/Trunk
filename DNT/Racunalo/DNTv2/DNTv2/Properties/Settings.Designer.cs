@@ -25,33 +25,6 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool KoristiLcd {
-            get {
-                return ((bool)(this["KoristiLcd"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
-        public int TimerLcd {
-            get {
-                return ((int)(this["TimerLcd"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("     Bojan Buic     DNEVNO-NOCNI TREZOR")]
-        public string PorukaLcd {
-            get {
-                return ((string)(this["PorukaLcd"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("19200")]
         public int BaudRateElektronika {
             get {
@@ -88,20 +61,20 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"C:\\Users\\Bojan\\Desktop\\DNTbaza.mdb\"" +
-            "")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("negdje")]
+        public string BackUpFolder {
             get {
-                return ((string)(this["ConnectionString"]));
+                return ((string)(this["BackUpFolder"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("negdje")]
-        public string BackUpFolder {
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"c:\\Users\\Bojan\\Google disk\\DNT\\Baza" +
+            "\\DNTbazaPrazna.mdb\"")]
+        public string ConnectionString {
             get {
-                return ((string)(this["BackUpFolder"]));
+                return ((string)(this["ConnectionString"]));
             }
         }
     }
