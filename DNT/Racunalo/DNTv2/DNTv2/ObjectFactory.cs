@@ -12,6 +12,12 @@ namespace DNTv2
         private static TransakcijaDataService _transakcijaDataService;
         private static KarticaDataService _karticaDataService;
         private static KorisnikDataService _korisnikDataService;
+        private static ILcdService _lcdService;
+
+        public static ILcdService LcdService
+        {
+            get { return _lcdService ?? (_lcdService = new LcdService()); }
+        }
 
         public static KorisnikDataService KorisnikDataService
         {

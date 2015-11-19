@@ -38,30 +38,29 @@
             this.lbBrojVrecica = new System.Windows.Forms.Label();
             this.Label14 = new System.Windows.Forms.Label();
             this.grbMainIzbornik = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblPretragaTransakcija = new System.Windows.Forms.LinkLabel();
+            this.PictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblAdministracijaKorisnika = new System.Windows.Forms.LinkLabel();
+            this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblPraznjenjeTrezora = new System.Windows.Forms.LinkLabel();
             this.gbPretragaTransakcija = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnPovratakIzPretrazivanja = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpDatumDo = new System.Windows.Forms.DateTimePicker();
             this.dtpDatumOd = new System.Windows.Forms.DateTimePicker();
-            this.dgvTransakcije = new System.Windows.Forms.DataGridView();
-            this.SerialPortLcd = new System.IO.Ports.SerialPort(this.components);
-            this.btnPovratakIzPretrazivanja = new System.Windows.Forms.Button();
             this.btnPretrazi = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.PictureBox2 = new System.Windows.Forms.PictureBox();
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dgvTransakcije = new System.Windows.Forms.DataGridView();
             this.Panel1.SuspendLayout();
             this.grbInfo.SuspendLayout();
             this.grbMainIzbornik.SuspendLayout();
-            this.gbPretragaTransakcija.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
+            this.gbPretragaTransakcija.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).BeginInit();
             this.SuspendLayout();
             // 
             // SerialPortElektronika
@@ -148,6 +147,15 @@
             this.grbMainIzbornik.TabIndex = 0;
             this.grbMainIzbornik.TabStop = false;
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::DNTv2.Properties.Resources.User_Group_icon;
+            this.pictureBox3.Location = new System.Drawing.Point(4, 76);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(27, 26);
+            this.pictureBox3.TabIndex = 6;
+            this.pictureBox3.TabStop = false;
+            // 
             // lblPretragaTransakcija
             // 
             this.lblPretragaTransakcija.AutoSize = true;
@@ -159,6 +167,15 @@
             this.lblPretragaTransakcija.TabStop = true;
             this.lblPretragaTransakcija.Text = "Pretraga transakcija";
             // 
+            // PictureBox2
+            // 
+            this.PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox2.Image")));
+            this.PictureBox2.Location = new System.Drawing.Point(6, 46);
+            this.PictureBox2.Name = "PictureBox2";
+            this.PictureBox2.Size = new System.Drawing.Size(26, 26);
+            this.PictureBox2.TabIndex = 4;
+            this.PictureBox2.TabStop = false;
+            // 
             // lblAdministracijaKorisnika
             // 
             this.lblAdministracijaKorisnika.AutoSize = true;
@@ -169,6 +186,15 @@
             this.lblAdministracijaKorisnika.TabIndex = 2;
             this.lblAdministracijaKorisnika.TabStop = true;
             this.lblAdministracijaKorisnika.Text = "Administracija korisnika\r\n";
+            // 
+            // PictureBox1
+            // 
+            this.PictureBox1.Image = global::DNTv2.Properties.Resources.Safe_icon;
+            this.PictureBox1.Location = new System.Drawing.Point(6, 16);
+            this.PictureBox1.Name = "PictureBox1";
+            this.PictureBox1.Size = new System.Drawing.Size(27, 26);
+            this.PictureBox1.TabIndex = 3;
+            this.PictureBox1.TabStop = false;
             // 
             // lblPraznjenjeTrezora
             // 
@@ -207,6 +233,17 @@
             this.label2.TabIndex = 50;
             this.label2.Text = "do";
             // 
+            // btnPovratakIzPretrazivanja
+            // 
+            this.btnPovratakIzPretrazivanja.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratakIzPretrazivanja.Image")));
+            this.btnPovratakIzPretrazivanja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPovratakIzPretrazivanja.Location = new System.Drawing.Point(472, 18);
+            this.btnPovratakIzPretrazivanja.Name = "btnPovratakIzPretrazivanja";
+            this.btnPovratakIzPretrazivanja.Size = new System.Drawing.Size(104, 26);
+            this.btnPovratakIzPretrazivanja.TabIndex = 49;
+            this.btnPovratakIzPretrazivanja.Text = "Povratak";
+            this.btnPovratakIzPretrazivanja.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -238,30 +275,6 @@
             this.dtpDatumOd.Size = new System.Drawing.Size(141, 23);
             this.dtpDatumOd.TabIndex = 27;
             // 
-            // dgvTransakcije
-            // 
-            this.dgvTransakcije.AllowUserToAddRows = false;
-            this.dgvTransakcije.AllowUserToDeleteRows = false;
-            this.dgvTransakcije.AllowUserToResizeRows = false;
-            this.dgvTransakcije.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTransakcije.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvTransakcije.Location = new System.Drawing.Point(197, 0);
-            this.dgvTransakcije.Name = "dgvTransakcije";
-            this.dgvTransakcije.ReadOnly = true;
-            this.dgvTransakcije.Size = new System.Drawing.Size(829, 344);
-            this.dgvTransakcije.TabIndex = 38;
-            // 
-            // btnPovratakIzPretrazivanja
-            // 
-            this.btnPovratakIzPretrazivanja.Image = ((System.Drawing.Image)(resources.GetObject("btnPovratakIzPretrazivanja.Image")));
-            this.btnPovratakIzPretrazivanja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPovratakIzPretrazivanja.Location = new System.Drawing.Point(472, 18);
-            this.btnPovratakIzPretrazivanja.Name = "btnPovratakIzPretrazivanja";
-            this.btnPovratakIzPretrazivanja.Size = new System.Drawing.Size(104, 26);
-            this.btnPovratakIzPretrazivanja.TabIndex = 49;
-            this.btnPovratakIzPretrazivanja.Text = "Povratak";
-            this.btnPovratakIzPretrazivanja.UseVisualStyleBackColor = true;
-            // 
             // btnPretrazi
             // 
             this.btnPretrazi.Image = global::DNTv2.Properties.Resources.Zoom_icon_mala;
@@ -284,32 +297,18 @@
             this.btnPrint.Text = "Ispiši";
             this.btnPrint.UseVisualStyleBackColor = false;
             // 
-            // pictureBox3
+            // dgvTransakcije
             // 
-            this.pictureBox3.Image = global::DNTv2.Properties.Resources.User_Group_icon;
-            this.pictureBox3.Location = new System.Drawing.Point(4, 76);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(27, 26);
-            this.pictureBox3.TabIndex = 6;
-            this.pictureBox3.TabStop = false;
-            // 
-            // PictureBox2
-            // 
-            this.PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox2.Image")));
-            this.PictureBox2.Location = new System.Drawing.Point(6, 46);
-            this.PictureBox2.Name = "PictureBox2";
-            this.PictureBox2.Size = new System.Drawing.Size(26, 26);
-            this.PictureBox2.TabIndex = 4;
-            this.PictureBox2.TabStop = false;
-            // 
-            // PictureBox1
-            // 
-            this.PictureBox1.Image = global::DNTv2.Properties.Resources.Safe_icon;
-            this.PictureBox1.Location = new System.Drawing.Point(6, 16);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(27, 26);
-            this.PictureBox1.TabIndex = 3;
-            this.PictureBox1.TabStop = false;
+            this.dgvTransakcije.AllowUserToAddRows = false;
+            this.dgvTransakcije.AllowUserToDeleteRows = false;
+            this.dgvTransakcije.AllowUserToResizeRows = false;
+            this.dgvTransakcije.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTransakcije.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvTransakcije.Location = new System.Drawing.Point(197, 0);
+            this.dgvTransakcije.Name = "dgvTransakcije";
+            this.dgvTransakcije.ReadOnly = true;
+            this.dgvTransakcije.Size = new System.Drawing.Size(829, 344);
+            this.dgvTransakcije.TabIndex = 38;
             // 
             // frmMain
             // 
@@ -328,12 +327,12 @@
             this.grbInfo.PerformLayout();
             this.grbMainIzbornik.ResumeLayout(false);
             this.grbMainIzbornik.PerformLayout();
-            this.gbPretragaTransakcija.ResumeLayout(false);
-            this.gbPretragaTransakcija.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
+            this.gbPretragaTransakcija.ResumeLayout(false);
+            this.gbPretragaTransakcija.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -357,7 +356,6 @@
         internal System.Windows.Forms.Button btnPrint;
         internal System.Windows.Forms.DateTimePicker dtpDatumDo;
         internal System.Windows.Forms.DateTimePicker dtpDatumOd;
-        private System.IO.Ports.SerialPort SerialPortLcd;
         internal System.Windows.Forms.DataGridView dgvTransakcije;
         private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.LinkLabel lblPretragaTransakcija;

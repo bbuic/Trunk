@@ -73,6 +73,8 @@
     <Compile Include="DataModel\Services\KorisnikModelService.cs" />
     <Compile Include="DataModel\Services\TransakcijeModelService.cs" />
     <Compile Include="DataModel\TransakcijeModel.cs" />
+    <Compile Include="LCD\ILcdService.cs" />
+    <Compile Include="LCD\LcdService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
