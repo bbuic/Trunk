@@ -25,16 +25,7 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("19200")]
-        public int BaudRateElektronika {
-            get {
-                return ((int)(this["BaudRateElektronika"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM2")]
         public string PortElektronika {
             get {
                 return ((string)(this["PortElektronika"]));

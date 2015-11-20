@@ -153,9 +153,9 @@ namespace DNTv2.DataModel.Converters
 
             korisnikModelService.bindingSource.CurrentChanged += delegate
             {
-                user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
+                GetValue(user, korisnikModelService);
             };
-            user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
+            GetValue(user, korisnikModelService);
 
 
             KorisnikModel korisnik = null;
@@ -208,6 +208,23 @@ namespace DNTv2.DataModel.Converters
                 karticaModelService.bindingSource.Clear();
 
             return user;
+        }
+
+        private static void GetValue(frmUser user, KorisnikModelService korisnikModelService)
+        {
+            user.lblBrojKorisnika.Text = korisnikModelService.bindingSource.Count.ToString();
+
+            KorisnikModel current = korisnikModelService.bindingSource.Current as KorisnikModel;
+            if (current != null && current.Id > 0)
+            {
+                if (!user.TabControl1.TabPages.Contains(user.TabPage2))
+                    user.TabControl1.TabPages.Add(user.TabPage2);
+            }
+            else
+            {
+                if (user.TabControl1.TabPages.Contains(user.TabPage2))
+                    user.TabControl1.TabPages.Remove(user.TabPage2);
+            }
         }
     }
 }

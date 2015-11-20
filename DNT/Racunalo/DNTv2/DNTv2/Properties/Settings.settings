@@ -2,11 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DNTv2.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="BaudRateElektronika" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">19200</Value>
-    </Setting>
     <Setting Name="PortElektronika" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">COM1</Value>
+      <Value Profile="(Default)">COM2</Value>
     </Setting>
     <Setting Name="TimerZasun" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>

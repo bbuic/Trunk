@@ -13,8 +13,7 @@ namespace DNTv2
     public partial class frmMain : Form
     {
         private Timer _timerVrataZasun;
-        private Timer _timerVrataOtvorena;
-        private Timer _timerBackUp;        
+        private Timer _timerVrataOtvorena;              
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
@@ -131,7 +130,7 @@ namespace DNTv2
 
             try
             {
-                _timerBackUp = new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(24));
+                new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(24));
             }
             catch
             {

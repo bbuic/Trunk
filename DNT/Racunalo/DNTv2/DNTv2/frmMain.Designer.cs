@@ -65,7 +65,7 @@
             // 
             // SerialPortElektronika
             // 
-            this.SerialPortElektronika.BaudRate = global::DNTv2.Properties.Settings.Default.BaudRateElektronika;
+            this.SerialPortElektronika.BaudRate = 19200;
             this.SerialPortElektronika.PortName = global::DNTv2.Properties.Settings.Default.PortElektronika;
             // 
             // Panel1
