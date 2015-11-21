@@ -19,15 +19,15 @@ void OTVORI_BRAVU(void){PORTD |= _BV(PORTD7);}
 void ZATVORI_BRAVU(void){PORTD &= ~_BV(PORTD7);}
 void BEEP(void){PORTD |= _BV(PORTD5);_delay_loop_2(65500);PORTD &= ~_BV(PORTD5);}
 
-//!!!!!!!!!!! VREMENSKA ODGODA za fotoceliju u KANALU !!!!!!!!!!!!!!!!
-static void delay_foto(void)
+
+static void delay_ms(uint8_t delay)
 {
   uint8_t i;
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < delay; i++)
   {
     wdt_reset();//RESETIRANJE WATCHDOG-A
-	_delay_ms(15);
+	_delay_ms(10);
   }
 }
 //!!!!!!!!!!!OBRADA INTERUPTA KOJI PROUZROCI OWERFOLOV TIMER-A 0!!!!!!!!!!!!!!!!
@@ -87,7 +87,9 @@ ISR(INT1_vect)
 	if(INDALA_BB==0){
 		timer0_stop();
 		if(flag.vrata_unutra == 1){
-			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+			if(flag.vrata_otvorena==0){
+				putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+			}
 		}else{
 			OTVORI_BRAVU();
 		}
@@ -103,7 +105,9 @@ ISR(INT0_vect)
 	if(INDALA_BB==0){
 		timer0_stop();
 		if(flag.vrata_unutra == 1){
-			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+			if(flag.vrata_otvorena==0){
+				putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
+			}
 		}else{
 			OTVORI_BRAVU();
 		}
@@ -146,12 +150,10 @@ int main(void)
 		
 		//ZATVORI ako su vrata prislonjena
 		if(bit_is_clear(PINC,PINC5) && flag.vrata_otvorena==1){			
-			
-			flag.vrata_otvorena = 0;
-			
+								
 			ZATVORI_BRAVU();
 			
-			_delay_ms(1000); //Èekam da vidim da li èe i nakon sekunde vrata biti zatvorena
+			delay_ms(50); //Èekam da vidim da li èe i nakon pola sekunde vrata biti zatvorena
 			
 			if(bit_is_clear(PINC,PINC5)){	
 			
@@ -160,7 +162,10 @@ int main(void)
 				}
 								
 				flag.vrata_kartica = 0;
-				flag.vrata_zatvori = 0;				
+				flag.vrata_zatvori = 0;
+				flag.vrata_otvorena = 0;	
+			}else{
+			  OTVORI_BRAVU();
 			}
 		}
 		
@@ -180,7 +185,7 @@ int main(void)
 			}
 			
 			//Èekam da vreèica proðe fotosenzor
-			delay_foto();
+			delay_ms(150);
 			
 			if(bit_is_set(PINC,PINC1)){
 				flag.fotocelija=0;
