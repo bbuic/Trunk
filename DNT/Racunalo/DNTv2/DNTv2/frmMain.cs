@@ -112,9 +112,9 @@ namespace DNTv2
                         File.Copy(connection.DataSource, Settings.Default.BackUpFolder + @"\DNTBaza.mdb", true);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                Utils.Log(e);                
             }
         }
 
@@ -130,7 +130,7 @@ namespace DNTv2
 
             try
             {
-                new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(24));
+                new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
             }
             catch
             {

@@ -31,8 +31,11 @@ namespace DNTv2.DataModel.Converters
                     return;
 
                 if (MessageBox.Show(@"Želite isprintati trezorsku knjigu ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {                    
-                    new frmReportViewer(list).ShowDialog(main);
+                {
+                    using (var frmReportViewer = new frmReportViewer(list))
+                    {
+                        frmReportViewer.ShowDialog(main);
+                    }
                 }
 
                 if (MessageBox.Show(@"Jeste sigurni da želite ispraznuti trezor?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -51,7 +54,10 @@ namespace DNTv2.DataModel.Converters
             main.lblAdministracijaKorisnika.LinkClicked += delegate{
                     try
                     {
-                        new KorisnikModel2Gui().Convert2Form().ShowDialog(main);
+                        using (var form = new KorisnikModel2Gui().Convert2Form())
+                        {
+                            form.ShowDialog(main);    
+                        }                        
                         service.Refresh();
                     }
                     catch (Exception e)
@@ -119,7 +125,10 @@ namespace DNTv2.DataModel.Converters
                     MessageBox.Show(@"Nema transkacija za ispis.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;                    
                 }
-                new frmReportViewer(list).ShowDialog(main);
+                using (var frmReportViewer = new frmReportViewer(list))
+                {
+                    frmReportViewer.ShowDialog(main);
+                }
             };
 
             main.Load += delegate
