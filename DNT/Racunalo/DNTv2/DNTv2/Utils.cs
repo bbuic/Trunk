@@ -18,8 +18,8 @@ namespace DNTv2
             {
                 file.WriteLine("");
                 file.WriteLine("");
-                file.WriteLine("Greska: " + e.Message + "  StacTrace: " + e.StackTrace + 
-                    (e.InnerException != null ? "Inner exception: " + e.InnerException.Message : ""));
+                file.WriteLine("Greska: " + e.Message + Environment.NewLine + "  StacTrace: " + e.StackTrace + 
+                    (e.InnerException != null ? "Inner exception: " + e.InnerException.Message : "") + Environment.NewLine + " Datum: " + DateTime.Now);
             }
         }
 

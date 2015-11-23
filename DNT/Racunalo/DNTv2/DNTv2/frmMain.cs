@@ -13,7 +13,8 @@ namespace DNTv2
     public partial class frmMain : Form
     {
         private Timer _timerVrataZasun;
-        private Timer _timerVrataOtvorena;              
+        private Timer _timerVrataOtvorena;
+        private Timer _timerBackUp;     
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
@@ -102,7 +103,7 @@ namespace DNTv2
 
         #region BackUp
 
-        private void BackUp()
+        private void BackUp(object o)
         {
             try
             {
@@ -130,11 +131,11 @@ namespace DNTv2
 
             try
             {
-                new Timer(_ => BackUp(), null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
+                _timerBackUp = new Timer(BackUp, null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                Utils.Log(e);
             }
 
             //HENDLANJE PORUKA ELEKTRONIKE
