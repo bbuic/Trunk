@@ -15,6 +15,7 @@ namespace DNTv2
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
         private Timer _timerBackUp;     
+        private Timer _timerZvucniSignal;     
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
@@ -51,6 +52,34 @@ namespace DNTv2
 
         #endregion
 
+        #region Timer zvučni signal
+
+        private void ZvucniSignal()
+        {
+            Console.Beep(1000, 500);
+        }
+
+        private void TimerZvucniSignalStart()
+        {
+            if (_timerZvucniSignal == null)
+            {
+                _timerZvucniSignal = new Timer(_ => ZvucniSignal());
+                _timerZvucniSignal.Change(0, 2000);
+            }
+        }
+
+        private void TimerZvucniSignalStop()
+        {
+            if (_timerZvucniSignal != null)
+            {
+                _timerZvucniSignal.Change(Timeout.Infinite, Timeout.Infinite);
+                _timerZvucniSignal.Dispose();
+                _timerZvucniSignal = null;
+            }
+        }
+
+        #endregion
+
         #region Timer vrata
 
         private void TimerVrataOtvorenaReStart()
@@ -59,6 +88,7 @@ namespace DNTv2
                 _timerVrataOtvorena.Change(Settings.Default.TimerVrataOtvorena*1000, Timeout.Infinite);
             else
                 TimerVrataOtvorenaStart();
+            TimerZvucniSignalStop();
         }
 
         private void TimerVrataOtvorenaStart()
@@ -77,8 +107,9 @@ namespace DNTv2
             {
                 _timerVrataOtvorena.Change(Timeout.Infinite, Timeout.Infinite);
                 _timerVrataOtvorena.Dispose();
-                _timerVrataOtvorena = null;
+                _timerVrataOtvorena = null;                
             }
+            TimerZvucniSignalStop();
         }
 
         private void ZatvoriVrata()
@@ -97,6 +128,8 @@ namespace DNTv2
                                   " sekundi.");
                 Invoke(new MethodInvoker(delegate { _frmPorukaVrata.Show(this); }));
             }
+
+            TimerZvucniSignalStart();
         }
 
         #endregion
@@ -172,9 +205,14 @@ namespace DNTv2
                             break;
 
                         case 0x21: //vrata otvorena
+                            
+                            if (!TransakcijaUTijeku)
+                                break;
+
                             TimerZasunStop();
                             TimerVrataOtvorenaStart();                            
-                            break;                            
+                            break;
+                            
                         case 0x23: //ubacaj vrecica
 
                             if(!TransakcijaUTijeku)
@@ -191,8 +229,11 @@ namespace DNTv2
 
                         case 0x22: //vrata zatorena
 
-                            TimerVrataOtvorenaStop();
+                            if (!TransakcijaUTijeku)
+                                break;
 
+                            TimerVrataOtvorenaStop();
+                            
                             TransakcijaUTijeku = false;
 
                             _transakcija.DatumDo = DateTime.Now;
