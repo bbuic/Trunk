@@ -14,7 +14,7 @@ namespace DNTv2
     {
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
-        private Timer _timerBackUp;     
+        private static Timer _timerBackUp;     
         private Timer _timerZvucniSignal;     
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
