@@ -2,29 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using DNTDataAccess;
 using DNTv2.DataModel.Services;
 using DNTv2.Report;
+using Timer = System.Threading.Timer;
 
 namespace DNTv2.DataModel.Converters
 {
     public class TransakcijaModel2Gui : IModel2Gui
     {
+        private Timer _timerRefresh;
+        private frmPoruka _frmPorukaVrata;
+        private frmPoruka _frmPorukaFoto;
+
         public Form Convert2Form()
         {
             TransakcijeModelService service = new TransakcijeModelService();
 
-            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource}, TransakcijeModelService = service};            
+            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource}};            
             main.dgvTransakcije.SelectionChanged += delegate { main.dgvTransakcije.ClearSelection(); };
-            
+        
             //Pražnjenje trezora
             main.lblPraznjenjeTrezora.LinkClicked += delegate
             {       
-                if (main.TransakcijaUTijeku)
-                {
-                    MessageBox.Show(@"Nije moguće izvršiti pražnjenje trezora jer je transakcija u tijeku.", "", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                    return;
-                }
+                //if (main.TransakcijaUTijeku)
+                //{
+                //    MessageBox.Show(@"Nije moguće izvršiti pražnjenje trezora jer je transakcija u tijeku.", "", MessageBoxButtons.OK,
+                //        MessageBoxIcon.Information);
+                //    return;
+                //}
 
                 IList<TransakcijeModel> list = (IList<TransakcijeModel>)service.bindingSource.List;
                 if(list.Count <= 0)
@@ -167,7 +173,51 @@ namespace DNTv2.DataModel.Converters
             main.dgvTransakcije.Columns["Kartica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             main.dgvTransakcije.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            _timerRefresh = new Timer(Refresh, service, 1000, Properties.Settings.Default.TimerRefresh * 1000);
+
             return main;
+        }
+
+        private void Refresh(object o)
+        {
+            TransakcijeModelService service = (TransakcijeModelService) o;
+            service.Refresh();
+
+            IList<Dogadaj> list = DNTDataAccess.ObjectFactory.DogadajDataService.DajSveDogadaje();
+            foreach (Dogadaj dogadaj in list)
+            {
+                switch (dogadaj.DogadajTipId)
+                {
+                    case DogadajTip.Vrata:
+                        if (_frmPorukaVrata == null)
+                        {
+                            _frmPorukaVrata =
+                                new frmPoruka("Vanjska vrata trezora otvorena bez aktivnosti predaje pologa duže od ");
+                            _frmPorukaVrata.Show();
+                        }
+                        break;
+                    case DogadajTip.Foto:
+                        if (_frmPorukaFoto == null)
+                        {
+                            _frmPorukaFoto = new frmPoruka("Blokada fotosenzora.");
+                            _frmPorukaFoto.Show();;
+                        }
+                        break;
+                }
+            }
+            if (list.Any(x => x.DogadajTipId == DogadajTip.Foto) && _frmPorukaFoto != null)
+            {
+                _frmPorukaFoto.Close();
+                _frmPorukaFoto.Dispose();
+                _frmPorukaFoto = null;
+            }
+
+            if (list.Any(x => x.DogadajTipId == DogadajTip.Vrata) && _frmPorukaVrata != null)
+            {
+                _frmPorukaVrata.Close();
+                _frmPorukaVrata.Dispose();
+                _frmPorukaVrata = null;
+            }
         }
     }
 }

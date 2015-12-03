@@ -51,16 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="DataAccess\Attributes\IdAttribute.cs" />
-    <Compile Include="DataAccess\Services\AbstractAutoDataService.cs" />
-    <Compile Include="DataAccess\Services\AbstractDataService.cs" />
-    <Compile Include="DataAccess\Services\KarticaDataService.cs" />
-    <Compile Include="DataAccess\Services\KorisnikDataService.cs" />
-    <Compile Include="DataAccess\Services\TransakcijaDataService.cs" />
-    <Compile Include="DataAccess\Kartica.cs" />
-    <Compile Include="DataAccess\Korisnik.cs" />
-    <Compile Include="DataAccess\PersistentObject.cs" />
-    <Compile Include="DataAccess\Transakcija.cs" />
     <Compile Include="DataModel\CommonModel.cs" />
     <Compile Include="DataModel\Converters\EventContext.cs" />
     <Compile Include="DataModel\Converters\IModel2Gui.cs" />
@@ -176,6 +166,12 @@
   <ItemGroup>
     <Content Include="Aha-Soft-Large-Business-Safe.ico" />
     <None Include="Resources\Folders-OS-Info-Metro-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DNTDataAccess\DNTDataAccess.csproj">
+      <Project>{69283C04-1A01-4ACF-A66E-C12D237A9D03}</Project>
+      <Name>DNTDataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

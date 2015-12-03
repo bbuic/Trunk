@@ -11,23 +11,11 @@
     <Setting Name="PorukaLcd" Type="System.String" Scope="Application">
       <Value Profile="(Default)">     Bojan Buic     DNEVNO-NOCNI TREZOR</Value>
     </Setting>
-    <Setting Name="BaudRateElektronika" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">19200</Value>
-    </Setting>
-    <Setting Name="PortElektronika" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">COM1</Value>
-    </Setting>
-    <Setting Name="TimerZasun" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="TimerVrataOtvorena" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">20</Value>
-    </Setting>
     <Setting Name="ConnectionString" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source="C:\Users\Bojan\Desktop\DNTbaza.mdb"</Value>
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source="C:\Users\Bojan\Google disk\DNT\Baza\DNTbaza.mdb"</Value>
     </Setting>
-    <Setting Name="BackUpFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">negdje</Value>
+    <Setting Name="TimerRefresh" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

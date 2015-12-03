@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DNTv2.Properties {
+namespace DNTService.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,28 +25,28 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool KoristiLcd {
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int TimerZasun {
             get {
-                return ((bool)(this["KoristiLcd"]));
+                return ((int)(this["TimerZasun"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
-        public int TimerLcd {
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int TimerVrataOtvorena {
             get {
-                return ((int)(this["TimerLcd"]));
+                return ((int)(this["TimerVrataOtvorena"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("     Bojan Buic     DNEVNO-NOCNI TREZOR")]
-        public string PorukaLcd {
+        [global::System.Configuration.DefaultSettingValueAttribute("negdje")]
+        public string BackUpFolder {
             get {
-                return ((string)(this["PorukaLcd"]));
+                return ((string)(this["BackUpFolder"]));
             }
         }
         
@@ -62,10 +62,19 @@ namespace DNTv2.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int TimerRefresh {
+        [global::System.Configuration.DefaultSettingValueAttribute("19200")]
+        public int BaudRateElektronika {
             get {
-                return ((int)(this["TimerRefresh"]));
+                return ((int)(this["BaudRateElektronika"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
+        public string PortElektronika {
+            get {
+                return ((string)(this["PortElektronika"]));
             }
         }
     }
