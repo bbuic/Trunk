@@ -42,11 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="DNTService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -63,16 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\DNTDataAccess\DNTDataAccess.csproj">
-      <Project>{69283C04-1A01-4ACF-A66E-C12D237A9D03}</Project>
-      <Name>DNTDataAccess</Name>
+    <ProjectReference Include="..\DNTServiceProcessor\DNTServiceProcessor.csproj">
+      <Project>{33D7D62B-4F32-4A4D-ADB2-4AEEFFDD0AB2}</Project>
+      <Name>DNTServiceProcessor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using DNTDataAccess.Properties;
-using DNTv2.DataAccess;
 using DNTv2.DataAccess.Services;
 
 namespace DNTDataAccess.DataServices
@@ -12,7 +10,7 @@ namespace DNTDataAccess.DataServices
     {
         public Dogadaj OtvoriDogadaj(DogadajTip dogadajTip)
         {
-            using (OleDbConnection connection = new OleDbConnection(Properties.Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 Dogadaj dogadaj = new Dogadaj{DatumOd = DateTime.Now, DogadajTipId = dogadajTip};
                 OleDbCommand command =
@@ -49,10 +47,10 @@ namespace DNTDataAccess.DataServices
 
         public IList<Dogadaj> DajSveDogadaje()
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 DataTable table = new DataTable();
-                OleDbCommand command = new OleDbCommand("SELECT DogadajTipId, DatumOd, DatumDo FROM Ddogadaj WHERE DatumDo IS NULL", connection);
+                OleDbCommand command = new OleDbCommand("SELECT DogadajTipId, DatumOd, DatumDo FROM Dogadaj WHERE DatumDo IS NULL", connection);
                 try
                 {
                     connection.Open();

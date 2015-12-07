@@ -1,13 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 
-namespace DNTv2
+namespace DNTDataAccess
 {
     public sealed class Utils
     {
+        public static string ReadSetting(string key)
+        {
+            try
+            {
+                return ConfigurationManager.AppSettings[key];
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Greška prilikom čitanja konfiguracije. Opis greške: " + e.Message);
+            }
+        }
+
         public static void Log(Exception e)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Log.txt", true))
@@ -139,7 +152,7 @@ namespace DNTv2
                 {
                     param.DbType = (DbType)tc.ConvertFrom(theType.Name);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // ignore the exception
                 }

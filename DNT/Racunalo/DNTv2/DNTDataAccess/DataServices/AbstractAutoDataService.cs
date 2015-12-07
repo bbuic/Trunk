@@ -5,7 +5,7 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
-using DNTDataAccess.Properties;
+using DNTDataAccess;
 using DNTv2.DataModel.DataServices;
 
 namespace DNTv2.DataAccess.Services
@@ -14,7 +14,7 @@ namespace DNTv2.DataAccess.Services
     {
         internal void ExecuteNonQuery(OleDbCommand command)
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 command.Connection = connection;
                 try

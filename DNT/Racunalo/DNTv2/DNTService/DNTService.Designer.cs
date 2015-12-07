@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.SerialPortElektronika = new System.IO.Ports.SerialPort(this.components);
             // 
-            // DNTService
+            // DntService
             // 
             this.ServiceName = "DNTService";
 
@@ -39,6 +37,5 @@
 
         #endregion
 
-        private System.IO.Ports.SerialPort SerialPortElektronika;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using DNTDataAccess;
-using DNTDataAccess.Properties;
 using DNTv2.DataModel;
 
 namespace DNTv2.DataAccess.Services
@@ -29,7 +28,7 @@ namespace DNTv2.DataAccess.Services
 
         public void UnesiKorisnika(Korisnik korisnik)
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 
                 OleDbCommand command =
@@ -69,7 +68,7 @@ namespace DNTv2.DataAccess.Services
 
         public IList<Korisnik> DajSveKorisnike()
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 DataTable table = new DataTable();
                 OleDbCommand command = new OleDbCommand("SELECT Id, ime, prezime, ulica AS Adresa, kucni AS KucniBroj, mjesto AS Grad, telefon FROM DNTKorisnici ORDER BY ime, prezime", connection);

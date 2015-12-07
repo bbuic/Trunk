@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Panel1 = new System.Windows.Forms.Panel();
             this.grbInfo = new System.Windows.Forms.GroupBox();
             this.Label35 = new System.Windows.Forms.Label();
@@ -52,7 +52,10 @@
             this.btnPretrazi = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.dgvTransakcije = new System.Windows.Forms.DataGridView();
-            this.SerialPortLcd = new System.IO.Ports.SerialPort(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.dgvDogadaj = new System.Windows.Forms.DataGridView();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.Panel1.SuspendLayout();
             this.grbInfo.SuspendLayout();
             this.grbMainIzbornik.SuspendLayout();
@@ -61,6 +64,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.gbPretragaTransakcija.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDogadaj)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // Panel1
@@ -71,13 +77,13 @@
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.Panel1.Location = new System.Drawing.Point(0, 0);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(197, 439);
+            this.Panel1.Size = new System.Drawing.Size(197, 447);
             this.Panel1.TabIndex = 2;
             // 
             // grbInfo
             // 
-            this.grbInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.grbInfo.BackColor = System.Drawing.SystemColors.Window;
             this.grbInfo.Controls.Add(this.Label35);
             this.grbInfo.Controls.Add(this.lblDatumPraznjenjaTrezora);
@@ -204,8 +210,6 @@
             // 
             // gbPretragaTransakcija
             // 
-            this.gbPretragaTransakcija.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbPretragaTransakcija.Controls.Add(this.label2);
             this.gbPretragaTransakcija.Controls.Add(this.btnPovratakIzPretrazivanja);
             this.gbPretragaTransakcija.Controls.Add(this.label1);
@@ -213,9 +217,10 @@
             this.gbPretragaTransakcija.Controls.Add(this.dtpDatumOd);
             this.gbPretragaTransakcija.Controls.Add(this.btnPretrazi);
             this.gbPretragaTransakcija.Controls.Add(this.btnPrint);
-            this.gbPretragaTransakcija.Location = new System.Drawing.Point(202, 350);
+            this.gbPretragaTransakcija.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbPretragaTransakcija.Location = new System.Drawing.Point(0, 236);
             this.gbPretragaTransakcija.Name = "gbPretragaTransakcija";
-            this.gbPretragaTransakcija.Size = new System.Drawing.Size(819, 83);
+            this.gbPretragaTransakcija.Size = new System.Drawing.Size(636, 83);
             this.gbPretragaTransakcija.TabIndex = 37;
             this.gbPretragaTransakcija.TabStop = false;
             // 
@@ -299,20 +304,66 @@
             this.dgvTransakcije.AllowUserToResizeRows = false;
             this.dgvTransakcije.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTransakcije.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvTransakcije.Location = new System.Drawing.Point(197, 0);
+            this.dgvTransakcije.Location = new System.Drawing.Point(0, 0);
             this.dgvTransakcije.Name = "dgvTransakcije";
             this.dgvTransakcije.ReadOnly = true;
-            this.dgvTransakcije.Size = new System.Drawing.Size(829, 344);
+            this.dgvTransakcije.Size = new System.Drawing.Size(636, 217);
             this.dgvTransakcije.TabIndex = 38;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.dgvTransakcije);
+            this.panel2.Controls.Add(this.gbPretragaTransakcija);
+            this.panel2.Location = new System.Drawing.Point(197, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(636, 319);
+            this.panel2.TabIndex = 38;
+            // 
+            // dgvDogadaj
+            // 
+            this.dgvDogadaj.AllowUserToAddRows = false;
+            this.dgvDogadaj.AllowUserToDeleteRows = false;
+            this.dgvDogadaj.AllowUserToResizeRows = false;
+            this.dgvDogadaj.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDogadaj.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgvDogadaj.Location = new System.Drawing.Point(0, 23);
+            this.dgvDogadaj.Name = "dgvDogadaj";
+            this.dgvDogadaj.ReadOnly = true;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.dgvDogadaj.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvDogadaj.Size = new System.Drawing.Size(636, 99);
+            this.dgvDogadaj.TabIndex = 39;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.dgvDogadaj);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(197, 325);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(636, 122);
+            this.panel3.TabIndex = 39;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(89, 13);
+            this.label3.TabIndex = 40;
+            this.label3.Text = "Događaji uređaja";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 439);
+            this.ClientSize = new System.Drawing.Size(833, 447);
             this.ControlBox = false;
-            this.Controls.Add(this.dgvTransakcije);
-            this.Controls.Add(this.gbPretragaTransakcija);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.Panel1);
             this.Name = "frmMain";
             this.Text = "   DNEVNO-NOĆNI TREZOR";
@@ -328,6 +379,10 @@
             this.gbPretragaTransakcija.ResumeLayout(false);
             this.gbPretragaTransakcija.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransakcije)).EndInit();
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDogadaj)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -350,13 +405,16 @@
         internal System.Windows.Forms.Button btnPrint;
         internal System.Windows.Forms.DateTimePicker dtpDatumDo;
         internal System.Windows.Forms.DateTimePicker dtpDatumOd;
-        private System.IO.Ports.SerialPort SerialPortLcd;
         internal System.Windows.Forms.DataGridView dgvTransakcije;
         private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.LinkLabel lblPretragaTransakcija;
         internal System.Windows.Forms.PictureBox pictureBox3;
         internal System.Windows.Forms.Button btnPovratakIzPretrazivanja;
         private System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.DataGridView dgvDogadaj;
+        internal System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label3;
     }
 }
 

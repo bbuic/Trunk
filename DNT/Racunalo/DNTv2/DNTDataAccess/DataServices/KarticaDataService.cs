@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using DNTDataAccess.Properties;
+using DNTDataAccess;
 using DNTv2.DataModel;
 
 namespace DNTv2.DataAccess.Services
@@ -44,7 +44,7 @@ namespace DNTv2.DataAccess.Services
 
         public IList<Kartica> DajKarticeKorisnika(int korisnikId)
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 DataTable table = new DataTable();
                 OleDbCommand command = new OleDbCommand("SELECT * FROM Kartice WHERE VlasnikID = ?", connection);
@@ -64,7 +64,7 @@ namespace DNTv2.DataAccess.Services
 
         public bool PostojiBrojKartice(string brojKartice, bool aktivnost)
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 OleDbCommand command = new OleDbCommand("SELECT COUNT(*) FROM Kartice WHERE Broj = ?" + (aktivnost ? " AND Aktivnost = True" : ""), connection);
                 command.Parameters.Add("@Broj", OleDbType.VarChar).Value = brojKartice;

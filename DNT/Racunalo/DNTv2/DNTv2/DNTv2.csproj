@@ -39,6 +39,7 @@
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
@@ -56,6 +57,7 @@
     <Compile Include="DataModel\Converters\IModel2Gui.cs" />
     <Compile Include="DataModel\Converters\KorisnikModel2Gui.cs" />
     <Compile Include="DataModel\Converters\TransakcijaModel2Gui.cs" />
+    <Compile Include="DataModel\DogadajModel.cs" />
     <Compile Include="DataModel\KarticaModel.cs" />
     <Compile Include="DataModel\Services\AbstractModelService.cs" />
     <Compile Include="DataModel\KorisnikModel.cs" />
@@ -73,12 +75,6 @@
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmPoruka.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmPoruka.Designer.cs">
-      <DependentUpon>frmPoruka.cs</DependentUpon>
     </Compile>
     <Compile Include="frmUser.cs">
       <SubType>Form</SubType>
@@ -100,9 +96,6 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPoruka.resx">
-      <DependentUpon>frmPoruka.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmUser.resx">
       <DependentUpon>frmUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,15 +116,6 @@
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.AbstractModelService.datasource" />
     <None Include="Properties\DataSources\DNTv2.DataModel.Services.TransakcijeModelService.datasource" />
     <None Include="Properties\DataSources\DNTv2.DataModel.TransakcijeModel.datasource" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\User-Group-icon.png" />

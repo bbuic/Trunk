@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using DNTDataAccess;
 using DNTv2.DataModel.Services;
 using DNTv2.Report;
-using Timer = System.Threading.Timer;
 
 namespace DNTv2.DataModel.Converters
 {
     public class TransakcijaModel2Gui : IModel2Gui
     {
         private Timer _timerRefresh;
-        private frmPoruka _frmPorukaVrata;
-        private frmPoruka _frmPorukaFoto;
 
         public Form Convert2Form()
         {
             TransakcijeModelService service = new TransakcijeModelService();
 
-            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource}};            
+            frmMain main = new frmMain { dgvTransakcije = {DataSource = service.bindingSource}, dgvDogadaj = {DataSource = service.bindingSourceDogadaj}};            
             main.dgvTransakcije.SelectionChanged += delegate { main.dgvTransakcije.ClearSelection(); };
         
             //Pražnjenje trezora
@@ -76,6 +72,7 @@ namespace DNTv2.DataModel.Converters
             {
                 try
                 {
+                    service.PretrazivanjeUTijeku = true;
                     main.dgvTransakcije.Height = main.dgvTransakcije.Height - main.gbPretragaTransakcija.Height - 5;
                     main.grbMainIzbornik.Enabled = false;
                     main.dtpDatumDo.Value = DateTime.Now;
@@ -100,7 +97,6 @@ namespace DNTv2.DataModel.Converters
 
             main.btnPretrazi.Click += delegate
             {
-                service.PretrazivanjeUTijeku = true;
                 service.bindingSource.DataSource =
                     ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
                     Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();
@@ -109,7 +105,7 @@ namespace DNTv2.DataModel.Converters
             main.btnPovratakIzPretrazivanja.Click += delegate
             {
                 service.PretrazivanjeUTijeku = false;
-                main.dgvTransakcije.Height = main.Panel1.Height;
+                main.dgvTransakcije.Height = main.panel2.Height;
                 main.grbMainIzbornik.Enabled = true;
                 service.Refresh();
             };
@@ -130,7 +126,7 @@ namespace DNTv2.DataModel.Converters
 
             main.Load += delegate
             {
-                main.dgvTransakcije.Height = main.Panel1.Height;
+                main.dgvTransakcije.Height = main.panel2.Height;
                 main.Label14.Left = (main.grbInfo.Width - main.Label14.Width) / 2;
                 main.Label35.Left = (main.grbInfo.Width - main.Label35.Width) / 2;
                 main.lblDatumPraznjenjaTrezora.Left = (main.grbInfo.Width - main.lblDatumPraznjenjaTrezora.Width) / 2;
@@ -173,51 +169,24 @@ namespace DNTv2.DataModel.Converters
             main.dgvTransakcije.Columns["Kartica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             main.dgvTransakcije.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            _timerRefresh = new Timer(Refresh, service, 1000, Properties.Settings.Default.TimerRefresh * 1000);
+            main.dgvDogadaj.Columns["Id"].Visible = false;
+            main.dgvDogadaj.Columns["DatumOd"].HeaderText = @"Datum od";
+            main.dgvDogadaj.Columns["DatumOd"].Width = 150;
+            main.dgvDogadaj.Columns["DatumDo"].HeaderText = @"Datum do";
+            main.dgvDogadaj.Columns["DatumDo"].Width = 150;
+            main.dgvDogadaj.Columns["Naziv"].HeaderText = @"Naziv događaja";
+            main.dgvDogadaj.Columns["Naziv"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            _timerRefresh = new Timer { Interval = int.Parse(Utils.ReadSetting("ConnectionString")) * 1000 };
+            _timerRefresh.Tick += delegate
+            {
+                service.Refresh();
+            };
+            _timerRefresh.Start();
 
             return main;
         }
 
-        private void Refresh(object o)
-        {
-            TransakcijeModelService service = (TransakcijeModelService) o;
-            service.Refresh();
-
-            IList<Dogadaj> list = DNTDataAccess.ObjectFactory.DogadajDataService.DajSveDogadaje();
-            foreach (Dogadaj dogadaj in list)
-            {
-                switch (dogadaj.DogadajTipId)
-                {
-                    case DogadajTip.Vrata:
-                        if (_frmPorukaVrata == null)
-                        {
-                            _frmPorukaVrata =
-                                new frmPoruka("Vanjska vrata trezora otvorena bez aktivnosti predaje pologa duže od ");
-                            _frmPorukaVrata.Show();
-                        }
-                        break;
-                    case DogadajTip.Foto:
-                        if (_frmPorukaFoto == null)
-                        {
-                            _frmPorukaFoto = new frmPoruka("Blokada fotosenzora.");
-                            _frmPorukaFoto.Show();;
-                        }
-                        break;
-                }
-            }
-            if (list.Any(x => x.DogadajTipId == DogadajTip.Foto) && _frmPorukaFoto != null)
-            {
-                _frmPorukaFoto.Close();
-                _frmPorukaFoto.Dispose();
-                _frmPorukaFoto = null;
-            }
-
-            if (list.Any(x => x.DogadajTipId == DogadajTip.Vrata) && _frmPorukaVrata != null)
-            {
-                _frmPorukaVrata.Close();
-                _frmPorukaVrata.Dispose();
-                _frmPorukaVrata = null;
-            }
-        }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using DNTv2.DataAccess;
 
 namespace DNTDataAccess
@@ -11,6 +12,7 @@ namespace DNTDataAccess
 
     public class Dogadaj:PersistentObject
     {
+        [Browsable(false)]
         public DogadajTip DogadajTipId { get; set; }
         public DateTime DatumOd { get; set; }
         public DateTime DatumDo { get; set; }

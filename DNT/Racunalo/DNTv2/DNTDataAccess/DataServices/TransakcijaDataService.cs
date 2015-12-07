@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Text;
-using DNTDataAccess.Properties;
+using DNTDataAccess;
 using DNTv2.DataModel;
 
 namespace DNTv2.DataAccess.Services
@@ -46,7 +46,7 @@ namespace DNTv2.DataAccess.Services
 
         public IList<Transakcija> DajTransakcije(DateTime? datumOd = null, DateTime? datumDo = null)
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 StringBuilder builder = new StringBuilder();
                 builder.Append("SELECT tr.kartica, ko.ime, ko.prezime, tr.dolazak AS DatumOd, tr.vrecica AS BrojVrecica, tr.odlazak AS DatumDo, tr.trezor ");
@@ -83,7 +83,7 @@ namespace DNTv2.DataAccess.Services
 
         public int DajBrojVrecicaUTrezoru()
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 OleDbCommand command = new OleDbCommand("SELECT Sum(vrecica) FROM DNTTransakcije WHERE trezor = True", connection);
                 try
@@ -101,7 +101,7 @@ namespace DNTv2.DataAccess.Services
 
         public DateTime ZadnjePraznjenjeTrezora()
         {
-            using (OleDbConnection connection = new OleDbConnection(Settings.Default.ConnectionString))
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 OleDbCommand command = new OleDbCommand("SELECT TREZOR_PRAZAN_VRIJEME FROM SISTEM WHERE ID = 1", connection);
                 try
