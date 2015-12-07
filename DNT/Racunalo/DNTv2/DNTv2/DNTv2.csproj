@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Aha-Soft-Large-Business-Safe.ico" />
+    <None Include="Resources\Button-Refresh-icon.png" />
     <None Include="Resources\Folders-OS-Info-Metro-icon.png" />
   </ItemGroup>
   <ItemGroup>

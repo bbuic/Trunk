@@ -109,7 +109,9 @@ namespace DNTv2.DataModel.Converters
                 main.grbMainIzbornik.Enabled = true;
                 service.Refresh();
             };
-            
+
+            main.linkLabel1.Click += delegate { service.Refresh(); };
+
             main.btnPrint.Click += delegate
             {
                 service.bindingSource.DataSource = ObjectFactory.TransakcijaDataService.DajTransakcije(main.dtpDatumOd.Value, main.dtpDatumDo.Value).
