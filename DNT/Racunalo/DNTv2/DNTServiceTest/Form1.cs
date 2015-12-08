@@ -17,11 +17,13 @@ namespace DNTServiceTest
         {
             _processor = new Processor();
             _processor.Start();
+            MessageBox.Show("Servis pokrenut");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             _processor.Stop();
+            MessageBox.Show("Servis zaustavljen");
         }
     }
 }

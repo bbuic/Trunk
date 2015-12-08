@@ -4,7 +4,7 @@ using DNTv2.DataAccess;
 
 namespace DNTDataAccess
 {
-    public enum DogadajTip:short
+    public enum DogadajTip
     {
         Vrata = 1,
         Foto = 2

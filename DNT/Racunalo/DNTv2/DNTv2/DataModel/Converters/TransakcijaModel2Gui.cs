@@ -172,14 +172,17 @@ namespace DNTv2.DataModel.Converters
             main.dgvTransakcije.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             main.dgvDogadaj.Columns["Id"].Visible = false;
-            main.dgvDogadaj.Columns["DatumOd"].HeaderText = @"Datum od";
-            main.dgvDogadaj.Columns["DatumOd"].Width = 150;
-            main.dgvDogadaj.Columns["DatumDo"].HeaderText = @"Datum do";
-            main.dgvDogadaj.Columns["DatumDo"].Width = 150;
+            main.dgvDogadaj.Columns["DatumOd"].HeaderText = @"Vrijeme početka događaja";
+            main.dgvDogadaj.Columns["DatumOd"].Width = 250;
+            main.dgvDogadaj.Columns["DatumOd"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            main.dgvDogadaj.Columns["DatumOd"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            main.dgvDogadaj.Columns["DatumDo"].Visible = false;
             main.dgvDogadaj.Columns["Naziv"].HeaderText = @"Naziv događaja";
             main.dgvDogadaj.Columns["Naziv"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            _timerRefresh = new Timer { Interval = int.Parse(Utils.ReadSetting("ConnectionString")) * 1000 };
+            main.dgvDogadaj.SelectionChanged += delegate { main.dgvDogadaj.ClearSelection(); };
+
+            _timerRefresh = new Timer { Interval = int.Parse(Utils.ReadSetting("TimerRefresh")) * 1000 };
             _timerRefresh.Tick += delegate
             {
                 service.Refresh();

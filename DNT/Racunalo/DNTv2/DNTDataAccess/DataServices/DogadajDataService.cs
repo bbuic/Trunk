@@ -8,7 +8,7 @@ namespace DNTDataAccess.DataServices
 {
     public class DogadajDataService:AbstractAutoDataService
     {
-        public Dogadaj OtvoriDogadaj(DogadajTip dogadajTip)
+        public void OtvoriDogadaj(DogadajTip dogadajTip)
         {
             using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
@@ -19,30 +19,18 @@ namespace DNTDataAccess.DataServices
                 command.Parameters.Add("", OleDbType.Integer).Value = dogadaj.DogadajTipId;
                 command.Parameters.Add("", OleDbType.Date).Value = dogadaj.DatumOd;
 
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    OleDbCommand dbCommand = new OleDbCommand("SELECT @@IDENTITY", connection);
-                    dogadaj.Id = (int)dbCommand.ExecuteScalar();
-                }
-                finally
-                {
-                    connection.Close();
-                }
-                return dogadaj;
+                ExecuteNonQuery(command);
             }
         }
 
-        public void ZatvoriDogadaj(Dogadaj dogadaj)
+        public void ZatvoriDogadaj(DogadajTip dogadajTip)
         {
-            using (OleDbCommand command = new OleDbCommand("UPDATE Dogadaj SET DatumDo = ? WHERE ID = ?"))
+            using (OleDbCommand command = new OleDbCommand("UPDATE Dogadaj SET DatumDo = ? WHERE DogadajTipId = ? AND DatumDo IS NULL"))
             {
                 command.Parameters.Add("", OleDbType.Date).Value = DateTime.Now;
-                command.Parameters.Add("", OleDbType.Integer).Value = dogadaj.Id;
+                command.Parameters.Add("", OleDbType.Integer).Value = dogadajTip;
                 ExecuteNonQuery(command);                
             }
-            dogadaj = null;
         }
 
         public IList<Dogadaj> DajSveDogadaje()

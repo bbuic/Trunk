@@ -13,13 +13,11 @@ namespace DNTServiceProcessor
         private SerialPort SerialPortElektronika;
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
-        private Timer _timerBackUp;
+        private static Timer _timerBackUp;
         private Timer _timerZvucniSignal;
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
-        private Dogadaj _otvorenaVrata;
-        private Dogadaj _blokadaFoto;
 
         #region Timer zasun
 
@@ -117,7 +115,7 @@ namespace DNTServiceProcessor
 
             SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
 
-            _otvorenaVrata = ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata);
+            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata);
 
             TimerZvucniSignalStart();
         }
@@ -155,7 +153,9 @@ namespace DNTServiceProcessor
 
             try
             {
-                _timerBackUp = new Timer(BackUp, null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
+                string s = Utils.ReadSetting("BackUpFolder");
+                if(!string.IsNullOrEmpty(s) && Directory.Exists(s))
+                    _timerBackUp = new Timer(BackUp, null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
             }
             catch (Exception e)
             {
@@ -214,8 +214,7 @@ namespace DNTServiceProcessor
                             _transakcija.BrojVrecica += 1;
                             ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
 
-                            if (_otvorenaVrata != null)
-                                ObjectFactory.DogadajDataService.ZatvoriDogadaj(_otvorenaVrata);
+                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
                             break;
 
                         case 0x22: //vrata zatorena
@@ -230,18 +229,16 @@ namespace DNTServiceProcessor
                             _transakcija.DatumDo = DateTime.Now;
                             ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
                             _transakcija = null;
-
-                            if (_otvorenaVrata != null)
-                                ObjectFactory.DogadajDataService.ZatvoriDogadaj(_otvorenaVrata);
+                            
+                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
                             break;
 
                         case 0x24: //blokada na fotoceliji
-                            _blokadaFoto = ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto);
+                            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto);
                             break;
 
                         case 0x27: //maknula se blokada sa fotocelije
-                            if (_blokadaFoto != null)
-                                ObjectFactory.DogadajDataService.ZatvoriDogadaj(_blokadaFoto);
+                           ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Foto);
                             break;
                     }
                 }
