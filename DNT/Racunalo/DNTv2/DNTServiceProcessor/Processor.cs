@@ -115,7 +115,7 @@ namespace DNTServiceProcessor
 
             SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
 
-            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata);
+            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata, _transakcija != null ? _transakcija.Kartica : null);
 
             TimerZvucniSignalStart();
         }
@@ -234,7 +234,7 @@ namespace DNTServiceProcessor
                             break;
 
                         case 0x24: //blokada na fotoceliji
-                            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto);
+                            ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto, _transakcija != null ? _transakcija.Kartica : null);
                             break;
 
                         case 0x27: //maknula se blokada sa fotocelije
@@ -245,11 +245,6 @@ namespace DNTServiceProcessor
                 catch (Exception e)
                 {
                     Utils.Log(e);
-                    try
-                    {
-                        SerialPortElektronika.Close();
-                    }
-                    catch { }
                 }
                 finally
                 {
@@ -263,11 +258,13 @@ namespace DNTServiceProcessor
 
         public void Stop()
         {
-            if (SerialPortElektronika.BytesToRead > 0)
-                SerialPortElektronika.DiscardInBuffer();
-            SerialPortElektronika.Close();
-            SerialPortElektronika.Dispose();
-            SerialPortElektronika = null;
+            if (SerialPortElektronika != null)
+            {
+                if (SerialPortElektronika.IsOpen)
+                    SerialPortElektronika.Close();
+                SerialPortElektronika.Dispose();
+                SerialPortElektronika = null;
+            }
         }
     }
 }

@@ -16,5 +16,6 @@ namespace DNTDataAccess
         public DogadajTip DogadajTipId { get; set; }
         public DateTime DatumOd { get; set; }
         public DateTime DatumDo { get; set; }
+        public string Kartica { get; set; }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.OleDb;
 using DNTv2.DataAccess.Services;
 
@@ -8,16 +6,17 @@ namespace DNTDataAccess.DataServices
 {
     public class DogadajDataService:AbstractAutoDataService
     {
-        public void OtvoriDogadaj(DogadajTip dogadajTip)
+        public void OtvoriDogadaj(DogadajTip dogadajTip, string kartica)
         {
             using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 Dogadaj dogadaj = new Dogadaj{DatumOd = DateTime.Now, DogadajTipId = dogadajTip};
                 OleDbCommand command =
-                    new OleDbCommand("INSERT INTO Dogadaj (DogadajTipID, DatumOd) Values (?, ?)", connection);
+                    new OleDbCommand("INSERT INTO Dogadaj (DogadajTipID, DatumOd, Kartica) Values (?, ?, ?)", connection);
 
                 command.Parameters.Add("", OleDbType.Integer).Value = dogadaj.DogadajTipId;
                 command.Parameters.Add("", OleDbType.Date).Value = dogadaj.DatumOd;
+                command.Parameters.Add("", OleDbType.VarChar).Value = string.IsNullOrEmpty(kartica) ? (object) DBNull.Value : kartica;
 
                 ExecuteNonQuery(command);
             }
@@ -30,27 +29,6 @@ namespace DNTDataAccess.DataServices
                 command.Parameters.Add("", OleDbType.Date).Value = DateTime.Now;
                 command.Parameters.Add("", OleDbType.Integer).Value = dogadajTip;
                 ExecuteNonQuery(command);                
-            }
-        }
-
-        public IList<Dogadaj> DajSveDogadaje()
-        {
-            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
-            {
-                DataTable table = new DataTable();
-                OleDbCommand command = new OleDbCommand("SELECT DogadajTipId, DatumOd, DatumDo FROM Dogadaj WHERE DatumDo IS NULL", connection);
-                try
-                {
-                    connection.Open();
-                    new OleDbDataAdapter(command).Fill(table);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-
-                IList<Dogadaj> list = ToList<Dogadaj>(GetArrayList(table));                
-                return list;
             }
         }
 

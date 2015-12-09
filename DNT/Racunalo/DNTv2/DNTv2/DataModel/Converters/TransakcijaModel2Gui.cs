@@ -171,12 +171,28 @@ namespace DNTv2.DataModel.Converters
             main.dgvTransakcije.Columns["Kartica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             main.dgvTransakcije.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+
+            //*************************************************************************************************************
+            //Pregled događaja
             main.dgvDogadaj.Columns["Id"].Visible = false;
+            main.dgvDogadaj.Columns["DatumDo"].Visible = false;
+
+            main.dgvDogadaj.Columns["Ime"].HeaderText = @"Ime (Naziv1)";
+            main.dgvDogadaj.Columns["Ime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            main.dgvDogadaj.Columns["Prezime"].HeaderText = @"Prezime (Naziv2)";
+            main.dgvDogadaj.Columns["Prezime"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            main.dgvDogadaj.Columns["Kartica"].HeaderText = @"Broj kartice";
+            main.dgvDogadaj.Columns["Kartica"].Width = 120;
+            main.dgvDogadaj.Columns["Kartica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            main.dgvDogadaj.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             main.dgvDogadaj.Columns["DatumOd"].HeaderText = @"Vrijeme početka događaja";
             main.dgvDogadaj.Columns["DatumOd"].Width = 250;
             main.dgvDogadaj.Columns["DatumOd"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             main.dgvDogadaj.Columns["DatumOd"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            main.dgvDogadaj.Columns["DatumDo"].Visible = false;
+            
             main.dgvDogadaj.Columns["Naziv"].HeaderText = @"Naziv događaja";
             main.dgvDogadaj.Columns["Naziv"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 

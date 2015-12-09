@@ -15,8 +15,7 @@ namespace DNTv2.DataModel.Services
                 bindingSource.DataSource = ObjectFactory.TransakcijaDataService.DajTransakcije()
                     .Select(transakcija => new TransakcijeModel { Transakcija = transakcija }).ToList();                
             }
-            bindingSourceDogadaj.DataSource = DNTDataAccess.ObjectFactory.DogadajDataService.
-                DajSveDogadaje().Select(x=> new DogadajModel{DatumOd = x.DatumOd, DatumDo = x.DatumDo, DogadajTipId = x.DogadajTipId}).ToList();
+            bindingSourceDogadaj.DataSource = ObjectFactory.DogadajDataService.DajSveDogadaje();
         }
     }
 }

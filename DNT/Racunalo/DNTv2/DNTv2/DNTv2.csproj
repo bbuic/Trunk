@@ -65,6 +65,7 @@
     <Compile Include="DataModel\Services\KorisnikModelService.cs" />
     <Compile Include="DataModel\Services\TransakcijeModelService.cs" />
     <Compile Include="DataModel\TransakcijeModel.cs" />
+    <Compile Include="Data\DataService\DogadajDataService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
