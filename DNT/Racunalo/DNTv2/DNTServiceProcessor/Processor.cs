@@ -14,7 +14,6 @@ namespace DNTServiceProcessor
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
         private static Timer _timerBackUp;
-        private Timer _timerZvucniSignal;
         private bool _obradaSerijskogPortaUTijeku;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
@@ -27,7 +26,6 @@ namespace DNTServiceProcessor
             TransakcijaUTijeku = false;
             _transakcija = null;
             SerialPortElektronika.Write(new byte[] { 0x11 }, 0, 1);
-            //UvodnaPoruka();
         }
 
         private void TimerZasunStart()
@@ -48,34 +46,6 @@ namespace DNTServiceProcessor
 
         #endregion
 
-        #region Timer zvučni signal
-
-        private void ZvucniSignal()
-        {
-            Console.Beep(1000, 500);
-        }
-
-        private void TimerZvucniSignalStart()
-        {
-            if (_timerZvucniSignal == null)
-            {
-                _timerZvucniSignal = new Timer(_ => ZvucniSignal());
-                _timerZvucniSignal.Change(0, 2000);
-            }
-        }
-
-        private void TimerZvucniSignalStop()
-        {
-            if (_timerZvucniSignal != null)
-            {
-                _timerZvucniSignal.Change(Timeout.Infinite, Timeout.Infinite);
-                _timerZvucniSignal.Dispose();
-                _timerZvucniSignal = null;
-            }
-        }
-
-        #endregion
-
         #region Timer vrata
 
         private void TimerVrataOtvorenaReStart()
@@ -84,7 +54,6 @@ namespace DNTServiceProcessor
                 _timerVrataOtvorena.Change(int.Parse(Utils.ReadSetting("TimerVrataOtvorena")) * 1000, Timeout.Infinite);
             else
                 TimerVrataOtvorenaStart();
-            TimerZvucniSignalStop();
         }
 
         private void TimerVrataOtvorenaStart()
@@ -106,7 +75,6 @@ namespace DNTServiceProcessor
                 _timerVrataOtvorena.Dispose();
                 _timerVrataOtvorena = null;
             }
-            TimerZvucniSignalStop();
         }
 
         private void ZatvoriVrata()
@@ -116,8 +84,6 @@ namespace DNTServiceProcessor
             SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
 
             ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata, _transakcija != null ? _transakcija.Kartica : null);
-
-            TimerZvucniSignalStart();
         }
 
         #endregion
@@ -145,14 +111,14 @@ namespace DNTServiceProcessor
 
         public void Start()
         {
-            if (SerialPortElektronika == null)
-            {
-                SerialPortElektronika = new SerialPort(Utils.ReadSetting("PortElektronika"), 19200);
-                SerialPortElektronika.Open();
-            }
-
             try
             {
+                if (SerialPortElektronika == null)
+                {
+                    SerialPortElektronika = new SerialPort(Utils.ReadSetting("PortElektronika"), 19200);
+                    SerialPortElektronika.Open();
+                }
+
                 string s = Utils.ReadSetting("BackUpFolder");
                 if(!string.IsNullOrEmpty(s) && Directory.Exists(s))
                     _timerBackUp = new Timer(BackUp, null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
@@ -160,6 +126,7 @@ namespace DNTServiceProcessor
             catch (Exception e)
             {
                 Utils.Log(e);
+                throw;
             }
 
             //HENDLANJE PORUKA ELEKTRONIKE
@@ -258,12 +225,19 @@ namespace DNTServiceProcessor
 
         public void Stop()
         {
-            if (SerialPortElektronika != null)
+            try
             {
-                if (SerialPortElektronika.IsOpen)
-                    SerialPortElektronika.Close();
-                SerialPortElektronika.Dispose();
-                SerialPortElektronika = null;
+                if (SerialPortElektronika != null)
+                {
+                    if (SerialPortElektronika.IsOpen)
+                        SerialPortElektronika.Close();
+                    SerialPortElektronika.Dispose();
+                    SerialPortElektronika = null;
+                }
+            }
+            catch (Exception e)
+            {
+                Utils.Log(e);
             }
         }
     }

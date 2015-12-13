@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 
 namespace DNTServiceProcessor
 {
@@ -15,16 +17,32 @@ namespace DNTServiceProcessor
             {
                 throw new Exception("Greška prilikom čitanja konfiguracije. Opis greške: " + e.Message);
             }
-        } 
+        }
 
-        public static void Log(Exception e)
+        internal static void Log(Exception e)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Log.txt", true))
+            string log = "Greska: " + e.Message + Environment.NewLine + "  StacTrace: " + e.StackTrace +
+                         (e.InnerException != null ? "Inner exception: " + e.InnerException.Message : "") +
+                         Environment.NewLine + " Datum: " + DateTime.Now;
+            try
             {
-                file.WriteLine("");
-                file.WriteLine("");
-                file.WriteLine("Greska: " + e.Message + "  StacTrace: " + e.StackTrace + 
-                    (e.InnerException != null ? "Inner exception: " + e.InnerException.Message : ""));
+                using (StreamWriter file = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "Log.txt", true))
+                {
+                    file.WriteLine("");
+                    file.WriteLine("");
+                    file.WriteLine(log);
+                }
+            }
+            catch (Exception)
+            {
+                if (!EventLog.SourceExists("DNTService"))
+                    EventLog.CreateEventSource("DNTService", "DNT");
+
+                using (EventLog eventLog = new EventLog("DNT"))
+                {
+                    eventLog.Source = "DNTService";
+                    eventLog.WriteEntry(log, EventLogEntryType.Error, 101, 1);
+                }
             }
         }
     }
