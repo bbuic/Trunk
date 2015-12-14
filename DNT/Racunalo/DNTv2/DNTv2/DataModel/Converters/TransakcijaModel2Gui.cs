@@ -198,12 +198,16 @@ namespace DNTv2.DataModel.Converters
 
             main.dgvDogadaj.SelectionChanged += delegate { main.dgvDogadaj.ClearSelection(); };
 
-            _timerRefresh = new Timer { Interval = int.Parse(Utils.ReadSetting("TimerRefresh")) * 1000 };
-            _timerRefresh.Tick += delegate
+            string s = Utils.ReadSetting("TimerRefresh");
+            if (!string.IsNullOrEmpty(s))
             {
-                service.Refresh();
-            };
-            _timerRefresh.Start();
+                _timerRefresh = new Timer {Interval = int.Parse(s)*1000};
+                _timerRefresh.Tick += delegate
+                {
+                    service.Refresh();
+                };
+                _timerRefresh.Start();
+            }
 
             return main;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using DNTv2.DataAccess;
 using DNTv2.DataModel.Services;
 
 namespace DNTv2.DataModel.Converters
@@ -87,14 +88,59 @@ namespace DNTv2.DataModel.Converters
                 }
             };
 
+
+
+
+            user.txtBrojFilter.KeyPress += delegate(object sender, KeyPressEventArgs e)
+            {
+                e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+            };
+
+            user.txtBrojFilter.GotFocus += delegate
+            {
+                foreach (DataGridViewRow row in user.dgvKorisnici.Rows)
+                {
+                    KorisnikModel model = row.DataBoundItem as KorisnikModel;
+                    if (model != null) 
+                        model.RefreshKartice();
+                }
+            };
+
+            user.txtBrojFilter.TextChanged += delegate
+            {
+                if (string.IsNullOrEmpty(user.txtBrojFilter.Text))
+                {
+                    foreach (DataGridViewRow row in user.dgvKorisnici.Rows)
+                        row.Visible = true;
+                    return;
+                }
+
+                user.dgvKorisnici.CurrentCell = null;
+                foreach (DataGridViewRow row in user.dgvKorisnici.Rows)
+                {
+                    KorisnikModel model = row.DataBoundItem as KorisnikModel;
+                    row.Visible = model != null && model.Kartice.Any(x => x.Broj.Contains(user.txtBrojFilter.Text));                     
+                }
+
+                if (user.dgvKorisnici.DisplayedRowCount(true) > 0)
+                {
+                    user.dgvKorisnici.CurrentCell = user.dgvKorisnici.Rows[user.dgvKorisnici.FirstDisplayedScrollingRowIndex].Cells[2];
+                    user.dgvKorisnici.Rows[user.dgvKorisnici.FirstDisplayedScrollingRowIndex].Selected = true;
+                }
+            };
+
+
             user.txtBrojKartice.Validating += delegate(object sender, CancelEventArgs e)
             {
                 KarticaModel model = (KarticaModel)karticaModelService.bindingSource.Current;
-                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && model != null && model.ModelState != ModelState.Unchanged &&
-                    ObjectFactory.KarticaDataService.PostojiBrojKartice(user.txtBrojKartice.Text, false))
+                if (!string.IsNullOrEmpty(user.txtBrojKartice.Text) && model != null && model.ModelState != ModelState.Unchanged)
                 {
-                    MessageBox.Show(@"Broj kartice (" + user.txtBrojKartice.Text.Trim() + @") već postoji.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    e.Cancel = true;
+                    Korisnik korisnikPoBrojuKartice = ObjectFactory.KorisnikDataService.KorisnikPoBrojuKartice(user.txtBrojKartice.Text);
+                    if(korisnikPoBrojuKartice != null)
+                    {
+                        MessageBox.Show(@"Broj kartice (" + user.txtBrojKartice.Text.Trim() + @") je već unešen za korisnika: " + korisnikPoBrojuKartice.Ime, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                    }
                 }                    
             };
 

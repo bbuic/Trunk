@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DNTv2.Data.DataService;
+using DNTDataAccess.DataServices;
 using DNTv2.DataAccess.Services;
 using DNTv2.DataModel.DataServices;
+using DogadajDataService = DNTv2.Data.DataService.DogadajDataService;
 
 namespace DNTv2
 {

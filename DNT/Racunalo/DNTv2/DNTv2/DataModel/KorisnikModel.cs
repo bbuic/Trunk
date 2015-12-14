@@ -94,5 +94,10 @@ namespace DNTv2.DataModel
             get { return _korisnik.Kartice.Select(kartica => new KarticaModel { Kartica = kartica }).ToList(); }
             set { }
         }
+
+        public void RefreshKartice()
+        {
+            _korisnik.Kartice = ObjectFactory.KarticaDataService.DajKarticeKorisnika(_korisnik.Id);
+        }
     }
 }

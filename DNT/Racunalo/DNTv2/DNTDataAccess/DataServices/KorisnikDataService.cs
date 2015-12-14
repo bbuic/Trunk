@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using DNTDataAccess;
+using DNTv2.DataAccess;
+using DNTv2.DataAccess.Services;
 using DNTv2.DataModel;
 
-namespace DNTv2.DataAccess.Services
+namespace DNTDataAccess.DataServices
 {
     public class KorisnikDataService : AbstractAutoDataService
     {
@@ -71,7 +72,10 @@ namespace DNTv2.DataAccess.Services
             using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 DataTable table = new DataTable();
-                OleDbCommand command = new OleDbCommand("SELECT Id, ime, prezime, ulica AS Adresa, kucni AS KucniBroj, mjesto AS Grad, telefon FROM DNTKorisnici ORDER BY ime, prezime", connection);
+                OleDbCommand command =
+                    new OleDbCommand(
+                        "SELECT Id, ime, prezime, ulica AS Adresa, kucni AS KucniBroj, mjesto AS Grad, telefon FROM DNTKorisnici ORDER BY ime, prezime",
+                        connection);
                 try
                 {
                     connection.Open();
@@ -82,13 +86,36 @@ namespace DNTv2.DataAccess.Services
                     connection.Close();
                 }
 
-                IList<Korisnik> list = ToList<Korisnik>(GetArrayList(table));
-                //foreach (Korisnik korisnik in list)
-                //{
-                //    korisnik.Kartice = ObjectFactory.KarticaDataService.DajKarticeKorisnika(korisnik.Id);
-                //}
+                IList<Korisnik> list = ToList<Korisnik>(GetArrayList(table));                
                 return list;
             }
+        }
+
+        public Korisnik KorisnikPoBrojuKartice(string brojKartice)
+        {
+            using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
+            {
+                DataTable table = new DataTable();
+                OleDbCommand command = new OleDbCommand("SELECT ko.* FROM Kartice ka INNER JOIN DNTKorisnici ko ON ka.VlasnikID = ko.ID WHERE ka.Broj = ?", connection);
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = brojKartice;
+
+                try
+                {
+                    connection.Open();
+                    new OleDbDataAdapter(command).Fill(table);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                if (table.Rows.Count > 0)
+                {
+                    var o = CreateObject();
+                    Utils.Populate(o, table.Rows[0]);
+                    return o as Korisnik;
+                }
+            }
+            return null;
         }
         
         public override Type ObjectType
