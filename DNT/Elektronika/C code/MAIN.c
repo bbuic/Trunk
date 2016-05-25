@@ -174,34 +174,19 @@ int main(void)
 		/*************************************************************************************************
 		*FUNKCIJA KOJA PRATI FOTOCELIJU
 		*/
-		if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
-		{
-			flag.fotocelija=1;
-			
-			flag.vrata_zatvori=0;//bit koji obilježava dali je postojao alarm otvorena vrata
-			
-			if(flag.vrata_kartica==1){
-				putchr(0x23);
+			//detekcija objekta na fotosenzoru
+			if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
+			{
+				flag.fotocelija=1;			
+				flag.vrata_zatvori=0;//bit koji obilježava dali je postojao alarm otvorena vrata			
+				putchr(0x23);											
 			}
 			
-			//Èekam da vreèica proðe fotosenzor
-			delay_ms(150);
-			
-			if(bit_is_set(PINC,PINC1)){
+			//objekt se maknuo sa fotosenzora
+			if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
 				flag.fotocelija=0;
+				putchr(0x27);
 			}
-			else{
-				putchr(0x24);
-				BEEP();
-			}
-						
-		}
-		
-		//maklo se sa fotoèelije(u sluèaju alarma)
-		if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
-			flag.fotocelija=0;
-			putchr(0x27);
-		}
 		//********************************************************************************************************
   
 		  
