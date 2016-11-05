@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.OleDb;
 using System.IO;
 using System.IO.Ports;
@@ -10,14 +11,15 @@ namespace DNTServiceProcessor
 {
     public class Processor
     {
-        private SerialPort SerialPortElektronika;
+        private SerialPort _serialPortElektronika;
         private Timer _timerVrataZasun;
         private Timer _timerVrataOtvorena;
         private Timer _timerFoto;
         private static Timer _timerBackUp;
-        private bool _obradaSerijskogPortaUTijeku;
+        private static Timer _timerSerialPort;
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
+        private readonly Queue<byte> _queue = new Queue<byte>();
 
         #region Timer zasun
 
@@ -26,7 +28,7 @@ namespace DNTServiceProcessor
             TimerZasunStop();
             TransakcijaUTijeku = false;
             _transakcija = null;
-            SerialPortElektronika.Write(new byte[] { 0x11 }, 0, 1);
+            _serialPortElektronika.Write(new byte[] { 0x11 }, 0, 1);
         }
 
         private void TimerZasunStart()
@@ -82,7 +84,7 @@ namespace DNTServiceProcessor
         {
             TimerVrataOtvorenaStop();
 
-            SerialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
+            _serialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
 
             ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata, _transakcija != null ? _transakcija.Kartica : null);
         }
@@ -114,10 +116,10 @@ namespace DNTServiceProcessor
         {
             try
             {
-                if (SerialPortElektronika == null)
+                if (_serialPortElektronika == null)
                 {
-                    SerialPortElektronika = new SerialPort(Utils.ReadSetting("PortElektronika"), 19200);
-                    SerialPortElektronika.Open();
+                    _serialPortElektronika = new SerialPort(Utils.ReadSetting("PortElektronika"), 19200){ReceivedBytesThreshold = 1};                    
+                    _serialPortElektronika.Open();
                 }
 
                 string s = Utils.ReadSetting("BackUpFolder");
@@ -130,32 +132,49 @@ namespace DNTServiceProcessor
                 throw;
             }
 
-            //HENDLANJE PORUKA ELEKTRONIKE
-            SerialPortElektronika.DataReceived += delegate
+            if (_timerSerialPort == null)
+                _timerSerialPort = new Timer(_ => ObradiPodatkeSerijskogPorta());
+            
+            _serialPortElektronika.DataReceived += delegate
             {
-                if (_obradaSerijskogPortaUTijeku)
-                    return;
+                _timerSerialPort.Change(100, Timeout.Infinite);
+
+                while (_serialPortElektronika.BytesToRead > 0)
+                    _queue.Enqueue((byte) _serialPortElektronika.ReadByte());
+            };
+        }
+
+        private void ObradiPodatkeSerijskogPorta()
+        {
+            while (_queue.Count > 0)            
+            {
                 try
                 {
-                    _obradaSerijskogPortaUTijeku = true;
-
-                    switch (SerialPortElektronika.ReadByte())
+                    switch (_queue.Dequeue())
                     {
-                        case 0x20:
+                        case 0x20: //bezkontaktna kartica
 
-                            if (SerialPortElektronika.BytesToRead < 2 || TransakcijaUTijeku)
+                            if (_queue.Count < 2 || TransakcijaUTijeku)
+                            {
+                                _queue.Clear();
                                 break;
+                            }
 
                             byte[] buffer = new byte[2];
-                            buffer[1] = (byte)this.SerialPortElektronika.ReadByte();
-                            buffer[0] = (byte)this.SerialPortElektronika.ReadByte();
+                            buffer[1] = _queue.Dequeue();
+                            buffer[0] = _queue.Dequeue();
                             var kartica = ((BitConverter.ToInt16(buffer, 0)).ToString()).PadLeft(5, '0');
 
                             if (ObjectFactory.KarticaDataService.PostojiBrojKartice(kartica, true))
                             {
-                                SerialPortElektronika.Write(new byte[] { 0x10 }, 0, 1);
+                                _serialPortElektronika.Write(new byte[] {0x10}, 0, 1);
 
-                                _transakcija = new Transakcija { Kartica = kartica, DatumOd = DateTime.Now, Trezor = true };
+                                _transakcija = new Transakcija
+                                {
+                                    Kartica = kartica,
+                                    DatumOd = DateTime.Now,
+                                    Trezor = true
+                                };
                                 ObjectFactory.TransakcijaDataService.UnesiTransakciju(_transakcija);
 
                                 TimerZasunStart();
@@ -171,43 +190,42 @@ namespace DNTServiceProcessor
                             TimerZasunStop();
                             TimerVrataOtvorenaStart();
                             break;
-                            
+
                         case 0x23: //detekcija objekta na fotosenzoru
 
                             if (!TransakcijaUTijeku)
                                 break;
-
-                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
-                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Foto);
-                            TimerVrataOtvorenaReStart();
                             
-                            _timerFoto = new Timer(delegate
+                            TimerVrataOtvorenaReStart();
+
+                            if (_timerFoto == null)
                             {
-                                ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto, _transakcija != null ? _transakcija.Kartica : null);
-                            });                            
-                            _timerFoto.Change(int.Parse( Utils.ReadSetting("TimerFoto")), Timeout.Infinite);
+                                _timerFoto = 
+                                    new Timer(delegate{ ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Foto, _transakcija != null ? _transakcija.Kartica : null);});
+                            }
+                            _timerFoto.Change(int.Parse(Utils.ReadSetting("TimerFoto")), Timeout.Infinite);
                             break;
 
                         case 0x27: //objekt se maknuo sa fotosenzora
-                            
+
                             if (_timerFoto != null)
                             {
                                 _timerFoto.Change(Timeout.Infinite, Timeout.Infinite);
                                 _timerFoto.Dispose();
                                 _timerFoto = null;
                             }
+                            
+                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
+                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Foto);
 
                             if (!TransakcijaUTijeku)
                                 break;
-                            
-                            _transakcija.BrojVrecica += 1;
-                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
 
-                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
-                            ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Foto);
                             TimerVrataOtvorenaReStart();
+
+                            _transakcija.BrojVrecica += 1;
+                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);                            
                             break;
-                            
 
                         case 0x22: //vrata zatorena
 
@@ -221,36 +239,32 @@ namespace DNTServiceProcessor
                             _transakcija.DatumDo = DateTime.Now;
                             ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
                             _transakcija = null;
-                            
+
                             ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
                             break;
-                        
+
+                        default:
+                            _queue.Dequeue();
+                            break;
                     }
                 }
                 catch (Exception e)
                 {
                     Utils.Log(e);
-                }
-                finally
-                {
-                    if (SerialPortElektronika.BytesToRead > 0)
-                        SerialPortElektronika.DiscardInBuffer();
-
-                    _obradaSerijskogPortaUTijeku = false;
-                }
-            };
+                }                
+            }            
         }
 
         public void Stop()
         {
             try
             {
-                if (SerialPortElektronika != null)
+                if (_serialPortElektronika != null)
                 {
-                    if (SerialPortElektronika.IsOpen)
-                        SerialPortElektronika.Close();
-                    SerialPortElektronika.Dispose();
-                    SerialPortElektronika = null;
+                    if (_serialPortElektronika.IsOpen)
+                        _serialPortElektronika.Close();
+                    _serialPortElektronika.Dispose();
+                    _serialPortElektronika = null;
                 }
             }
             catch (Exception e)
