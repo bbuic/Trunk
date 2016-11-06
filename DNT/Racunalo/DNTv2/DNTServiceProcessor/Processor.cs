@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using DNTDataAccess;
+using DNTServiceProcessor.Lcd;
 using DNTv2.DataModel;
 
 namespace DNTServiceProcessor
@@ -16,10 +17,11 @@ namespace DNTServiceProcessor
         private Timer _timerVrataOtvorena;
         private Timer _timerFoto;
         private static Timer _timerBackUp;
-        private static Timer _timerSerialPort;
+        private static Timer _timerSerialPort;        
         private Transakcija _transakcija;
         internal bool TransakcijaUTijeku { get; set; }
         private readonly Queue<byte> _queue = new Queue<byte>();
+        private ILcdService _lcdService;
 
         #region Timer zasun
 
@@ -29,6 +31,8 @@ namespace DNTServiceProcessor
             TransakcijaUTijeku = false;
             _transakcija = null;
             _serialPortElektronika.Write(new byte[] { 0x11 }, 0, 1);
+
+            _lcdService.UvodnaPoruka();
         }
 
         private void TimerZasunStart()
@@ -83,10 +87,10 @@ namespace DNTServiceProcessor
         private void ZatvoriVrata()
         {
             TimerVrataOtvorenaStop();
-
-            _serialPortElektronika.Write(new byte[] { 0x12 }, 0, 1);
-
+            
             ObjectFactory.DogadajDataService.OtvoriDogadaj(DogadajTip.Vrata, _transakcija != null ? _transakcija.Kartica : null);
+
+            _lcdService.IspisiPoruku("Molimo da zatvorite vrata...");
         }
 
         #endregion
@@ -125,6 +129,9 @@ namespace DNTServiceProcessor
                 string s = Utils.ReadSetting("BackUpFolder");
                 if(!string.IsNullOrEmpty(s) && Directory.Exists(s))
                     _timerBackUp = new Timer(BackUp, null, TimeSpan.FromMinutes(1), TimeSpan.FromHours(24));
+
+                _lcdService = new LcdService();
+                _lcdService.UvodnaPoruka();
             }
             catch (Exception e)
             {
@@ -179,6 +186,8 @@ namespace DNTServiceProcessor
 
                                 TimerZasunStart();
                                 TransakcijaUTijeku = true;
+
+                                _lcdService.IspisiPoruku("   OTORITE VRATA      Ubacujte vrecice");
                             }
                             break;
 
@@ -189,6 +198,8 @@ namespace DNTServiceProcessor
 
                             TimerZasunStop();
                             TimerVrataOtvorenaStart();
+
+                            _lcdService.IspisiPoruku("Dozvoljeno ubacivatiUbaceno vrecica = 0");
                             break;
 
                         case 0x23: //detekcija objekta na fotosenzoru
@@ -224,7 +235,9 @@ namespace DNTServiceProcessor
                             TimerVrataOtvorenaReStart();
 
                             _transakcija.BrojVrecica += 1;
-                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);                            
+                            ObjectFactory.TransakcijaDataService.PromjeniTransakciju(_transakcija);
+
+                            _lcdService.IspisiPoruku("Dozvoljeno ubacivatiUbaceno vrecica = " + _transakcija.BrojVrecica);
                             break;
 
                         case 0x22: //vrata zatorena
@@ -241,6 +254,18 @@ namespace DNTServiceProcessor
                             _transakcija = null;
 
                             ObjectFactory.DogadajDataService.ZatvoriDogadaj(DogadajTip.Vrata);
+
+                            _lcdService.IspisiPoruku("HVALA NA POVJERENJU!");
+                            int i;
+                            try
+                            {
+                                i = Convert.ToInt32(Utils.ReadSetting("TimerTransakcijaEnd"));
+                            }
+                            catch (Exception)
+                            {
+                                i = 2000;
+                            }
+                            _lcdService.UvodnaPoruka(i);                          
                             break;
 
                         default:
@@ -266,6 +291,8 @@ namespace DNTServiceProcessor
                     _serialPortElektronika.Dispose();
                     _serialPortElektronika = null;
                 }
+
+                _lcdService.Dispose();
             }
             catch (Exception e)
             {

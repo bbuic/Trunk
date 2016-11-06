@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lcd\ILcdService.cs" />
+    <Compile Include="Lcd\LcdService.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
