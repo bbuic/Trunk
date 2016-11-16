@@ -140,6 +140,8 @@ int main(void)
 			
 			OTVORI_BRAVU();
 			
+			delay_ms(100); //èekam da se promijeni stanje pina (stanje se mijenja usporeno zbog ZAVOJNICE)
+			
 			if(flag.vrata_kartica==1){
 				putchr(0x21);
 			}					
