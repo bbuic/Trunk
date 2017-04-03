@@ -11,5 +11,6 @@ namespace DNTv2.DataModel
         public DateTime Datum { get; set; }
         public int VlasnikId { get; set; }
         public bool Aktivnost { get; set; }
+        public string OdgovornaOsoba { get; set; }
     }
 }

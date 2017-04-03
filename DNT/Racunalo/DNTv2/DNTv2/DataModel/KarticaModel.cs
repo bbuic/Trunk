@@ -61,6 +61,12 @@ namespace DNTv2.DataModel
             }
         }
 
+        public string OdgovornaOsoba
+        {
+            get{ return _kartica.OdgovornaOsoba; }
+            set { _kartica.OdgovornaOsoba = value; }
+        }
+
         public override bool IsValid()
         {
             return !string.IsNullOrEmpty(Broj) && VlasnikId > 0;

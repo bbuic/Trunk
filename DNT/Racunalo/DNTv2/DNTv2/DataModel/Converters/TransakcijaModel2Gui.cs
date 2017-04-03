@@ -171,6 +171,8 @@ namespace DNTv2.DataModel.Converters
             main.dgvTransakcije.Columns["Kartica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             main.dgvTransakcije.Columns["Kartica"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            main.dgvTransakcije.Columns["OdgovornaOsoba"].HeaderText = @"Odgovorna osoba";
+            main.dgvTransakcije.Columns["OdgovornaOsoba"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             //*************************************************************************************************************
             //Pregled događaja

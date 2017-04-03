@@ -18,7 +18,7 @@
         </Field>
         <Field Name="DatumDo">
           <DataField>DatumDo</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="DatumOd">
           <DataField>DatumOd</DataField>
@@ -32,21 +32,13 @@
           <DataField>Kartica</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ModelState">
-          <DataField>ModelState</DataField>
-          <rd:TypeName>DNTv2.ModelState</rd:TypeName>
+        <Field Name="OdgovornaOsoba">
+          <DataField>OdgovornaOsoba</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Prezime">
           <DataField>Prezime</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Transakcija">
-          <DataField>Transakcija</DataField>
-          <rd:TypeName>DNTv2.DataModel.Transakcija</rd:TypeName>
-        </Field>
-        <Field Name="Trezor">
-          <DataField>Trezor</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
       </Fields>
       <Query>
@@ -66,22 +58,25 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.23613in</Width>
+              <Width>1.34157in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.21342in</Width>
+              <Width>1.12103in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.84439in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.33321in</Width>
+              <Width>1.27766in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.56771in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.3698in</Width>
+              <Width>1.2475in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.02592in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -304,6 +299,42 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Odg. osoba</Value>
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox18</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>LightGrey</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -511,12 +542,47 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="OdgovornaOsoba">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!OdgovornaOsoba.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>OdgovornaOsoba</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -539,7 +605,7 @@
         <Top>0.07091cm</Top>
         <Left>0.28252cm</Left>
         <Height>1.40228cm</Height>
-        <Width>19.21424cm</Width>
+        <Width>18.86146cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -550,7 +616,7 @@
     <Height>0.64583in</Height>
     <Style />
   </Body>
-  <Width>19.82144cm</Width>
+  <Width>19.50967cm</Width>
   <Page>
     <PageHeader>
       <Height>1.95791cm</Height>

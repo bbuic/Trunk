@@ -11,35 +11,40 @@ namespace DNTv2.DataAccess.Services
     {
         public void PromjeniKarticu(Kartica kartica)
         {
-            OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ?, Aktivnost = ? WHERE Broj = ?");
+            using (OleDbCommand command = new OleDbCommand("UPDATE Kartice SET Ugovor = ?, Datum = ?, Aktivnost = ?, OdgovornaOsoba = ? WHERE Broj = ?"))
+            {
+                command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object) DBNull.Value;
+                command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
+                command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
+                command.Parameters.Add("@OdgovornaOsoba", OleDbType.VarChar, 254).Value = kartica.OdgovornaOsoba ?? (object)DBNull.Value;
+                command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;                
 
-            command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
-            command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
-            command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
-            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;            
-
-             ExecuteNonQuery(command);
+                ExecuteNonQuery(command);
+            }
         }
 
         public void UnesiKarticu(Kartica kartica)
         {
-            OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum, Aktivnost) Values (?, ?, ?, ?, ?)");
+            using(OleDbCommand command = new OleDbCommand("INSERT INTO Kartice (Broj, VlasnikID, Ugovor, Datum, Aktivnost, OdgovornaOsoba) Values (?, ?, ?, ?, ?, ?)"))
+            {
+                command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
+                command.Parameters.Add("@VlasnikID", OleDbType.Integer).Value = kartica.VlasnikId;
+                command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
+                command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
+                command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
+                command.Parameters.Add("@OdgovornaOsoba", OleDbType.VarChar, 254).Value = kartica.OdgovornaOsoba ?? (object)DBNull.Value;
 
-            command.Parameters.Add("@Broj", OleDbType.VarChar, 10).Value = kartica.Broj;
-            command.Parameters.Add("@VlasnikID", OleDbType.Integer).Value = kartica.VlasnikId;
-            command.Parameters.Add("@Ugovor", OleDbType.VarChar, 255).Value = kartica.Ugovor ?? (object)DBNull.Value;
-            command.Parameters.Add("@Datum", OleDbType.Date).Value = kartica.Datum;
-            command.Parameters.Add("@Aktivnost", OleDbType.Boolean).Value = kartica.Aktivnost;
-
-             ExecuteNonQuery(command);
+                ExecuteNonQuery(command);
+            }
         }
 
         public void ObrisiKarticu(Kartica kartica)
         {
-            OleDbCommand command = new OleDbCommand("DELETE FROM Kartice WHERE Broj = ?");
-            command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
-
-            ExecuteNonQuery(command);
+            using (OleDbCommand command = new OleDbCommand("DELETE FROM Kartice WHERE Broj = ?"))
+            {
+                command.Parameters.Add("@Broj", OleDbType.VarChar).Value = kartica.Broj;
+                ExecuteNonQuery(command);
+            }
         }
 
         public IList<Kartica> DajKarticeKorisnika(int korisnikId)

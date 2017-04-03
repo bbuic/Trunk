@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUser));
             this.dgvKorisnici = new System.Windows.Forms.DataGridView();
             this.GRB_KORISNICI_DNT = new System.Windows.Forms.GroupBox();
@@ -69,6 +69,8 @@
             this.lblBrojKorisnika = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtBrojFilter = new System.Windows.Forms.TextBox();
+            this.txtOdgovornaOsoba = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKorisnici)).BeginInit();
             this.GRB_KORISNICI_DNT.SuspendLayout();
             this.TabControl1.SuspendLayout();
@@ -290,6 +292,8 @@
             // 
             // TabPage2
             // 
+            this.TabPage2.Controls.Add(this.txtOdgovornaOsoba);
+            this.TabPage2.Controls.Add(this.label5);
             this.TabPage2.Controls.Add(this.chAktivnost);
             this.TabPage2.Controls.Add(this.Label1);
             this.TabPage2.Controls.Add(this.dtpDatumKartice);
@@ -310,7 +314,7 @@
             // chAktivnost
             // 
             this.chAktivnost.AutoSize = true;
-            this.chAktivnost.Location = new System.Drawing.Point(280, 228);
+            this.chAktivnost.Location = new System.Drawing.Point(271, 201);
             this.chAktivnost.Name = "chAktivnost";
             this.chAktivnost.Size = new System.Drawing.Size(70, 17);
             this.chAktivnost.TabIndex = 90;
@@ -323,7 +327,7 @@
             this.Label1.BackColor = System.Drawing.SystemColors.Window;
             this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Label1.ForeColor = System.Drawing.Color.Red;
-            this.Label1.Location = new System.Drawing.Point(174, 199);
+            this.Label1.Location = new System.Drawing.Point(197, 172);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(15, 20);
             this.Label1.TabIndex = 89;
@@ -332,7 +336,7 @@
             // dtpDatumKartice
             // 
             this.dtpDatumKartice.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDatumKartice.Location = new System.Drawing.Point(84, 226);
+            this.dtpDatumKartice.Location = new System.Drawing.Point(107, 199);
             this.dtpDatumKartice.Name = "dtpDatumKartice";
             this.dtpDatumKartice.Size = new System.Drawing.Size(84, 20);
             this.dtpDatumKartice.TabIndex = 87;
@@ -340,7 +344,7 @@
             // LBL_DATUM_UPISA
             // 
             this.LBL_DATUM_UPISA.AutoSize = true;
-            this.LBL_DATUM_UPISA.Location = new System.Drawing.Point(40, 230);
+            this.LBL_DATUM_UPISA.Location = new System.Drawing.Point(63, 203);
             this.LBL_DATUM_UPISA.Name = "LBL_DATUM_UPISA";
             this.LBL_DATUM_UPISA.Size = new System.Drawing.Size(38, 13);
             this.LBL_DATUM_UPISA.TabIndex = 88;
@@ -349,7 +353,7 @@
             // LBL_BROJ_UGOVORA
             // 
             this.LBL_BROJ_UGOVORA.AutoSize = true;
-            this.LBL_BROJ_UGOVORA.Location = new System.Drawing.Point(232, 202);
+            this.LBL_BROJ_UGOVORA.Location = new System.Drawing.Point(223, 175);
             this.LBL_BROJ_UGOVORA.Name = "LBL_BROJ_UGOVORA";
             this.LBL_BROJ_UGOVORA.Size = new System.Drawing.Size(42, 13);
             this.LBL_BROJ_UGOVORA.TabIndex = 86;
@@ -357,7 +361,7 @@
             // 
             // txtBrojUgovora
             // 
-            this.txtBrojUgovora.Location = new System.Drawing.Point(280, 199);
+            this.txtBrojUgovora.Location = new System.Drawing.Point(271, 172);
             this.txtBrojUgovora.MaxLength = 255;
             this.txtBrojUgovora.Name = "txtBrojUgovora";
             this.txtBrojUgovora.Size = new System.Drawing.Size(100, 20);
@@ -365,7 +369,7 @@
             // 
             // txtBrojKartice
             // 
-            this.txtBrojKartice.Location = new System.Drawing.Point(84, 199);
+            this.txtBrojKartice.Location = new System.Drawing.Point(107, 172);
             this.txtBrojKartice.MaxLength = 5;
             this.txtBrojKartice.Name = "txtBrojKartice";
             this.txtBrojKartice.Size = new System.Drawing.Size(84, 20);
@@ -375,7 +379,7 @@
             // 
             this.LBL_BROJ_KARTICE.AutoSize = true;
             this.LBL_BROJ_KARTICE.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_BROJ_KARTICE.Location = new System.Drawing.Point(18, 202);
+            this.LBL_BROJ_KARTICE.Location = new System.Drawing.Point(41, 175);
             this.LBL_BROJ_KARTICE.Name = "LBL_BROJ_KARTICE";
             this.LBL_BROJ_KARTICE.Size = new System.Drawing.Size(60, 13);
             this.LBL_BROJ_KARTICE.TabIndex = 83;
@@ -387,37 +391,37 @@
             this.dgvKartice.AllowUserToDeleteRows = false;
             this.dgvKartice.AllowUserToResizeColumns = false;
             this.dgvKartice.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvKartice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvKartice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvKartice.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvKartice.Location = new System.Drawing.Point(6, 7);
             this.dgvKartice.MultiSelect = false;
             this.dgvKartice.Name = "dgvKartice";
             this.dgvKartice.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvKartice.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKartice.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvKartice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvKartice.Size = new System.Drawing.Size(398, 174);
+            this.dgvKartice.Size = new System.Drawing.Size(398, 152);
             this.dgvKartice.TabIndex = 0;
             // 
             // txtImeFilter
@@ -483,6 +487,26 @@
             this.txtBrojFilter.Name = "txtBrojFilter";
             this.txtBrojFilter.Size = new System.Drawing.Size(96, 20);
             this.txtBrojFilter.TabIndex = 70;
+            // 
+            // txtOdgovornaOsoba
+            // 
+            this.txtOdgovornaOsoba.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOdgovornaOsoba.Location = new System.Drawing.Point(107, 225);
+            this.txtOdgovornaOsoba.MaxLength = 254;
+            this.txtOdgovornaOsoba.Name = "txtOdgovornaOsoba";
+            this.txtOdgovornaOsoba.Size = new System.Drawing.Size(264, 20);
+            this.txtOdgovornaOsoba.TabIndex = 91;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(9, 228);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 92;
+            this.label5.Text = "Odgovorna osoba";
             // 
             // frmUser
             // 
@@ -556,5 +580,7 @@
         public System.Windows.Forms.CheckBox chAktivnost;
         private System.Windows.Forms.Label label4;
         internal System.Windows.Forms.TextBox txtBrojFilter;
+        internal System.Windows.Forms.TextBox txtOdgovornaOsoba;
+        internal System.Windows.Forms.Label label5;
     }
 }

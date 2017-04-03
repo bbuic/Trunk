@@ -12,26 +12,29 @@ namespace DNTv2.DataAccess.Services
     {
         public void PromjeniTransakciju(Transakcija transakcija)
         {
-            OleDbCommand command = new OleDbCommand("UPDATE DNTTransakcije SET vrecica = ?, odlazak = ? WHERE dolazak = ?");
+            using(OleDbCommand command = new OleDbCommand("UPDATE DNTTransakcije SET vrecica = ?, odlazak = ? WHERE dolazak = ?"))
+            {
+                command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
+                command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
+                command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
 
-            command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
-            command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
-            command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
-
-            ExecuteNonQuery(command);
+                ExecuteNonQuery(command);
+            }
         }
 
         public void UnesiTransakciju(Transakcija transakcija)
         {
-            OleDbCommand command = new OleDbCommand("INSERT INTO DNTTransakcije (kartica, dolazak, vrecica, odlazak, trezor) VALUES (?, ?, ?, ?, ?)");
+            using(OleDbCommand command = new OleDbCommand("INSERT INTO DNTTransakcije (kartica, dolazak, vrecica, odlazak, trezor) VALUES (?, ?, ?, ?, ?)"))
+            {
 
-            command.Parameters.Add("@kartica", OleDbType.VarChar).Value = transakcija.Kartica;
-            command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
-            command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
-            command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
-            command.Parameters.Add("@trezor", OleDbType.Boolean).Value = transakcija.Trezor;
+                command.Parameters.Add("@kartica", OleDbType.VarChar).Value = transakcija.Kartica;
+                command.Parameters.Add("@dolazak", OleDbType.Date).Value = transakcija.DatumOd;
+                command.Parameters.Add("@vrecica", OleDbType.SmallInt).Value = transakcija.BrojVrecica;
+                command.Parameters.Add("@odlazak", OleDbType.Date).Value = transakcija.DatumDo ?? (object)DBNull.Value;
+                command.Parameters.Add("@trezor", OleDbType.Boolean).Value = transakcija.Trezor;
 
-            ExecuteNonQuery(command);
+                ExecuteNonQuery(command);
+            }
         }
 
         public void IsprazniTrezor()
@@ -49,7 +52,7 @@ namespace DNTv2.DataAccess.Services
             using (OleDbConnection connection = new OleDbConnection(Utils.ReadSetting("ConnectionString")))
             {
                 StringBuilder builder = new StringBuilder();
-                builder.Append("SELECT tr.kartica, ko.ime, ko.prezime, tr.dolazak AS DatumOd, tr.vrecica AS BrojVrecica, tr.odlazak AS DatumDo, tr.trezor ");
+                builder.Append("SELECT tr.kartica, ka.OdgovornaOsoba, ko.ime, ko.prezime, tr.dolazak AS DatumOd, tr.vrecica AS BrojVrecica, tr.odlazak AS DatumDo, tr.trezor ");
                 builder.Append("FROM (Kartice AS ka INNER JOIN DNTKorisnici AS ko ON ka.VlasnikID = ko.ID) ");
                 builder.Append("INNER JOIN DNTTransakcije AS tr ON ka.Broj = tr.kartica ");
                 builder.Append("WHERE ");

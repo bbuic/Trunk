@@ -53,6 +53,11 @@ namespace DNTv2.DataModel
         [Browsable(false)] 
         public bool Trezor { get; set; }
 
+        public string OdgovornaOsoba
+        {
+            get { return _transakcija.OdgovornaOsoba; }
+            set { _transakcija.OdgovornaOsoba = value; }
+        }
         
     }
 }

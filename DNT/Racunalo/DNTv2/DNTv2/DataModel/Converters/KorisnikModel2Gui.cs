@@ -40,7 +40,9 @@ namespace DNTv2.DataModel.Converters
             user.dtpDatumKartice.DataBindings.Add("Value", karticaModelService.bindingSource, "Datum", true);
             user.dtpDatumKartice.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
             user.chAktivnost.DataBindings.Add("Checked", karticaModelService.bindingSource, "Aktivnost");
-            user.chAktivnost.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka"); 
+            user.chAktivnost.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
+            user.txtOdgovornaOsoba.DataBindings.Add("Text", karticaModelService.bindingSource, "OdgovornaOsoba");
+            user.txtOdgovornaOsoba.DataBindings.Add("Enabled", karticaModelService, "SourceImaPodataka");
 
             //za broj kartice dozvoljeno samo brojeve
             user.txtBrojKartice.KeyPress += delegate(object sender, KeyPressEventArgs e)
