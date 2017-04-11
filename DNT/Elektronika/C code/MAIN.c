@@ -178,7 +178,7 @@ int main(void)
 			{				
 				flag.fotocelija=1;						
 				putchr(0x23);											
-				delay_ms(10);
+				delay_ms(100);
 			}
 			
 			//objekt se maknuo sa fotosenzora
@@ -186,7 +186,7 @@ int main(void)
 			
 				flag.fotocelija=0;
 				putchr(0x27);
-				delay_ms(10);
+				delay_ms(100);
 			}
 		//********************************************************************************************************
   
