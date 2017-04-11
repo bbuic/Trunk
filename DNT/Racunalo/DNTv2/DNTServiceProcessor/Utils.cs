@@ -45,5 +45,33 @@ namespace DNTServiceProcessor
                 }
             }
         }
+
+        internal static void Log(string log)
+        {
+            if(string.IsNullOrEmpty(log))
+                return;
+
+            log += " Datum: " + DateTime.Now;
+            try
+            {
+                using (StreamWriter file = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "Log.txt", true))
+                {
+                    file.WriteLine("");
+                    file.WriteLine("");
+                    file.WriteLine(log);
+                }
+            }
+            catch (Exception)
+            {
+                if (!EventLog.SourceExists("DNTService"))
+                    EventLog.CreateEventSource("DNTService", "DNT");
+
+                using (EventLog eventLog = new EventLog("DNT"))
+                {
+                    eventLog.Source = "DNTService";
+                    eventLog.WriteEntry(log, EventLogEntryType.Error, 101, 1);
+                }
+            }
+        }
     }
 }

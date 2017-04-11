@@ -58,19 +58,19 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.34157in</Width>
+              <Width>1.57498in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.12103in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.84439in</Width>
+              <Width>0.66654in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.27766in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.56771in</Width>
+              <Width>0.51215in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.2475in</Width>
@@ -164,7 +164,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Broj kartice</Value>
+                              <Value>Broj kar.</Value>
                               <Style>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
