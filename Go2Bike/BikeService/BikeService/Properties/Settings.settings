@@ -1,7 +1,18 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BikeService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TPCANBaudrate" Type="BikeService.Objects.TPCANBaudrate" Scope="Application">
+      <Value Profile="(Default)">PCAN_BAUD_50K</Value>
+    </Setting>
+    <Setting Name="TPCANType" Type="BikeService.Objects.TPCANType" Scope="Application">
+      <Value Profile="(Default)">PCAN_TYPE_ISA</Value>
+    </Setting>
+    <Setting Name="IOPort" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">0100</Value>
+    </Setting>
+    <Setting Name="Interrupt" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -1,12 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    class PilonHandler
+    public class PilonHandler
     {
+        readonly PcanHandler _pcanHandler = new PcanHandler();
+        Docking _docking = new Docking();
+
+        public void Start()
+        {
+            if(!_pcanHandler.Init())
+                return;
+
+            _pcanHandler.CanRead += delegate(TPCANMsg msg, TPCANTimestamp stamp)
+            {
+                    
+            };
+
+            AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs args)
+            {
+
+            };
+        }
     }
 }

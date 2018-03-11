@@ -14,13 +14,14 @@ namespace BikeService.Objects
 
         public SwitchState SwitchState
         {
-            get => _switchState;
+            get { return _switchState; }
             set
             {
                 if(_switchState != value)
                 {
                     _switchState = value;
-                    SwitchStateChanged?.Invoke(value);
+                    if (SwitchStateChanged != null) 
+                        SwitchStateChanged.Invoke(value);
                 }
             }
         }

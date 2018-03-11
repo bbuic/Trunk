@@ -573,6 +573,25 @@ namespace BikeService.Objects
     /// </summary>
     public static class PCANBasic
     {
+        public static TPCANHandle[] UsbHandlesArray = {                
+                PCAN_USBBUS1,
+                PCAN_USBBUS2,
+                PCAN_USBBUS3,
+                PCAN_USBBUS4,
+                PCAN_USBBUS5,
+                PCAN_USBBUS6,
+                PCAN_USBBUS7,
+                PCAN_USBBUS8,
+                PCAN_USBBUS9,
+                PCAN_USBBUS10,
+                PCAN_USBBUS11,
+                PCAN_USBBUS12,
+                PCAN_USBBUS13,
+                PCAN_USBBUS14,
+                PCAN_USBBUS15,
+                PCAN_USBBUS16               
+            };
+
         #region PCAN-BUS Handles Definition
         /// <summary>
         /// Undefined/default value for a PCAN bus

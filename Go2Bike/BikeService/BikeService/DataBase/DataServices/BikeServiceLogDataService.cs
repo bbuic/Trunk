@@ -1,8 +1,8 @@
 ﻿namespace BikeService.DataBase.DataServices
 {
-    class BikeServiceLogDataService
+    public class BikeServiceLogDataService
     {
-        public void Write(BikeServiceLog log)
+        public void Write(LogLocation location, LogType type, string log)
         {
 
         }
