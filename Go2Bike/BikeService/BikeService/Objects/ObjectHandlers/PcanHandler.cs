@@ -13,9 +13,9 @@ namespace BikeService.Objects.ObjectHandlers
         private Thread _mReadThread;
 
         public delegate void ReadHandler(TPCANMsg theMsg, TPCANTimestamp itsTimeStamp);
-        public event ReadHandler CanRead;
+        public event ReadHandler HandleCanMessage;
         
-        public bool Init()
+        public bool InitCan()
         {
             try
             {
@@ -113,11 +113,11 @@ namespace BikeService.Objects.ObjectHandlers
             var stsResult = PCANBasic.Read(_handle, out canMsg, out canTimeStamp);
             if (stsResult != TPCANStatus.PCAN_ERROR_QRCVEMPTY)
             {
-                if (CanRead != null)
-                    CanRead(canMsg, canTimeStamp);                
+                if (HandleCanMessage != null)
+                    HandleCanMessage(canMsg, canTimeStamp);                
             }
             else
-                ObjectFactory.LogDataService.Write(LogLocation.CanRead, LogType.Info, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_QRCVEMPTY");            
+                ObjectFactory.LogDataService.Write(LogLocation.CanRead, LogType.Error, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_QRCVEMPTY");            
             return stsResult;
         }
 
@@ -133,15 +133,15 @@ namespace BikeService.Objects.ObjectHandlers
                 ObjectFactory.LogDataService.Write(LogLocation.CanRelease, LogType.Info, "Nije moguće pokrenuti release jer nema handlera.");
         }
 
-        public void Write(string idUredaja, TPCANMessageType msgtype, byte len, byte[] data)
+        public void Write(uint idUredaja, byte[] data)
         {
             try
             {
                 var canMsg = new TPCANMsg
                     {
                         DATA = new byte[8],
-                        ID = Convert.ToUInt32(idUredaja, 16),
-                        LEN = Convert.ToByte(len),
+                        ID = idUredaja,
+                        LEN = Convert.ToByte(data.Length),
                         MSGTYPE = TPCANMessageType.PCAN_MESSAGE_STANDARD
                     };
                 for (var i = 0; i < data.Length; i++)

@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    class DockingHandler
+    public class DockingHandler : PcanHandler
     {
+        readonly List<Docking> _dockings = new List<Docking>();
+
+        public Docking GetDock(uint id)
+        {
+            return _dockings.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void AddDock(Docking docking)
+        {
+            _dockings.Add(docking);
+        }
     }
 }

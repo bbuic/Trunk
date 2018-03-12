@@ -12,6 +12,13 @@ namespace BikeService.Objects
         public delegate void SwitchStateChangedParams(SwitchState state);
         public event SwitchStateChangedParams SwitchStateChanged;
 
+        public uint Id { get; set; }
+        public Firmware Firmware { get; set; }
+        public DateTime? LastHello { get; set; }
+        
+        public byte? RequestCommand { get; set; }
+        public byte? ResponseCommand { get; set; }
+
         public SwitchState SwitchState
         {
             get { return _switchState; }

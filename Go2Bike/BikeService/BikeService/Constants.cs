@@ -20,6 +20,12 @@
         Error
     }
 
+    public enum Firmware
+    {
+        Spanish,
+        Ute
+    }
+
     public enum LogLocation
     {
         CanInit,
@@ -28,7 +34,11 @@
         CanWrite
     }
 
-    class Constants
+    public class Commands
     {
+        public const byte Hello = 0x00;
+        public const byte HelloResponse = 0x01;
+        public const byte GetLockState = 0x02;
+        public const byte GetTagState = 0x02;
     }
 }

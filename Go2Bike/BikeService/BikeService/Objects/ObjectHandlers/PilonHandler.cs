@@ -1,20 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    public class PilonHandler
+    public class PilonHandler : DockingHandler
     {
-        readonly PcanHandler _pcanHandler = new PcanHandler();
-        Docking _docking = new Docking();
-
+        
         public void Start()
         {
-            if(!_pcanHandler.Init())
+            if(!InitCan())
                 return;
 
-            _pcanHandler.CanRead += delegate(TPCANMsg msg, TPCANTimestamp stamp)
+            HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
             {
-                    
+                var dock = GetDock(msg.ID);
+
+                if (msg.LEN == 1)
+                {
+                    if (msg.DATA[0] == Commands.Hello)
+                    {                        
+                        if (dock == null)
+                        {
+                            dock = new Docking { Id = msg.ID };
+                            AddDock(dock);
+                            Write(msg.ID, new[] { Commands.GetLockState });                                                        
+                            Write(msg.ID, new[] { Commands.GetTagState });                                                        
+                        }
+                        Write(msg.ID, new[]{Commands.HelloResponse});
+                        dock.LastHello = DateTime.Now;
+                    }
+                }   
             };
 
             AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs args)

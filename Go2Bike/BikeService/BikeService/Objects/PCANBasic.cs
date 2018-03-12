@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using TPCANHandle = System.UInt16;
+using TPCANBitrateFD = System.String;
+using TPCANTimestampFD = System.UInt64;
 
 namespace BikeService.Objects
 {
-    using TPCANHandle = UInt16;
-    using TPCANBitrateFD = String;
-    using TPCANTimestampFD = UInt64;
-
     #region Enumerations
     /// <summary>
     /// Represents a PCAN status/error code
