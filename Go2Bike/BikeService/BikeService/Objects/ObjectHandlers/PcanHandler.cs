@@ -19,19 +19,19 @@ namespace BikeService.Objects.ObjectHandlers
         {
             try
             {
-                ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info, "Pokrenuta inicjalizacija CANa.");
+                ObjectFactory.LogDataService.Write(LogType.Info, "Pokrenuta inicjalizacija CANa.");
 
                 TPCANStatus stsResult;
                 foreach (var handle in PCANBasic.UsbHandlesArray)
                 {
-                    ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info, "Pretraga uređaja PCAN-USB broj: " + handle);
+                    ObjectFactory.LogDataService.Write(LogType.Info, "Pretraga uređaja PCAN-USB broj: " + handle);
 
                     UInt32 iBuffer;
                     stsResult = PCANBasic.GetValue(handle, TPCANParameter.PCAN_CHANNEL_CONDITION, out iBuffer, sizeof(UInt32));
                     if (stsResult == TPCANStatus.PCAN_ERROR_OK && (iBuffer & PCANBasic.PCAN_CHANNEL_AVAILABLE) == PCANBasic.PCAN_CHANNEL_AVAILABLE)
                     {
                         _handle = handle;
-                        ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info, "Postoji uređaj PCAN-USB broj: " + handle);
+                        ObjectFactory.LogDataService.Write(LogType.Info, "Postoji uređaj PCAN-USB broj: " + handle);
                         break;
                     }             
                 }
@@ -42,7 +42,7 @@ namespace BikeService.Objects.ObjectHandlers
                 uint ioPort = Convert.ToUInt32(Settings.Default.IOPort, 16);
                 ushort interrupt = Convert.ToUInt16(Settings.Default.Interrupt);
 
-                ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info,
+                ObjectFactory.LogDataService.Write(LogType.Info,
                                                    string.Format("Inicjalizacija CAN, parametri({0}, {1}, {2}, {3}, {4})",
                                                                  _handle, Settings.Default.TPCANBaudrate, Settings.Default.TPCANType, ioPort, interrupt));
 
@@ -53,7 +53,7 @@ namespace BikeService.Objects.ObjectHandlers
                     if (stsResult != TPCANStatus.PCAN_ERROR_CAUTION)
                         throw new Exception(GetFormatedError(stsResult));
 
-                    ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info, 
+                    ObjectFactory.LogDataService.Write(LogType.Info, 
                         "Greška u procesu inicjalizacije CANa. Razlog: The bitrate being used is different than the given one");
                     stsResult = TPCANStatus.PCAN_ERROR_OK;
                 }
@@ -62,14 +62,14 @@ namespace BikeService.Objects.ObjectHandlers
                     _mReadThread = new Thread(CanReadThreadFunc) { IsBackground = true };
                     _mReadThread.Start();
 
-                    ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Info, "Uspješno inicjaliziran uređaj PCAN-USB broj: " + _handle);
+                    ObjectFactory.LogDataService.Write(LogType.Info, "Uspješno inicjaliziran uređaj PCAN-USB broj: " + _handle);
                 }
                 
                 return stsResult == TPCANStatus.PCAN_ERROR_OK;
             }
             catch (Exception e)
             {
-                ObjectFactory.LogDataService.Write(LogLocation.CanInit, LogType.Error, 
+                ObjectFactory.LogDataService.Write(LogType.Error, 
                     string.Format("Greška u procesu inicjalizacije PCAN-USB uređaja. Razlog: {0}, StackTrace: {1}", e.Message, e.StackTrace));
                 return false;
             }
@@ -84,7 +84,7 @@ namespace BikeService.Objects.ObjectHandlers
 
             if (stsResult != TPCANStatus.PCAN_ERROR_OK)
             {
-                ObjectFactory.LogDataService.Write(LogLocation.CanRead, LogType.Error, 
+                ObjectFactory.LogDataService.Write(LogType.Error, 
                     "Greška u procesu inicjalizacije čitanja CANa(PCAN_RECEIVE_EVENT). Razlog: " + GetFormatedError(stsResult));                
                 return;
             }
@@ -98,7 +98,7 @@ namespace BikeService.Objects.ObjectHandlers
                         stsResult = ReadMessage();
                         if (stsResult == TPCANStatus.PCAN_ERROR_ILLOPERATION)
                         {
-                            ObjectFactory.LogDataService.Write(LogLocation.CanRead, LogType.Error, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_ILLOPERATION");
+                            ObjectFactory.LogDataService.Write(LogType.Error, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_ILLOPERATION");
                             break;
                         }
                     } while (!Convert.ToBoolean(stsResult & TPCANStatus.PCAN_ERROR_QRCVEMPTY));
@@ -117,20 +117,20 @@ namespace BikeService.Objects.ObjectHandlers
                     HandleCanMessage(canMsg, canTimeStamp);                
             }
             else
-                ObjectFactory.LogDataService.Write(LogLocation.CanRead, LogType.Error, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_QRCVEMPTY");            
+                ObjectFactory.LogDataService.Write(LogType.Error, "Greška u procesu čitanja CANa. Razlog: PCAN_ERROR_QRCVEMPTY");            
             return stsResult;
         }
 
         public void Release()
         {
-            ObjectFactory.LogDataService.Write(LogLocation.CanRelease, LogType.Info, "Pokrenut release CANa.");
+            ObjectFactory.LogDataService.Write(LogType.Info, "Pokrenut release CANa.");
             if (_handle > 0)
             {
                 PCANBasic.Uninitialize(_handle);
-                ObjectFactory.LogDataService.Write(LogLocation.CanRelease, LogType.Info, "Završen release CANa. Handle: " + _handle);
+                ObjectFactory.LogDataService.Write(LogType.Info, "Završen release CANa. Handle: " + _handle);
             }
             else
-                ObjectFactory.LogDataService.Write(LogLocation.CanRelease, LogType.Info, "Nije moguće pokrenuti release jer nema handlera.");
+                ObjectFactory.LogDataService.Write(LogType.Info, "Nije moguće pokrenuti release jer nema handlera.");
         }
 
         public void Write(uint idUredaja, byte[] data)
@@ -150,13 +150,13 @@ namespace BikeService.Objects.ObjectHandlers
                 var stsResult = PCANBasic.Write(_handle, ref canMsg);
 
                 if (stsResult == TPCANStatus.PCAN_ERROR_OK)
-                    ObjectFactory.LogDataService.Write(LogLocation.CanWrite, LogType.Info, "Uspješno poslana poruka.");
+                    ObjectFactory.LogDataService.Write(LogType.Info, "Uspješno poslana poruka.");
                 else
                     throw new Exception(GetFormatedError(stsResult));
             }
             catch (Exception e)
             {
-                ObjectFactory.LogDataService.Write(LogLocation.CanWrite, LogType.Error,
+                ObjectFactory.LogDataService.Write(LogType.Error,
                     string.Format("Greška u procesu slanja komande. Razlog: {0}, StackTrace: {1}", e.Message, e.StackTrace));
             }
         }

@@ -3,8 +3,9 @@ using System.Linq;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    public class DockingHandler : PcanHandler
+    public class DockingHandler
     {
+        internal PcanHandler PcanHandler = new PcanHandler();
         readonly List<Docking> _dockings = new List<Docking>();
 
         public Docking GetDock(uint id)
@@ -12,9 +13,11 @@ namespace BikeService.Objects.ObjectHandlers
             return _dockings.FirstOrDefault(x => x.Id == id);
         }
 
-        public void AddDock(Docking docking)
+        public Docking AddDock(uint Id, PcanHandler pcanHandler)
         {
+            var docking = new Docking {Id = Id, PcanHandler = PcanHandler};
             _dockings.Add(docking);
+            return docking;
         }
     }
 }

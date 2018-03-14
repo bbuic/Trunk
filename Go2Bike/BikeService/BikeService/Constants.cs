@@ -19,21 +19,7 @@
         Info,
         Error
     }
-
-    public enum Firmware
-    {
-        Spanish,
-        Ute
-    }
-
-    public enum LogLocation
-    {
-        CanInit,
-        CanRelease,
-        CanRead,
-        CanWrite
-    }
-
+    
     public class Commands
     {
         public const byte Hello = 0x00;

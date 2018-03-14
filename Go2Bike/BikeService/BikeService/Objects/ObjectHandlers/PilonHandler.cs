@@ -9,10 +9,10 @@ namespace BikeService.Objects.ObjectHandlers
         
         public void Start()
         {
-            if(!InitCan())
+            if(!PcanHandler.InitCan())
                 return;
 
-            HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
+            PcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
             {
                 var dock = GetDock(msg.ID);
 
@@ -22,13 +22,11 @@ namespace BikeService.Objects.ObjectHandlers
                     {                        
                         if (dock == null)
                         {
-                            dock = new Docking { Id = msg.ID };
-                            AddDock(dock);
-                            Write(msg.ID, new[] { Commands.GetLockState });                                                        
-                            Write(msg.ID, new[] { Commands.GetTagState });                                                        
+                            dock = AddDock(msg.ID, PcanHandler);                                                                                    
+                            dock.ExecuteCommand(new[] { Commands.GetTagState });                                                        
                         }
-                        Write(msg.ID, new[]{Commands.HelloResponse});
-                        dock.LastHello = DateTime.Now;
+                        dock.HelloResponse();
+                        
                     }
                 }   
             };

@@ -1,4 +1,5 @@
 ﻿using System;
+using BikeService.Objects.ObjectHandlers;
 
 namespace BikeService.Objects
 {
@@ -12,8 +13,9 @@ namespace BikeService.Objects
         public delegate void SwitchStateChangedParams(SwitchState state);
         public event SwitchStateChangedParams SwitchStateChanged;
 
-        public uint Id { get; set; }
-        public Firmware Firmware { get; set; }
+        public PcanHandler PcanHandler { get; set; }
+
+        public uint Id { get; set; }        
         public DateTime? LastHello { get; set; }
         
         public byte? RequestCommand { get; set; }
@@ -31,6 +33,17 @@ namespace BikeService.Objects
                         SwitchStateChanged.Invoke(value);
                 }
             }
+        }
+
+        public void HelloResponse()
+        {
+            PcanHandler.Write(Id, new[] { Commands.HelloResponse });
+            LastHello = DateTime.Now;
+        }
+
+        public void ExecuteCommand(byte[] data)
+        {
+            PcanHandler.Write(Id, data);
         }
     }
 }
