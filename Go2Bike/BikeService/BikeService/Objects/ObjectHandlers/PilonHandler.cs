@@ -25,8 +25,7 @@ namespace BikeService.Objects.ObjectHandlers
                             dock = AddDock(msg.ID, PcanHandler);                                                                                    
                             dock.ExecuteCommand(new[] { Commands.GetTagState });                                                        
                         }
-                        dock.HelloResponse();
-                        
+                        dock.HelloResponse();                        
                     }
                 }   
             };

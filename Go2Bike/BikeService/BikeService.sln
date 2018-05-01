@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeService", "BikeService\BikeService.csproj", "{5E153216-50C2-4489-8DDE-E853712F39F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeServiceTest", "BikeServiceTest\BikeServiceTest.csproj", "{806A8D54-3D38-4191-93AE-2BA3F9641424}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		{5E153216-50C2-4489-8DDE-E853712F39F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E153216-50C2-4489-8DDE-E853712F39F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E153216-50C2-4489-8DDE-E853712F39F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806A8D54-3D38-4191-93AE-2BA3F9641424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806A8D54-3D38-4191-93AE-2BA3F9641424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806A8D54-3D38-4191-93AE-2BA3F9641424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806A8D54-3D38-4191-93AE-2BA3F9641424}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
