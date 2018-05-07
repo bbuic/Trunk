@@ -139,7 +139,7 @@ namespace BikeService.Objects.ObjectHandlers
             {
                 var canMsg = new TPCANMsg
                     {
-                        DATA = new byte[8],
+                        DATA = new byte[data.Length],
                         ID = idUredaja,
                         LEN = Convert.ToByte(data.Length),
                         MSGTYPE = TPCANMessageType.PCAN_MESSAGE_STANDARD
@@ -147,18 +147,37 @@ namespace BikeService.Objects.ObjectHandlers
                 for (var i = 0; i < data.Length; i++)
                     canMsg.DATA[i] = data[i];            
 
-                var stsResult = PCANBasic.Write(_handle, ref canMsg);
-
-                if (stsResult == TPCANStatus.PCAN_ERROR_OK)
-                    ObjectFactory.LogDataService.Write(LogType.Info, "Uspješno poslana poruka.");
-                else
-                    throw new Exception(GetFormatedError(stsResult));
+                Execute(canMsg);
             }
             catch (Exception e)
             {
                 ObjectFactory.LogDataService.Write(LogType.Error,
                     string.Format("Greška u procesu slanja komande. Razlog: {0}, StackTrace: {1}", e.Message, e.StackTrace));
             }
+        }
+
+        public void Write(uint idUredaja, TPCANMsg canMsg)
+        {
+            try
+            {
+                canMsg.ID = idUredaja;
+                Execute(canMsg);
+            }
+            catch (Exception e)
+            {
+                ObjectFactory.LogDataService.Write(LogType.Error,
+                    string.Format("Greška u procesu slanja komande. Razlog: {0}, StackTrace: {1}", e.Message, e.StackTrace));
+            }
+        }
+
+        private void Execute(TPCANMsg canMsg)
+        {
+            var stsResult = PCANBasic.Write(_handle, ref canMsg);
+
+            if (stsResult == TPCANStatus.PCAN_ERROR_OK)
+                ObjectFactory.LogDataService.Write(LogType.Info, "Uspješno poslana poruka.");
+            else
+                throw new Exception(GetFormatedError(stsResult));
         }
 
 

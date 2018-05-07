@@ -19,7 +19,7 @@ namespace BikeServiceTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            uint ID = 0x41F;
+            uint ID = 0x7FF;
 
             string binary = Convert.ToString(ID, 2);
 

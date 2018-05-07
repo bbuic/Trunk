@@ -47,7 +47,12 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataBase\BikeServiceAction.cs" />
     <Compile Include="DataBase\BikeServiceLog.cs" />
-    <Compile Include="DataBase\DataServices\BikeServiceLogDataService.cs" />
+    <Compile Include="DataBase\CanCommand.cs" />
+    <Compile Include="DataBase\DataServices\LogDataService.cs" />
+    <Compile Include="DataBase\DataServices\DockingDataService.cs" />
+    <Compile Include="DataBase\DataServices\EventDataService.cs" />
+    <Compile Include="DataBase\Docking.cs" />
+    <Compile Include="DataBase\Event.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,7 +61,7 @@
     </Compile>
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
-    <Compile Include="Objects\Docking.cs" />
+    <Compile Include="Objects\DockingModel.cs" />
     <Compile Include="Objects\ObjectHandlers\PcanHandler.cs" />
     <Compile Include="Objects\ObjectHandlers\DockingHandler.cs" />
     <Compile Include="Objects\ObjectHandlers\PilonHandler.cs" />

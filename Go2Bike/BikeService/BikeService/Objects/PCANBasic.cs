@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TPCANHandle = System.UInt16;
@@ -518,6 +519,17 @@ namespace BikeService.Objects
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         public byte[] DATA;
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TPCANMsg)
+            {
+                var o = (TPCANMsg) obj;
+                return LEN == o.LEN && DATA.SequenceEqual(o.DATA);    
+            }
+            
+            return false;            
+        }
     }
 
     /// <summary>

@@ -14,5 +14,11 @@
     <Setting Name="Interrupt" Type="System.String" Scope="Application">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="PresencePeriod" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="PilonId" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

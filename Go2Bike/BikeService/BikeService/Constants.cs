@@ -1,30 +1,30 @@
-﻿namespace BikeService
+﻿using BikeService.Objects;
+
+namespace BikeService
 {
-    public enum SwitchState
-    {
-        Nepoznato,
-        Zakljucano,
-        Otkljucano
-    }
-
-    public enum TagState
-    {
-        Nepoznato,
-        Prisutan,
-        Neprisutan
-    }
-
     public enum LogType
     {
         Info,
         Error
     }
-    
+
+    public enum EventType
+    {
+        PilonUpdate,        
+        DockUnlock,
+        DockLock,
+        Rfid,
+        DockDisable,
+        DockEnable,
+        PilonError
+    }
+
+
     public class Commands
     {
-        public const byte Hello = 0x00;
-        public const byte HelloResponse = 0x01;
-        public const byte GetLockState = 0x02;
-        public const byte GetTagState = 0x02;
+        public static readonly TPCANMsg Hello = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x00 } };
+        public static readonly TPCANMsg HelloResponse = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x01 } };
+        public static readonly TPCANMsg Presence = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x04 } };
+        public static readonly TPCANMsg PresenceResponse = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x05 } };        
     }
 }

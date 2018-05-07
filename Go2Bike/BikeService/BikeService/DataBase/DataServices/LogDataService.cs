@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace BikeService.DataBase.DataServices
 {
-    public class BikeServiceLogDataService
+    public class LogDataService
     {
         public void Write(LogType type, string log)
         {
@@ -13,6 +14,11 @@ namespace BikeService.DataBase.DataServices
                 var name1 = name.DeclaringType.FullName; //klasa
             }
             var name2 = name.Name;//metoda
+        }
+
+        public void Write(Exception exception)
+        {
+            
         }
     }
 }
