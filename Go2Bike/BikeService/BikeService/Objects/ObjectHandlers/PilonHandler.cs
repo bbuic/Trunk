@@ -75,6 +75,7 @@ namespace BikeService.Objects.ObjectHandlers
                         dock.DatumUkljucivanja = DateTime.Now;
                     
                         WriteCanCommand(dockId, Commands.HelloResponse);
+                        WriteCanCommand(dockId, Commands.WorkWithServer);
 
                         ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
                         ObjectFactory.DockingDataService.InsertCommand(new CanCommand(dockId, msg, true));
@@ -84,6 +85,12 @@ namespace BikeService.Objects.ObjectHandlers
                     {
                         // elektronika odgovara na Presence, mi obavještavamo server o stanju svakih N sekundi
                         ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
+                    }
+                    else if (msg.LEN == Commands.BikeTag.LEN && msg.DATA[0] == Commands.BikeTag.DATA[0])
+                    {
+                        var bikeTag = BitConverter.ToInt16(msg.DATA.Skip(1).ToArray(), 0);
+                        ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
+                        WriteCanCommand(dockId, Commands.BikeTagAck);
                     }                                  
                 }
             }
