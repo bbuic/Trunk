@@ -59,6 +59,8 @@
     <Compile Include="DataBase\DataServices\EventDataService.cs" />
     <Compile Include="DataBase\Docking.cs" />
     <Compile Include="DataBase\Event.cs" />
+    <Compile Include="EventHandlers\AbstractEventHandler.cs" />
+    <Compile Include="EventHandlers\EventHandler.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
     <Compile Include="Objects\DockingModel.cs" />

@@ -76,5 +76,41 @@ namespace BikeService.Properties {
                 return ((int)(this["PilonId"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Verudela")]
+        public string PilonSifra {
+            get {
+                return ((string)(this["PilonSifra"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("21345")]
+        public string ApiKey {
+            get {
+                return ((string)(this["ApiKey"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://go2bike-api.azurewebsites.net/")]
+        public string CloudUrl {
+            get {
+                return ((string)(this["CloudUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pylon2Cloud/Bikes?tagId=")]
+        public string ValidateTag {
+            get {
+                return ((string)(this["ValidateTag"]));
+            }
+        }
     }
 }

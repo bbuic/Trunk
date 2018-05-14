@@ -7,36 +7,37 @@ namespace BikeService.Objects.ObjectHandlers
 {
     public class ServerHandler
     {
-        public string GetNalaz(int id)
+        public bool ValidateBikeTag(int tagId)
         {
             try
             {
-                var uri = string.Format("http://localhost/IN2.BISWebService/Pylon2Cloud/ValidateBike?tagId={1}", id, type);
-                return ExecuteGet<string>(uri, userId, 10);
+                var uri = string.Format("{0}{1}{2}", Properties.Settings.Default.CloudUrl, Properties.Settings.Default.ValidateTag, tagId);
+                return ExecuteGet<bool>(uri, 10);
             }
             catch (WebException e1)
             {
-                HttpWebResponse response = e1.Response as HttpWebResponse;
+                var response = e1.Response as HttpWebResponse;
                 if (response != null)
-                    throw new Exception("Greška u procesu izvršavanja metode GetNalaz. Razlog: " + response.StatusDescription);
+                    throw new Exception("Greška u procesu izvršavanja metode ValidateBikeTag. Razlog: " + response.StatusDescription);
                 throw;
             }
             catch (Exception e)
             {
-                throw new Exception("Greška u procesu izvršavanja metode GetNalaz. Razlog: " + e.Message);
+                throw new Exception("Greška u procesu izvršavanja metode ValidateBikeTag. Razlog: " + e.Message);
             }
         }
 
-        public T ExecuteGet<T>(string uri, short userId, int timeoutInSeconds)
+        private T ExecuteGet<T>(string uri, int timeoutInSeconds)
         {
-            HttpWebRequest webReq = (HttpWebRequest)HttpWebRequest.Create(uri);
+            var webReq = (HttpWebRequest)HttpWebRequest.Create(uri);
             webReq.Timeout = 1000 * timeoutInSeconds;
-            webReq.Headers.Add("UserId", userId.ToString());
+            webReq.Headers.Add("PilonId", Properties.Settings.Default.PilonId.ToString());
+            webReq.Headers.Add("ApiKey ", Properties.Settings.Default.ApiKey);
             webReq.Method = "GET";
             webReq.ContentType = "application/json";
             webReq.ContentLength = 0;
 
-            using (WebResponse response = (HttpWebResponse)webReq.GetResponse())
+            using (var response = webReq.GetResponse())
             {
                 string jsonresponse = null;
                 using (var inputStream = response.GetResponseStream())

@@ -1,4 +1,5 @@
 ﻿using BikeService.DataBase.DataServices;
+using BikeService.Objects.ObjectHandlers;
 
 namespace BikeService
 {
@@ -7,6 +8,12 @@ namespace BikeService
         private static EventDataService _eventDataService;
         private static LogDataService _logDataService;
         private static DockingDataService _dockingDataService;
+        private static ServerHandler _serverHandler;
+
+        public static ServerHandler ServerHandler
+        {
+            get { return _serverHandler ?? (_serverHandler = new ServerHandler()); }
+        }
 
         public static EventDataService EventDataService
         {

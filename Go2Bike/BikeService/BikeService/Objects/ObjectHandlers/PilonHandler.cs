@@ -6,9 +6,10 @@ using BikeService.DataBase;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    public class PilonHandler : PcanHandler
+    public class PilonHandler
     {
-        readonly List<DockingModel> _dockings = new List<DockingModel>();
+        private PcanHandler _pcanHandler;
+        readonly List<DockingHandler> _dockings = new List<DockingHandler>();
         
         static Timer _timerCan;        
         private readonly Queue<TPCANMsg> _queue = new Queue<TPCANMsg>();
@@ -24,15 +25,16 @@ namespace BikeService.Objects.ObjectHandlers
 
                 ObjectFactory.LogDataService.Write(LogType.Info, "Pokrenut servis pilona.");
 
-                if(!InitCan())
+                _pcanHandler = new PcanHandler();
+                if(!_pcanHandler.InitCan())
                     return;
 
-                ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
-
+                ObjectFactory.EventDataService.Insert(new Event(EventType.Hello, Utils.Serialize(_dockings)));
+                
                 if (_timerCan == null)
                     _timerCan = new Timer(_ => ObradiPodatkeCana());
             
-                HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
+                _pcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
                     {
                         _timerCan.Change(100, Timeout.Infinite);
                         _queue.Enqueue(msg);
@@ -45,11 +47,7 @@ namespace BikeService.Objects.ObjectHandlers
                 ObjectFactory.LogDataService.Write(e);
             }
         }
-
-        public void Stop()
-        {
-        }
-
+        
         private void ObradiPodatkeCana()
         {
             try
@@ -60,51 +58,18 @@ namespace BikeService.Objects.ObjectHandlers
 
                     uint dockId = Utils.RemoveFirstBit(msg.ID);
                     var dock = _dockings.FirstOrDefault(x => x.Id == dockId);
-                
-                    if(msg.Equals(Commands.Hello))
+                    if (dock == null)
                     {
-                        if (dock == null)
-                        {
-                            dock = new DockingModel(this) {Id = dockId};
-                            _dockings.Add(dock);                            
-                        }
-                    
-                        if(dock.DatumUkljucivanja.HasValue && (DateTime.Now - dock.DatumUkljucivanja.Value).TotalSeconds < 5)
-                            ObjectFactory.EventDataService.Insert(new Event(EventType.PilonError, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec."));
-
-                        dock.DatumUkljucivanja = DateTime.Now;
-                    
-                        WriteCanCommand(dockId, Commands.HelloResponse);
-                        WriteCanCommand(dockId, Commands.WorkWithServer);
-
-                        ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
-                        ObjectFactory.DockingDataService.InsertCommand(new CanCommand(dockId, msg, true));
-                        ObjectFactory.DockingDataService.UpdateDock(dock);
+                        dock = new DockingHandler(_pcanHandler) { Id = dockId };
+                        _dockings.Add(dock);
                     }
-                    else if (msg.Equals(Commands.PresenceResponse))
-                    {
-                        // elektronika odgovara na Presence, mi obavještavamo server o stanju svakih N sekundi
-                        ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
-                    }
-                    else if (msg.LEN == Commands.BikeTag.LEN && msg.DATA[0] == Commands.BikeTag.DATA[0])
-                    {
-                        var bikeTag = BitConverter.ToInt16(msg.DATA.Skip(1).ToArray(), 0);
-                        ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
-                        WriteCanCommand(dockId, Commands.BikeTagAck);
-                    }                                  
+                    dock.EventHandler.NewMessage(msg);                    
                 }
             }
             catch (Exception e)
             {
                 ObjectFactory.LogDataService.Write(e);
             }
-        }
-
-        private void WriteCanCommand(uint idUredaja, TPCANMsg msg)
-        {
-            Write(idUredaja, msg);
-            ObjectFactory.DockingDataService.InsertCommand(new CanCommand(idUredaja, msg, false));
-        }
-
+        }       
     }
 }
