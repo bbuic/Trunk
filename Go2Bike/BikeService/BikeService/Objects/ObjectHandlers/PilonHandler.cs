@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
+using BikeService;
 using BikeService.DataBase;
+using BikeService.Objects.ObjectHandlers;
+using BikeService.Properties;
+using Microsoft.ServiceBus.Messaging;
 
 namespace BikeService.Objects.ObjectHandlers
 {
     public class PilonHandler
     {
         private PcanHandler _pcanHandler;
-        readonly List<DockingHandler> _dockings = new List<DockingHandler>();
-        
-        static Timer _timerCan;        
+        private readonly List<DockingHandler> _dockings = new List<DockingHandler>();
+
+        private static Timer _timerCan;        
         private readonly Queue<TPCANMsg> _queue = new Queue<TPCANMsg>();
 
         public void Start()
@@ -39,7 +44,32 @@ namespace BikeService.Objects.ObjectHandlers
                         _timerCan.Change(100, Timeout.Infinite);
                         _queue.Enqueue(msg);
                     };
-            
+
+                
+
+                //Service BUS
+                const string QueueName = "DebugQueue";
+                string ServiceBusConnectionString = Settings.Default.ApiKey;//"ServiceBusConnectionString"];
+                QueueClient queueClient;
+                
+                queueClient = QueueClient.CreateFromConnectionString(ServiceBusConnectionString, QueueName);                    
+                queueClient.OnMessage((receivedMessage) =>
+                {
+
+                    try
+
+                    {
+
+                        string message = receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string)));
+                        Console.WriteLine(message);
+                    }
+                    catch
+                    {
+                        // Handle any message processing specific exceptions here
+                    }
+                });                    
+                queueClient.Close();
+                
                 ObjectFactory.LogDataService.Write(LogType.Info, "Završen init servisa pilona.");
             }
             catch (Exception e)

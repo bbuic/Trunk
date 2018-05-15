@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using BikeService.DataBase;
 using BikeService.EventHandlers;
-using EventHandler = BikeService.EventHandlers.EventHandler;
 
 namespace BikeService.Objects.ObjectHandlers
 {
@@ -13,21 +12,22 @@ namespace BikeService.Objects.ObjectHandlers
         private readonly PcanHandler _pcanHandler;
         public AbstractEventHandler EventHandler;
         private readonly Queue<AbstractEventHandler> _queue = new Queue<AbstractEventHandler>();
-        private static Timer _timerEvent;  
+        private readonly Timer _timerEvent;  
 
         public DockingHandler(PcanHandler handler)
         {
             _pcanHandler = handler;
 
-            AbstractEventHandler eventHandler2 = new EventHandler(EventType.BikeTag,  2, 0x75, EventHandlerOnObradiEvent);
-            AbstractEventHandler eventHandler1 = new EventHandler(EventType.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
-            EventHandler = new EventHandler(EventType.Hello,  1, 0x00, EventHandlerOnObradiEvent, eventHandler1);
+            AbstractEventHandler eventHandler3 = new BikeTagEventHandler(EventType.State,  4, 0x80, EventHandlerOnObradiEvent);
+            AbstractEventHandler eventHandler2 = new BikeTagEventHandler(EventType.BikeTag,  1, 0x75, EventHandlerOnObradiEvent, eventHandler3);
+            AbstractEventHandler eventHandler1 = new GenericEventHandler(EventType.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
+            EventHandler = new GenericEventHandler(EventType.Hello,  1, 0x00, EventHandlerOnObradiEvent, eventHandler1);
 
             if (_timerEvent == null)
-                _timerEvent = new Timer(_ => ObradiPodatkeCana());
+                _timerEvent = new Timer(_ => ObradiPoruku());
         }
 
-        private void ObradiPodatkeCana()
+        private void ObradiPoruku()
         {
             while (_queue.Count > 0)
             {
@@ -54,16 +54,25 @@ namespace BikeService.Objects.ObjectHandlers
                         break;
 
                     case EventType.BikeTag:
-                        ObjectFactory.EventDataService.Insert(new Event(EventType.BikeTag, Utils.Serialize(_dockings)));
-                        //    var bikeTag = BitConverter.ToInt16(msg.DATA.Skip(1).ToArray(), 0);
-
-                        //    bool tag = ObjectFactory.ServerHandler.ValidateBikeTag(bikeTag);
-                        //    WriteCanCommand(dockId, SendCommands.BikeTagAck);
+                        //ObjectFactory.EventDataService.Insert(new Event(EventType.BikeTag, Utils.Serialize(_dockings)));
+                        var handler = (BikeTagEventHandler) msg;
+                        bool tag = ObjectFactory.ServerHandler.ValidateBikeTag(handler.BikeTag);
+                        WriteCanCommand(Id, SendCommands.BikeTagAck);
                         break;
 
+                    case EventType.RfidTag:
+                        break;
+
+                    case EventType.State:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
+
+
+
 
         private void EventHandlerOnObradiEvent(AbstractEventHandler dogadaj)
         {

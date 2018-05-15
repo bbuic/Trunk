@@ -24,7 +24,8 @@ namespace BikeService
     {
         Hello,
         BikeTag,
-        RfidTag
+        RfidTag,
+        State
     }
 
     public class SendCommands

@@ -34,11 +34,16 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.4.1.9\lib\net45\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\ThirdPartDll\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,7 +65,9 @@
     <Compile Include="DataBase\Docking.cs" />
     <Compile Include="DataBase\Event.cs" />
     <Compile Include="EventHandlers\AbstractEventHandler.cs" />
-    <Compile Include="EventHandlers\EventHandler.cs" />
+    <Compile Include="EventHandlers\BikeTagEventHandler.cs" />
+    <Compile Include="EventHandlers\GenericEventHandler.cs" />
+    <Compile Include="EventHandlers\StateEventHandler.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
     <Compile Include="Objects\DockingModel.cs" />
@@ -81,6 +88,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

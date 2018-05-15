@@ -518,18 +518,7 @@ namespace BikeService.Objects
         /// Data of the message (DATA[0]..DATA[7])
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        public byte[] DATA;
-
-        public override bool Equals(object obj)
-        {
-            if (obj is TPCANMsg)
-            {
-                var o = (TPCANMsg) obj;
-                return LEN == o.LEN && DATA.SequenceEqual(o.DATA);    
-            }
-            
-            return false;            
-        }
+        public byte[] DATA;        
     }
 
     /// <summary>
