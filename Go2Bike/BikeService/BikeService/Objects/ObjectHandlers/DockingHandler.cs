@@ -9,19 +9,20 @@ namespace BikeService.Objects.ObjectHandlers
     public class DockingHandler:DockingModel
     {
         private Timer _timerPresence;
-        private readonly PcanHandler _pcanHandler;
-        public AbstractEventHandler EventHandler;
+        private readonly PcanHandler _pcanHandler;        
         private readonly Queue<AbstractEventHandler> _queue = new Queue<AbstractEventHandler>();
-        private readonly Timer _timerEvent;  
+        private readonly Timer _timerEvent;
+
+        public AbstractEventHandler EventHandler;
 
         public DockingHandler(PcanHandler handler)
         {
             _pcanHandler = handler;
 
-            AbstractEventHandler eventHandler3 = new BikeTagEventHandler(EventType.State,  4, 0x80, EventHandlerOnObradiEvent);
-            AbstractEventHandler eventHandler2 = new BikeTagEventHandler(EventType.BikeTag,  1, 0x75, EventHandlerOnObradiEvent, eventHandler3);
-            AbstractEventHandler eventHandler1 = new GenericEventHandler(EventType.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
-            EventHandler = new GenericEventHandler(EventType.Hello,  1, 0x00, EventHandlerOnObradiEvent, eventHandler1);
+            AbstractEventHandler eventHandler3 = new BikeTagEventHandler(CanReciveCommands.State,  4, 0x80, EventHandlerOnObradiEvent);
+            AbstractEventHandler eventHandler2 = new BikeTagEventHandler(CanReciveCommands.BikeTag,  1, 0x75, EventHandlerOnObradiEvent, eventHandler3);
+            AbstractEventHandler eventHandler1 = new GenericEventHandler(CanReciveCommands.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
+            EventHandler = new GenericEventHandler(CanReciveCommands.Hello,  1, 0x00, EventHandlerOnObradiEvent, eventHandler1);
 
             if (_timerEvent == null)
                 _timerEvent = new Timer(_ => ObradiPoruku());
@@ -32,39 +33,44 @@ namespace BikeService.Objects.ObjectHandlers
             while (_queue.Count > 0)
             {
                 var msg = _queue.Dequeue();
-                switch (msg.EventType)
+
+                if(!DatumUkljucivanja.HasValue && msg.CanReciveCommands != CanReciveCommands.Hello)
+                    return; //ako pilon još nije uključen (nije došla poruka Hello ne dozvoljavamo druge poruke)!!
+
+                switch (msg.CanReciveCommands)
                 {
-                    case EventType.Hello:
+                    case CanReciveCommands.Hello:
                         //if (DatumUkljucivanja.HasValue && (DateTime.Now - DatumUkljucivanja.Value).TotalSeconds < 5)
-                        //    ObjectFactory.EventDataService.Insert(new Event(EventType.PilonError, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec."));
+                        //    ObjectFactory.EventDataService.Insert(new Event(CanReciveCommands.PilonError, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec."));
 
                         DatumUkljucivanja = DateTime.Now;
 
-                        WriteCanCommand(Id, SendCommands.HelloResponse);
-                        WriteCanCommand(Id, SendCommands.WorkWithServer);
+                        WriteCanCommand(Id, CanSendCommands.HelloResponse);
+                        WriteCanCommand(Id, CanSendCommands.WorkWithServer);
 
                         if (_timerPresence == null)
-                            _timerPresence = new Timer(delegate { _pcanHandler.Write(Id, SendCommands.Presence); });
+                            _timerPresence = new Timer(delegate { _pcanHandler.Write(Id, CanSendCommands.Presence); });
                         _timerPresence.Change(Timeout.Infinite, Properties.Settings.Default.PresencePeriod);
 
-                        //ObjectFactory.EventDataService.Insert(new Event(EventType.PilonUpdate, Utils.Serialize(_dockings)));
+                        //ObjectFactory.EventDataService.Insert(new Event(CanReciveCommands.PilonUpdate, Utils.Serialize(_dockings)));
                         //ObjectFactory.DockingDataService.InsertCommand(new CanCommand(dockId, msg, true));
                         //ObjectFactory.DockingDataService.UpdateDock(dock);
 
                         break;
 
-                    case EventType.BikeTag:
-                        //ObjectFactory.EventDataService.Insert(new Event(EventType.BikeTag, Utils.Serialize(_dockings)));
+                    case CanReciveCommands.BikeTag:
+                        //ObjectFactory.EventDataService.Insert(new Event(CanReciveCommands.BikeTag, Utils.Serialize(_dockings)));
                         var handler = (BikeTagEventHandler) msg;
                         bool tag = ObjectFactory.ServerHandler.ValidateBikeTag(handler.BikeTag);
-                        WriteCanCommand(Id, SendCommands.BikeTagAck);
+                        WriteCanCommand(Id, CanSendCommands.BikeTagAck);
                         break;
 
-                    case EventType.RfidTag:
+                    case CanReciveCommands.RfidTag:
                         break;
 
-                    case EventType.State:
+                    case CanReciveCommands.State:
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

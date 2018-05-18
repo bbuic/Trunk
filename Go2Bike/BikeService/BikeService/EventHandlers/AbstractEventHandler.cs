@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using BikeService.Objects;
 
 namespace BikeService.EventHandlers
@@ -14,21 +13,18 @@ namespace BikeService.EventHandlers
         private readonly byte _firstByte;
         private readonly List<TPCANMsg> _list = new List<TPCANMsg>();
 
-        internal EventType EventType;
+        internal CanReciveCommands CanReciveCommands;
 
-        protected AbstractEventHandler(EventType eventType, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null)
+        protected AbstractEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null)
         {
-            EventType = eventType;
+            CanReciveCommands = canReciveCommands;
             _handler = handler;
             _successor = successor;
             _numMsg = numMsg;
             _firstByte = firstByte;
         }
 
-        internal TPCANMsg[] Message
-        {
-            get { return _list.ToArray(); }
-        }
+        internal TPCANMsg[] Message => _list.ToArray();
 
         internal void NewMessage(TPCANMsg msg)
         {
@@ -41,8 +37,8 @@ namespace BikeService.EventHandlers
                     Handle();
                 }
             }
-            else if (_successor != null)
-                _successor.NewMessage(msg);
+            else
+                _successor?.NewMessage(msg);
         }
 
         internal abstract void Handle();       

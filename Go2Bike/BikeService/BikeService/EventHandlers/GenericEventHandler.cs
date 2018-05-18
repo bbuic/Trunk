@@ -2,7 +2,7 @@
 {
     public class GenericEventHandler : AbstractEventHandler
     {
-        public GenericEventHandler(EventType eventType, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(eventType, numMsg, firstByte, handler, successor)
+        public GenericEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(canReciveCommands, numMsg, firstByte, handler, successor)
         {
         }
 

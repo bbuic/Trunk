@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="CanReciveCommands.cs" />
     <Compile Include="DataBase\BikeServiceAction.cs" />
     <Compile Include="DataBase\BikeServiceLog.cs" />
     <Compile Include="DataBase\CanCommand.cs" />
@@ -63,6 +63,8 @@
     <Compile Include="DataBase\DataServices\DockingDataService.cs" />
     <Compile Include="DataBase\DataServices\EventDataService.cs" />
     <Compile Include="DataBase\Docking.cs" />
+    <Compile Include="DataBase\DockingLogin.cs" />
+    <Compile Include="DataBase\DockingState.cs" />
     <Compile Include="DataBase\Event.cs" />
     <Compile Include="EventHandlers\AbstractEventHandler.cs" />
     <Compile Include="EventHandlers\BikeTagEventHandler.cs" />

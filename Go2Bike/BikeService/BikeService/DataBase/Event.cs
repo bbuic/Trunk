@@ -6,15 +6,15 @@ namespace BikeService.DataBase
     {
         private bool _send = true;
 
-        public Event(EventType eventType)
+        public Event(CanReciveCommands canReciveCommands)
         {
-            EventType = eventType;
+            CanReciveCommands = canReciveCommands;
             Datum = DateTime.Now;
         }
 
-        public Event(EventType eventType, string opisDogadaja)
+        public Event(CanReciveCommands canReciveCommands, string opisDogadaja)
         {
-            EventType = eventType;
+            CanReciveCommands = canReciveCommands;
             OpisDogadaja = opisDogadaja;
             Datum = DateTime.Now;
         }
@@ -27,7 +27,7 @@ namespace BikeService.DataBase
 
         public uint DockId  { get; set; }
         public DateTime Datum { get; set; }
-        public EventType EventType { get; set; }
+        public CanReciveCommands CanReciveCommands { get; set; }
         public string OpisDogadaja { get; set; }
 
         public DateTime? SendTime { get; set; }

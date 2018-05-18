@@ -8,19 +8,19 @@ namespace BikeService
         Error
     }
 
-    //public enum EventType
-    //{
-    //    PilonUpdate,        
-    //    DockUnlock,
-    //    DockLock,
-    //    Rfid,
-    //    DockDisable,
-    //    DockEnable,
-    //    PilonError,
-    //    BikeTag
-    //}
-
     public enum EventType
+    {
+        PilonUpdate,
+        DockUnlock,
+        DockLock,
+        Rfid,
+        DockDisable,
+        DockEnable,
+        PilonError,
+        BikeTag
+    }
+
+    public enum CanReciveCommands
     {
         Hello,
         BikeTag,
@@ -28,7 +28,7 @@ namespace BikeService
         State
     }
 
-    public class SendCommands
+    public class CanSendCommands
     {
         //public static readonly TPCANMsg Hello = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x00 } };
         public static readonly TPCANMsg HelloResponse = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x01 } };

@@ -5,7 +5,7 @@ namespace BikeService.EventHandlers
 {
     public class BikeTagEventHandler: AbstractEventHandler
     {
-        public BikeTagEventHandler(EventType eventType, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(eventType, numMsg, firstByte, handler, successor)
+        public BikeTagEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(canReciveCommands, numMsg, firstByte, handler, successor)
         {
         }
 

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
-using BikeService;
 using BikeService.DataBase;
-using BikeService.Objects.ObjectHandlers;
 using BikeService.Properties;
 using Microsoft.ServiceBus.Messaging;
 
@@ -24,9 +22,9 @@ namespace BikeService.Objects.ObjectHandlers
             try
             {
                 AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs args)
-                    {
-                        ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
-                    };
+                {
+                    ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
+                };
 
                 ObjectFactory.LogDataService.Write(LogType.Info, "Pokrenut servis pilona.");
 
@@ -34,42 +32,30 @@ namespace BikeService.Objects.ObjectHandlers
                 if(!_pcanHandler.InitCan())
                     return;
 
-                ObjectFactory.EventDataService.Insert(new Event(EventType.Hello, Utils.Serialize(_dockings)));
+                ObjectFactory.EventDataService.Insert(new Event(CanReciveCommands.Hello, Utils.Serialize(_dockings)));
                 
                 if (_timerCan == null)
                     _timerCan = new Timer(_ => ObradiPodatkeCana());
             
-                _pcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp)
-                    {
-                        _timerCan.Change(100, Timeout.Infinite);
-                        _queue.Enqueue(msg);
-                    };
-
+                _pcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp){
+                    _timerCan.Change(100, Timeout.Infinite);
+                    _queue.Enqueue(msg);
+                };
                 
+                #region Service BUS  
 
-                //Service BUS
-                const string QueueName = "DebugQueue";
-                string ServiceBusConnectionString = Settings.Default.ApiKey;//"ServiceBusConnectionString"];
-                QueueClient queueClient;
-                
-                queueClient = QueueClient.CreateFromConnectionString(ServiceBusConnectionString, QueueName);                    
-                queueClient.OnMessage((receivedMessage) =>
+                string serviceBusConnectionString = Settings.Default.ApiKey;//"ServiceBusConnectionString"];
+
+                var queueClient = QueueClient.CreateFromConnectionString(serviceBusConnectionString, "DebugQueue");                    
+                queueClient.OnMessage(receivedMessage =>
                 {
-
-                    try
-
-                    {
-
-                        string message = receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string)));
-                        Console.WriteLine(message);
-                    }
-                    catch
-                    {
-                        // Handle any message processing specific exceptions here
-                    }
+                    string message = receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string)));
+                    Console.WriteLine(message);                    
                 });                    
                 queueClient.Close();
                 
+                #endregion
+
                 ObjectFactory.LogDataService.Write(LogType.Info, "Završen init servisa pilona.");
             }
             catch (Exception e)
