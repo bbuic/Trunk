@@ -8,8 +8,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BikeService</RootNamespace>
     <AssemblyName>BikeService</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CanReciveCommands.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="DataBase\BikeServiceAction.cs" />
     <Compile Include="DataBase\BikeServiceLog.cs" />
     <Compile Include="DataBase\CanCommand.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="DataBase\DockingState.cs" />
     <Compile Include="DataBase\Event.cs" />
     <Compile Include="EventHandlers\AbstractEventHandler.cs" />
+    <Compile Include="EventHandlers\RfidTagEventHandler.cs" />
     <Compile Include="EventHandlers\BikeTagEventHandler.cs" />
     <Compile Include="EventHandlers\GenericEventHandler.cs" />
     <Compile Include="EventHandlers\StateEventHandler.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Objects\ObjectHandlers\ServerHandler.cs" />
     <Compile Include="Objects\Pilon.cs" />
     <Compile Include="Objects\Server.cs" />
+    <Compile Include="Objects\ServerMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -89,6 +92,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -104,6 +108,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Upute.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

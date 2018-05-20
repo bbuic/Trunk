@@ -5,29 +5,12 @@ namespace BikeService
 {
     public sealed class ObjectFactory
     {
-        private static EventDataService _eventDataService;
-        private static LogDataService _logDataService;
+        private static EventDataService _eventDataService;        
         private static DockingDataService _dockingDataService;
         private static ServerHandler _serverHandler;
 
-        public static ServerHandler ServerHandler
-        {
-            get { return _serverHandler ?? (_serverHandler = new ServerHandler()); }
-        }
-
-        public static EventDataService EventDataService
-        {
-            get { return _eventDataService ?? (_eventDataService = new EventDataService()); }
-        }
-
-        public static LogDataService LogDataService
-        {
-            get { return _logDataService ?? (_logDataService = new LogDataService()); }
-        }
-
-        public static DockingDataService DockingDataService
-        {
-            get { return _dockingDataService ?? (_dockingDataService = new DockingDataService()); }
-        }
+        public static ServerHandler ServerHandler => _serverHandler ?? (_serverHandler = new ServerHandler());
+        public static EventDataService EventDataService => _eventDataService ?? (_eventDataService = new EventDataService());
+        public static DockingDataService DockingDataService => _dockingDataService ?? (_dockingDataService = new DockingDataService());
     }
 }

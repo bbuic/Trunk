@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BikeService.Objects.ObjectHandlers;
 
 namespace BikeServiceTest
 {
@@ -19,12 +20,7 @@ namespace BikeServiceTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            uint ID = 0x7FF;
-
-            string binary = Convert.ToString(ID, 2);
-
-            binary = binary.Remove(0, 1);  //Remove the exact bit, 3rd in this case
-            string newValue = Convert.ToInt32(binary, 2).ToString("X");
+            new PilonHandler().Start();
         }
     }
 }

@@ -14,6 +14,15 @@ namespace BikeService
             return "";
         }
 
+        public static object DeSerialize(object o)
+        {
+            return "";
+        }
+
+        public static int GetBit(byte b, int bitNumber)
+        {
+            return b & (1 << bitNumber);
+        }
 
     }
 }

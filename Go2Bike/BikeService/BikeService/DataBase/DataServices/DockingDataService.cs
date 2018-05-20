@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BikeService.DataBase.DataServices
 {
     public class DockingDataService
     {
-        public void UpdateDock(Docking docking)
-        {
-            
+        public void DeleteAll()
+        {            
         }
 
-        public void InsertCommand(CanCommand command)
+        public List<Docking> SelectAll()
+        {
+            return null;
+        }
+
+        public void Insert(Docking dock)
         {
 
         }

@@ -1,0 +1,40 @@
+﻿
+Osnovna konstrukcija programa:
+
+- Eventhandlers
+	klase u kojima se obrađuju poruke pristigle preko CANa
+- Objects
+	objekti koji sudjeluju u radu pilona
+	
+	- ObjectHandlers
+		klase u kojima se obrađuju događaji i komande nad objektima
+
+- dataBase
+	- database layer, data i dataaces klase
+
+U PilonHandler-u se dohvaćaju CAN poruke i insertaju u lokalni MessageQueue-MQ. Prilkom svake poruke pali se timer na čiji triger se obrađuju poruke 
+u pripadajućim "Eventhandlerima". U istima se i parsa poruke.
+
+U doking handleru se obrađuju pristigle poruke.
+
+VAŽNO: ako u vremnu "CleanMessagesTime" ne stigne kompletna poruka cijeli buffer se briše
+
+Zakodirana pravila:
+	- na startu servisa se uvijek restartaju svi dokinzi koji su ostali u memoriji/bazi JER je nepotrebo čekati 40sec da se oni sami restartaju i u dovedu u stanje da se jave sa HELLO
+	- docking handler će početi obrađivati poruke samo ako je prethodno za taj dok pristigl aporuka HELLO
+	- ako se u unutar 5 sec. (za pretpostaviti je da se izvan ovog vreman može dogoditi da se isti dok javi dva puta) 
+		prijave dva dockinga sa istom adresom (ID), javljamo grešku i na to mora reagirati admin sustava.
+	- imamo 2 (dva) FATAL greške:
+		- greška u initu servisa
+		- dva pilona su se prijavila sa istom adresom unutra 5sec.
+
+Konfiguracija(za sad je u .config file-u (prebaciti u bazu)):
+
+- PresencePeriod - period svakih koliko će se slati poruka o prisutnosti elektronike
+- PilonId - ID pilona (dobivam ga od administratora sustava)
+- PilonSifra - naziv/sifra pilona, text po kojem će se prepoznati pilon
+- ApiKey - ključ kojeg se šalje u svakom web requestu prema cloud-u
+- CloudUrl -url adresa servera
+- ValidateTag - api metoda koju zovemo prilikom validacije TAGa bicikle, prilikom vraćanja npr.
+- CleanMessagesTime - time nakon kojeg se očisti buffer u kojeg se spremaju poruke istog tipa, tip obilježavaju koji iza IDja dock-a
+- ServiceBusConnString - connection string service bus-a preko kojeg dobivam komande iz severa/clud-a

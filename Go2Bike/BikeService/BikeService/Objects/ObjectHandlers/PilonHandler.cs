@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
-using BikeService.DataBase;
 using BikeService.Properties;
 using Microsoft.ServiceBus.Messaging;
 
@@ -23,17 +22,20 @@ namespace BikeService.Objects.ObjectHandlers
             {
                 AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs args)
                 {
-                    ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
+                    //ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
                 };
 
-                ObjectFactory.LogDataService.Write(LogType.Info, "Pokrenut servis pilona.");
-
+                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Info, "Pokrenuta inicjalizacija servisa pilona.");
+                
                 _pcanHandler = new PcanHandler();
                 if(!_pcanHandler.InitCan())
-                    return;
+                    throw new Exception("Greška u inicjalizaciji CANa");
 
-                ObjectFactory.EventDataService.Insert(new Event(CanReciveCommands.Hello, Utils.Serialize(_dockings)));
-                
+                //TODO: provjeriti dali treba ovaj restart???
+                foreach (var docking in ObjectFactory.DockingDataService.SelectAll())
+                    ((DockingHandler) docking).WriteCanCommand(CanSendCommands.Reset);
+                ObjectFactory.DockingDataService.DeleteAll();
+
                 if (_timerCan == null)
                     _timerCan = new Timer(_ => ObradiPodatkeCana());
             
@@ -44,26 +46,84 @@ namespace BikeService.Objects.ObjectHandlers
                 
                 #region Service BUS  
 
-                string serviceBusConnectionString = Settings.Default.ApiKey;//"ServiceBusConnectionString"];
-
-                var queueClient = QueueClient.CreateFromConnectionString(serviceBusConnectionString, "DebugQueue");                    
+                QueueClient queueClient;
+                try
+                {
+                    queueClient = QueueClient.CreateFromConnectionString(Settings.Default.ServiceBusConnString, "ServerQueue");
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Greška u procesu inicjalizacije ServiceBus-a uređaja. Razlog: {e.Message}, StackTrace: {e.StackTrace}");
+                }
                 queueClient.OnMessage(receivedMessage =>
                 {
-                    string message = receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string)));
-                    Console.WriteLine(message);                    
-                });                    
-                queueClient.Close();
-                
+                    try
+                    {
+                        var serverMsg = (ServerMessage) Utils.DeSerialize(receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string))));
+
+                        ObjectFactory.EventDataService.Insert(EventType.ServerRequest, 
+                            EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.PilonId}");
+
+                        if (serverMsg.MessageType == MessageType.ResetAll)
+                        {
+                            ResetAllDockings();
+                            return;
+                        }
+
+                        var dock = _dockings.FirstOrDefault(x => x.Id == serverMsg.PilonId);
+                        if (dock != null)
+                        {
+                            switch (serverMsg.MessageType)
+                            {
+                                case MessageType.Unlock:
+                                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
+                                    dock.WriteCanCommand(CanSendCommands.Open);
+                                    break;
+
+                                case MessageType.Reset:
+                                    dock.WriteCanCommand(CanSendCommands.Reset);
+                                    break;
+
+                                case MessageType.Block:
+                                    dock.WriteCanCommand(CanSendCommands.Block);
+                                    break;
+
+                                case MessageType.Status:
+                                    //vraćanje statusa na server
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            //log na server
+                        }
+                        receivedMessage.Complete();
+                    }
+                    catch (Exception e)
+                    {                        
+                        ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                            EventCategory.Error, $"Greška u procesu obrade server requesta. Razlog: {e.Message}");
+                        receivedMessage.Abandon();
+                    }
+                });
+
                 #endregion
 
-                ObjectFactory.LogDataService.Write(LogType.Info, "Završen init servisa pilona.");
+                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Info, "Završena inicjalizacija servisa pilona.");
             }
             catch (Exception e)
             {
-                ObjectFactory.LogDataService.Write(e);
+                ObjectFactory.EventDataService.Insert(EventType.PilonInit,
+                    EventCategory.Fatal, $"Greška u procesu inicjalizacije pilona. Razlog: {e.Message}");
             }
         }
-        
+
+        private void ResetAllDockings()
+        {
+            foreach (var docking in _dockings)
+                docking.WriteCanCommand(CanSendCommands.Reset);
+        }
+
         private void ObradiPodatkeCana()
         {
             try
@@ -84,7 +144,8 @@ namespace BikeService.Objects.ObjectHandlers
             }
             catch (Exception e)
             {
-                ObjectFactory.LogDataService.Write(e);
+                ObjectFactory.EventDataService.Insert(EventType.CanReadCommand,
+                    EventCategory.Error, $"Greška u procesu obrade podatka CANa. Razlog: {e.Message}");
             }
         }       
     }

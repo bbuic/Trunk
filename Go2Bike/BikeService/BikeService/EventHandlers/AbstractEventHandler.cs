@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using BikeService.Objects;
 
 namespace BikeService.EventHandlers
@@ -12,6 +14,7 @@ namespace BikeService.EventHandlers
         private readonly int _numMsg;
         private readonly byte _firstByte;
         private readonly List<TPCANMsg> _list = new List<TPCANMsg>();
+        private readonly Timer _timer;
 
         internal CanReciveCommands CanReciveCommands;
 
@@ -22,17 +25,25 @@ namespace BikeService.EventHandlers
             _successor = successor;
             _numMsg = numMsg;
             _firstByte = firstByte;
+
+            if (_timer == null)
+                _timer = new Timer(delegate {_list.Clear();});
         }
 
-        internal TPCANMsg[] Message => _list.ToArray();
+        internal byte[][] Messages => _list.Select(x=>x.DATA).ToArray();
 
         internal void NewMessage(TPCANMsg msg)
         {
             if (msg.DATA[0].Equals(_firstByte))
             {
                 _list.Add(msg);
-                if (_list.Count == _numMsg)
+
+                if (_list.Count != _numMsg)
+                    _timer.Change(Properties.Settings.Default.CleanMessagesTime, Timeout.Infinite);
+                else
                 {
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+
                     _handler(this);
                     Handle();
                 }

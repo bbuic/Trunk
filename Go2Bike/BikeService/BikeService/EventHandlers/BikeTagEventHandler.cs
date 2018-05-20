@@ -13,7 +13,7 @@ namespace BikeService.EventHandlers
 
         internal override void Handle()
         {
-            BikeTag = BitConverter.ToInt16(Message[0].DATA.Skip(1).ToArray(), 0);
+            BikeTag = BitConverter.ToInt16(Messages[0].Skip(1).ToArray(), 0);
         }
     }
 }

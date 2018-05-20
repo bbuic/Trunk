@@ -5,7 +5,7 @@ namespace BikeService.DataBase.DataServices
 {
     public class LogDataService
     {
-        public void Write(LogType type, string log)
+        public void Write(EventCategory type, string log)
         {
             var stackTrace = new StackTrace();
             var name = stackTrace.GetFrame(1).GetMethod();
