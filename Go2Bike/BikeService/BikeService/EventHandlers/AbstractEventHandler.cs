@@ -15,9 +15,7 @@ namespace BikeService.EventHandlers
         private readonly byte _firstByte;
         private readonly List<TPCANMsg> _list = new List<TPCANMsg>();
         private readonly Timer _timer;
-
-        internal CanReciveCommands CanReciveCommands;
-
+        
         protected AbstractEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null)
         {
             CanReciveCommands = canReciveCommands;
@@ -30,6 +28,7 @@ namespace BikeService.EventHandlers
                 _timer = new Timer(delegate {_list.Clear();});
         }
 
+        internal CanReciveCommands CanReciveCommands;
         internal byte[][] Messages => _list.Select(x=>x.DATA).ToArray();
 
         internal void NewMessage(TPCANMsg msg)

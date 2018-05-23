@@ -7,6 +7,7 @@ namespace BikeService
         Info,
         Error,
         Fatal, //nemoguć rad, potrebna intervancija admina        
+        Cloud
     }
 
     public enum EventType
@@ -18,7 +19,9 @@ namespace BikeService
         ServerRequest,
         NewDocking,
         CanWriteCommand,
-        CanReadCommand
+        CanReadCommand,
+        BikeOpend,
+        BikeClosed
     }
 
     public enum SwitchState
@@ -40,7 +43,8 @@ namespace BikeService
         Hello,
         BikeTag,
         RfidTag,
-        State
+        State,
+        Status
     }
 
     public class CanSendCommands
@@ -65,8 +69,6 @@ namespace BikeService
         public static readonly TPCANMsg Status = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x7B } };        
 
         public static readonly TPCANMsg ServisniMod = new TPCANMsg { LEN = 2, DATA = new byte[] { 0x79, 0x01 } };        
-        public static readonly TPCANMsg Open = new TPCANMsg { LEN = 2, DATA = new byte[] { 0x79, 03 } };
-
-        public static readonly TPCANMsg Block = new TPCANMsg { LEN = 2, DATA = new byte[] { 0x79, 03 } };        
+        public static readonly TPCANMsg Open = new TPCANMsg { LEN = 2, DATA = new byte[] { 0x79, 03 } };        
     }
 }

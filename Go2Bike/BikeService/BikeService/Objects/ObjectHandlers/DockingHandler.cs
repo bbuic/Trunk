@@ -7,18 +7,19 @@ namespace BikeService.Objects.ObjectHandlers
 {
     public class DockingHandler:DockingModel
     {
+        public bool Test { get; set; }
         private Timer _timerPresence;
-        private readonly PcanHandler _pcanHandler;        
+        private readonly IPcanHandler _pcanHandler;        
         private readonly Queue<AbstractEventHandler> _queue = new Queue<AbstractEventHandler>();
         private readonly Timer _timerEvent;
 
         public AbstractEventHandler EventHandler;
 
-        public DockingHandler(PcanHandler handler)
+        public DockingHandler(IPcanHandler handler)
         {
             _pcanHandler = handler;
 
-            AbstractEventHandler eventHandler4 = new StateEventHandler(CanReciveCommands.State,  2, 0x7C, EventHandlerOnObradiEvent);
+            AbstractEventHandler eventHandler4 = new StatusEventHandler(CanReciveCommands.Status,  4, 0x80, EventHandlerOnObradiEvent);
             AbstractEventHandler eventHandler3 = new StateEventHandler(CanReciveCommands.State,  2, 0x7C, EventHandlerOnObradiEvent, eventHandler4);
             AbstractEventHandler eventHandler2 = new BikeTagEventHandler(CanReciveCommands.BikeTag,  1, 0x75, EventHandlerOnObradiEvent, eventHandler3);
             AbstractEventHandler eventHandler1 = new RfidTagEventHandler(CanReciveCommands.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
@@ -33,6 +34,9 @@ namespace BikeService.Objects.ObjectHandlers
             while (_queue.Count > 0)
             {
                 var msg = _queue.Dequeue();
+
+                if(Test)
+                    ReciveCommands.Add(msg);
 
                 ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Info, msg.CanReciveCommands.ToString());
 
@@ -97,6 +101,11 @@ namespace BikeService.Objects.ObjectHandlers
                             ObjectFactory.DockingDataService.Insert(this);
                             IsInit = true;
                         }
+                        break;
+
+                    case CanReciveCommands.Status:
+                        var status = (StatusEventHandler)msg;
+                        
                         break;
 
                     default:

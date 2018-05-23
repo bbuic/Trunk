@@ -10,8 +10,9 @@ namespace BikeService.Objects.ObjectHandlers
 {
     public class PilonHandler
     {
-        private PcanHandler _pcanHandler;
-        private readonly List<DockingHandler> _dockings = new List<DockingHandler>();
+        public bool Test { get; set; }
+        private IPcanHandler _pcanHandler;
+        public List<DockingHandler> Dockings = new List<DockingHandler>();
 
         private static Timer _timerCan;        
         private readonly Queue<TPCANMsg> _queue = new Queue<TPCANMsg>();
@@ -25,24 +26,22 @@ namespace BikeService.Objects.ObjectHandlers
                     //ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
                 };
 
-                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Info, "Pokrenuta inicjalizacija servisa pilona.");
+                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Cloud, "Pokrenuta inicjalizacija servisa pilona.");
                 
                 _pcanHandler = new PcanHandler();
                 if(!_pcanHandler.InitCan())
                     throw new Exception("Greška u inicjalizaciji CANa");
 
-                //TODO: provjeriti dali treba ovaj restart???
+                if (_timerCan == null)
+                    _timerCan = new Timer(_ => ObradiPodatkeCana());
+
+                //TODO: provjeriti dali treba ovaj restart??? 
+                //(namjena bi bila da kao se servis restarta da se ne čeka da se dokovi sami restartaju već da ih prisilno restartamo)
                 foreach (var docking in ObjectFactory.DockingDataService.SelectAll())
                     ((DockingHandler) docking).WriteCanCommand(CanSendCommands.Reset);
                 ObjectFactory.DockingDataService.DeleteAll();
-
-                if (_timerCan == null)
-                    _timerCan = new Timer(_ => ObradiPodatkeCana());
-            
-                _pcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp){
-                    _timerCan.Change(100, Timeout.Infinite);
-                    _queue.Enqueue(msg);
-                };
+                
+                _pcanHandler.HandleCanMessage += delegate(TPCANMsg msg, TPCANTimestamp stamp) { HandleCanMessage(msg); };
                 
                 #region Service BUS  
 
@@ -60,19 +59,21 @@ namespace BikeService.Objects.ObjectHandlers
                     try
                     {
                         var serverMsg = (ServerMessage) Utils.DeSerialize(receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string))));
-
-                        ObjectFactory.EventDataService.Insert(EventType.ServerRequest, 
-                            EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.PilonId}");
-
+                        
                         if (serverMsg.MessageType == MessageType.ResetAll)
                         {
                             ResetAllDockings();
+                            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.PilonId}");
                             return;
                         }
 
-                        var dock = _dockings.FirstOrDefault(x => x.Id == serverMsg.PilonId);
+                        var dock = Dockings.FirstOrDefault(x => x.Id == serverMsg.PilonId);
                         if (dock != null)
                         {
+                            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.PilonId}", dock.Id);
+
                             switch (serverMsg.MessageType)
                             {
                                 case MessageType.Unlock:
@@ -85,7 +86,7 @@ namespace BikeService.Objects.ObjectHandlers
                                     break;
 
                                 case MessageType.Block:
-                                    dock.WriteCanCommand(CanSendCommands.Block);
+                                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
                                     break;
 
                                 case MessageType.Status:
@@ -95,7 +96,8 @@ namespace BikeService.Objects.ObjectHandlers
                         }
                         else
                         {
-                            //log na server
+                            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                                EventCategory.Error, $"Nepoznat pilonId {serverMsg.PilonId}, akcija {serverMsg.MessageType.ToString()}");
                         }
                         receivedMessage.Complete();
                     }
@@ -118,9 +120,15 @@ namespace BikeService.Objects.ObjectHandlers
             }
         }
 
+        public void HandleCanMessage(TPCANMsg msg)
+        {
+            _timerCan.Change(100, Timeout.Infinite);
+            _queue.Enqueue(msg);
+        }
+
         private void ResetAllDockings()
         {
-            foreach (var docking in _dockings)
+            foreach (var docking in Dockings)
                 docking.WriteCanCommand(CanSendCommands.Reset);
         }
 
@@ -133,11 +141,11 @@ namespace BikeService.Objects.ObjectHandlers
                     var msg = _queue.Dequeue();
 
                     uint dockId = Utils.RemoveFirstBit(msg.ID);
-                    var dock = _dockings.FirstOrDefault(x => x.Id == dockId);
+                    var dock = Dockings.FirstOrDefault(x => x.Id == dockId);
                     if (dock == null)
                     {
-                        dock = new DockingHandler(_pcanHandler) { Id = dockId };
-                        _dockings.Add(dock);
+                        dock = new DockingHandler(_pcanHandler) { Id = dockId, Test = Test};
+                        Dockings.Add(dock);
                     }
                     dock.EventHandler.NewMessage(msg);                    
                 }

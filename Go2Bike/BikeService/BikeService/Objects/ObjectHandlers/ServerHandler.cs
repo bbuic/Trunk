@@ -1,17 +1,16 @@
-﻿using System.IO;
-using System.Net;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 
 namespace BikeService.Objects.ObjectHandlers
 {
     public class ServerHandler
     {
-        public void OpenBike(int bikeTagId, uint dockId)
+        public void SendEvent()
         {
         }
 
-        public void CloseBike(int bikeTagId, uint dockId)
+        public void SendPilonStatus(List<DockingModel> list)
         {
+            
         }
 
         public bool ValidateRfidTag(int rfidTagId, uint dockId)
@@ -40,27 +39,6 @@ namespace BikeService.Objects.ObjectHandlers
             return true;
         }
 
-        private T ExecuteGet<T>(string uri, int timeoutInSeconds)
-        {
-            var webReq = (HttpWebRequest)WebRequest.Create(uri);
-            webReq.Timeout = 1000 * timeoutInSeconds;
-            webReq.Headers.Add("PilonId", Properties.Settings.Default.PilonId.ToString());
-            webReq.Headers.Add("ApiKey ", Properties.Settings.Default.ApiKey);
-            webReq.Method = "GET";
-            webReq.ContentType = "application/json";
-            webReq.ContentLength = 0;
-
-            using (var response = webReq.GetResponse())
-            {
-                string jsonresponse = null;
-                using (var inputStream = response.GetResponseStream())
-                    if (inputStream != null)
-                        using (var reader = new StreamReader(inputStream))
-                            jsonresponse = reader.ReadToEnd();
-                response.Close();
-
-                return JsonConvert.DeserializeObject<T>(jsonresponse);
-            }
-        }
+        
     }
 }

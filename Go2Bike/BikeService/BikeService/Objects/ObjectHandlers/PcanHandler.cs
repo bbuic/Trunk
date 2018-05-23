@@ -6,7 +6,7 @@ using TPCANHandle = System.UInt16;
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    public class PcanHandler
+    public class PcanHandler : IPcanHandler
     {
         private TPCANHandle _handle;
         private Thread _mReadThread;

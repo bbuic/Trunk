@@ -72,7 +72,9 @@
     <Compile Include="EventHandlers\BikeTagEventHandler.cs" />
     <Compile Include="EventHandlers\GenericEventHandler.cs" />
     <Compile Include="EventHandlers\StateEventHandler.cs" />
+    <Compile Include="EventHandlers\StatusEventHandler.cs" />
     <Compile Include="ObjectFactory.cs" />
+    <Compile Include="Objects\ObjectHandlers\IPcanHandler.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
     <Compile Include="Objects\DockingModel.cs" />
     <Compile Include="Objects\ObjectHandlers\PcanHandler.cs" />
@@ -110,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Upute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mock\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

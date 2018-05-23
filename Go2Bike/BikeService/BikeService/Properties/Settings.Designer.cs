@@ -124,7 +124,8 @@ namespace BikeService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("nesto")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Endpoint=sb://sb-ute.servicebus.windows.net/;SharedAccessKeyName=RootManageShared" +
+            "AccessKey;SharedAccessKey=iX9gUbIcIFfreNo7UDgih5xdt+iHXnpwM6NFr8tKCwE=")]
         public string ServiceBusConnString {
             get {
                 return ((string)(this["ServiceBusConnString"]));
