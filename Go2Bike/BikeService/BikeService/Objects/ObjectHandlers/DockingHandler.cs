@@ -36,7 +36,7 @@ namespace BikeService.Objects.ObjectHandlers
                 var msg = _queue.Dequeue();
 
                 if(Test)
-                    ReciveCommands.Add(msg);
+                    ReciveCommands.Add(new CanMessage{CanReciveCommands = msg.CanReciveCommands, RawMessage = msg.List});
 
                 ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Info, msg.CanReciveCommands.ToString());
 
@@ -68,7 +68,7 @@ namespace BikeService.Objects.ObjectHandlers
                     case CanReciveCommands.BikeTag:                        
                         var tagEventHandler = (BikeTagEventHandler) msg;
 
-                        if(Tag.HasValue && Tag == tagEventHandler.BikeTag)
+                        if(Tag.HasValue && Tag == tagEventHandler.BikeTag || !IsInit)
                             return;
 
                         if (IsLocked)

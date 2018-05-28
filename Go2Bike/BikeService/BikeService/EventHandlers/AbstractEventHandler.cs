@@ -28,7 +28,13 @@ namespace BikeService.EventHandlers
                 _timer = new Timer(delegate {_list.Clear();});
         }
 
-        internal CanReciveCommands CanReciveCommands;
+        public List<TPCANMsg> List
+        {
+            get { return _list; }
+            set {  }
+        }
+
+        public CanReciveCommands CanReciveCommands;
         internal byte[][] Messages => _list.Select(x=>x.DATA).ToArray();
 
         internal void NewMessage(TPCANMsg msg)

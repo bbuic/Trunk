@@ -10,7 +10,7 @@ namespace BikeService.DataBase.DataServices
 
         public List<Docking> SelectAll()
         {
-            return null;
+            return new List<Docking>();
         }
 
         public void Insert(Docking dock)

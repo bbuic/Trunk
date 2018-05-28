@@ -74,6 +74,7 @@
     <Compile Include="EventHandlers\StateEventHandler.cs" />
     <Compile Include="EventHandlers\StatusEventHandler.cs" />
     <Compile Include="ObjectFactory.cs" />
+    <Compile Include="Objects\CanMessage.cs" />
     <Compile Include="Objects\ObjectHandlers\IPcanHandler.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
     <Compile Include="Objects\DockingModel.cs" />

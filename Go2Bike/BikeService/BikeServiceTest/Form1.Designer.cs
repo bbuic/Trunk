@@ -36,12 +36,14 @@
             this.dgvSendCommands = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.dgvReciveMsg = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReciveCommands)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDokinzi)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSendCommands)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReciveMsg)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -57,10 +59,10 @@
             // dgvReciveCommands
             // 
             this.dgvReciveCommands.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvReciveCommands.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvReciveCommands.Dock = System.Windows.Forms.DockStyle.Left;
             this.dgvReciveCommands.Location = new System.Drawing.Point(3, 16);
             this.dgvReciveCommands.Name = "dgvReciveCommands";
-            this.dgvReciveCommands.Size = new System.Drawing.Size(399, 250);
+            this.dgvReciveCommands.Size = new System.Drawing.Size(145, 250);
             this.dgvReciveCommands.TabIndex = 1;
             // 
             // dgvDokinzi
@@ -76,6 +78,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.dgvReciveMsg);
             this.groupBox1.Controls.Add(this.dgvReciveCommands);
             this.groupBox1.Location = new System.Drawing.Point(12, 136);
             this.groupBox1.Name = "groupBox1";
@@ -125,6 +128,15 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // dgvReciveMsg
+            // 
+            this.dgvReciveMsg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReciveMsg.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dgvReciveMsg.Location = new System.Drawing.Point(171, 16);
+            this.dgvReciveMsg.Name = "dgvReciveMsg";
+            this.dgvReciveMsg.Size = new System.Drawing.Size(231, 250);
+            this.dgvReciveMsg.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -144,6 +156,7 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSendCommands)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReciveMsg)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -158,6 +171,7 @@
         private System.Windows.Forms.DataGridView dgvSendCommands;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView dgvReciveMsg;
     }
 }
 

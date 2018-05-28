@@ -10,7 +10,7 @@
     }
     public class ServerMessage
     {
-        public uint PilonId { get; set; }
+        public uint DockingId { get; set; }
         public MessageType MessageType { get; set; }
     }
 }
