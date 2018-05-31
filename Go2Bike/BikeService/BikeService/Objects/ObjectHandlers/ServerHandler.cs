@@ -2,7 +2,7 @@
 
 namespace BikeService.Objects.ObjectHandlers
 {
-    public class ServerHandler
+    public class ServerHandler : IServerHandler
     {
         public void SendEvent()
         {

@@ -115,7 +115,7 @@ namespace BikeService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
         public int CleanMessagesTime {
             get {
                 return ((int)(this["CleanMessagesTime"]));

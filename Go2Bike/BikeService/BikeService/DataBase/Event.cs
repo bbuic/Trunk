@@ -1,35 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
+using BikeService.Objects;
 
 namespace BikeService.DataBase
 {
     public class Event
     {
-        private bool _send = true;
+        public EventType EventType { get; set; }
+        public EventCategory EventCategory { get; set; }
+        public string Opis { get; set; }
+        public uint? DockingId { get; set; }
 
-        public Event(CanReciveCommands canReciveCommands)
+        public List<TPCANMsg> MessageList;
+        public TPCANMsg AddMessage
         {
-            CanReciveCommands = canReciveCommands;
-            Datum = DateTime.Now;
+            set
+            {
+                if(MessageList == null)
+                    MessageList = new List<TPCANMsg>();
+                MessageList.Add(value);
+            }
         }
-
-        public Event(CanReciveCommands canReciveCommands, string opisDogadaja)
-        {
-            CanReciveCommands = canReciveCommands;
-            OpisDogadaja = opisDogadaja;
-            Datum = DateTime.Now;
-        }
-
-        public bool Send
-        {
-            get { return _send; }
-            set { _send = value; }
-        }
-
-        public uint DockId  { get; set; }
-        public DateTime Datum { get; set; }
-        public CanReciveCommands CanReciveCommands { get; set; }
-        public string OpisDogadaja { get; set; }
 
         public DateTime? SendTime { get; set; }
+
+        public Event(EventType eventType, EventCategory eventCategory, string opis)
+        {
+            EventType = eventType;
+            EventCategory = eventCategory;
+            Opis = opis;
+        }
     }
 }

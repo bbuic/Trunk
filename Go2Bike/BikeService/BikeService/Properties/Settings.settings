@@ -33,7 +33,7 @@
       <Value Profile="(Default)">Pylon2Cloud/Bikes?tagId=</Value>
     </Setting>
     <Setting Name="CleanMessagesTime" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">2000</Value>
+      <Value Profile="(Default)">5000</Value>
     </Setting>
     <Setting Name="ServiceBusConnString" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Endpoint=sb://sb-ute.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=iX9gUbIcIFfreNo7UDgih5xdt+iHXnpwM6NFr8tKCwE=</Value>

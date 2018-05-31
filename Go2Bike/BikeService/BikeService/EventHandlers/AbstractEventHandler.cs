@@ -25,7 +25,10 @@ namespace BikeService.EventHandlers
             _firstByte = firstByte;
 
             if (_timer == null)
-                _timer = new Timer(delegate {_list.Clear();});
+                _timer = new Timer(delegate
+                {
+                    _list.Clear();
+                });
         }
 
         public List<TPCANMsg> List

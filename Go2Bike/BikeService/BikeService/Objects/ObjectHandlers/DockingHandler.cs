@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
+using BikeService.DataBase;
 using BikeService.EventHandlers;
 
 namespace BikeService.Objects.ObjectHandlers
 {
     public class DockingHandler:DockingModel
-    {
-        public bool Test { get; set; }
+    {        
         private Timer _timerPresence;
         private readonly IPcanHandler _pcanHandler;        
         private readonly Queue<AbstractEventHandler> _queue = new Queue<AbstractEventHandler>();
@@ -34,11 +38,8 @@ namespace BikeService.Objects.ObjectHandlers
             while (_queue.Count > 0)
             {
                 var msg = _queue.Dequeue();
-
-                if(Test)
-                    ReciveCommands.Add(new CanMessage{CanReciveCommands = msg.CanReciveCommands, RawMessage = msg.List});
-
-                ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Info, msg.CanReciveCommands.ToString());
+                
+                ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Info, msg.CanReciveCommands.ToString()){MessageList = msg.List});
 
                 if (!DatumUkljucivanja.HasValue && msg.CanReciveCommands != CanReciveCommands.Hello)
                 {
@@ -50,16 +51,16 @@ namespace BikeService.Objects.ObjectHandlers
                 {
                     case CanReciveCommands.Hello:
                         if (DatumUkljucivanja.HasValue && (DateTime.Now - DatumUkljucivanja.Value).TotalSeconds < 5)
-                            ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Fatal, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec.");
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Fatal, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec."));
 
                         DatumUkljucivanja = DateTime.Now;
                         IsInit = false;
-
+                        
                         WriteCanCommand(CanSendCommands.HelloResponse);
                         WriteCanCommand(CanSendCommands.WorkWithServer);
 
                         if (_timerPresence == null)
-                            _timerPresence = new Timer(delegate { _pcanHandler.Write(Id, CanSendCommands.Presence); });
+                            _timerPresence = new Timer(delegate { _pcanHandler.Write(Id, CanSendCommands.Presence.Msg); });
                         _timerPresence.Change(Timeout.Infinite, Properties.Settings.Default.PresencePeriod);
 
                         WriteCanCommand(CanSendCommands.Status);    
@@ -73,8 +74,8 @@ namespace BikeService.Objects.ObjectHandlers
 
                         if (IsLocked)
                         {
-                            ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Error, 
-                                $"Bike tag na zaključanom dokingu. Biketag: {tagEventHandler.BikeTag}");
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Error, 
+                                $"Bike tag na zaključanom dokingu. Biketag: {tagEventHandler.BikeTag}"));
                             return;
                         }
                         
@@ -97,7 +98,7 @@ namespace BikeService.Objects.ObjectHandlers
                         SwitchState = state.SwitchState;
                         if(!IsInit)
                         {
-                            ObjectFactory.EventDataService.Insert(EventType.NewDocking, EventCategory.Info, $"Novi docking ID {Id}");
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.NewDocking, EventCategory.Info, $"Novi docking ID {Id}"));
                             ObjectFactory.DockingDataService.Insert(this);
                             IsInit = true;
                         }
@@ -109,7 +110,7 @@ namespace BikeService.Objects.ObjectHandlers
                         break;
 
                     default:
-                        ObjectFactory.EventDataService.Insert(EventType.CanReadCommand, EventCategory.Error, $"Nepostojeća komanda {msg.CanReciveCommands.ToString()}");
+                        ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Error, $"Nepostojeća komanda {msg.CanReciveCommands.ToString()}"));
                         WriteCanCommand(CanSendCommands.Reset);
                         break;
                 }
@@ -122,10 +123,10 @@ namespace BikeService.Objects.ObjectHandlers
             _queue.Enqueue(dogadaj);
         }
 
-        internal void WriteCanCommand(TPCANMsg msg)
+        internal void WriteCanCommand(CanSendCommand cmd)
         {
-            _pcanHandler.Write(Id, msg);
-            ObjectFactory.EventDataService.Insert(EventType.CanWriteCommand, EventCategory.Info, nameof(msg));
+            _pcanHandler.Write(Id, cmd.Msg);            
+            ObjectFactory.EventDataService.Insert(new Event(EventType.CanWriteCommand, EventCategory.Info, cmd.CommandName){AddMessage = cmd.Msg});
         }
     }
 }

@@ -6,20 +6,21 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
+using BikeService.DataBase;
 using BikeService.Properties;
 using Microsoft.ServiceBus.Messaging;
 
 namespace BikeService.Objects.ObjectHandlers
 {
     public class PilonHandler
-    {
-        public bool Test { get; set; }
+    {        
         public IPcanHandler PcanHandler;
-        public BindingList<DockingHandler> Dockings = new BindingList<DockingHandler>();
-
+        public List<DockingHandler> Dockings = new List<DockingHandler>();
+        
         private static Timer _timerCan;        
+        private static Timer _timerServer;        
         private readonly Queue<TPCANMsg> _queue = new Queue<TPCANMsg>();
-
+        
         public void Start()
         {
             try
@@ -29,7 +30,7 @@ namespace BikeService.Objects.ObjectHandlers
                     //ObjectFactory.LogDataService.Write((Exception) args.ExceptionObject);
                 };
 
-                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Cloud, "Pokrenuta inicjalizacija servisa pilona.");
+                ObjectFactory.EventDataService.Insert(new Event(EventType.PilonInit, EventCategory.Cloud, "Pokrenuta inicjalizacija servisa pilona."));
 
                 if(PcanHandler == null)
                     PcanHandler = new PcanHandler();
@@ -39,10 +40,20 @@ namespace BikeService.Objects.ObjectHandlers
                 if (_timerCan == null)
                     _timerCan = new Timer(_ => ObradiPodatkeCana());
 
+                if (_timerServer == null)
+                {
+                    _timerServer = new Timer(delegate
+                    {
+                        ObjectFactory.ServerHandler.SendEvent();
+                        ObjectFactory.ServerHandler.SendPilonStatus(Dockings.Cast<DockingModel>().ToList());
+                    });
+                    _timerServer.Change(0, 2000);
+                }
+
                 //TODO: provjeriti dali treba ovaj restart??? 
                 //(namjena bi bila da kao se servis restarta da se ne čeka da se dokovi sami restartaju već da ih prisilno restartamo)
                 foreach (var docking in ObjectFactory.DockingDataService.SelectAll())
-                    ((DockingHandler)docking).WriteCanCommand(CanSendCommands.Reset);
+                ((DockingHandler)docking).WriteCanCommand(CanSendCommands.Reset);
                 ObjectFactory.DockingDataService.DeleteAll();
 
                 PcanHandler.HandleCanMessage += delegate (TPCANMsg msg, TPCANTimestamp stamp) {
@@ -84,7 +95,7 @@ namespace BikeService.Objects.ObjectHandlers
                 //        if (serverMsg.MessageType == MessageType.ResetAll)
                 //        {
                 //            ResetAllDockings();
-                //            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
                 //                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}");
                 //            return;
                 //        }
@@ -92,7 +103,7 @@ namespace BikeService.Objects.ObjectHandlers
                 //        var dock = Dockings.FirstOrDefault(x => x.Id == serverMsg.DockingId);
                 //        if (dock != null)
                 //        {
-                //            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
                 //                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}", dock.Id);
 
                 //            switch (serverMsg.MessageType)
@@ -117,14 +128,14 @@ namespace BikeService.Objects.ObjectHandlers
                 //        }
                 //        else
                 //        {
-                //            ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
                 //                EventCategory.Error, $"Nepoznat pilonId {serverMsg.DockingId}, akcija {serverMsg.MessageType.ToString()}");
                 //        }
                 //        receivedMessage.Complete();
                 //    }
                 //    catch (Exception e)
                 //    {                        
-                //        ObjectFactory.EventDataService.Insert(EventType.ServerRequest,
+                //        ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
                 //            EventCategory.Error, $"Greška u procesu obrade server requesta. Razlog: {e.Message}");
                 //        receivedMessage.Abandon();
                 //    }
@@ -132,12 +143,12 @@ namespace BikeService.Objects.ObjectHandlers
 
                 #endregion
 
-                ObjectFactory.EventDataService.Insert(EventType.PilonInit, EventCategory.Info, "Završena inicjalizacija servisa pilona.");
+                ObjectFactory.EventDataService.Insert(new Event(EventType.PilonInit, EventCategory.Info, "Završena inicjalizacija servisa pilona."));
             }
             catch (Exception e)
             {
-                ObjectFactory.EventDataService.Insert(EventType.PilonInit,
-                    EventCategory.Fatal, $"Greška u procesu inicjalizacije pilona. Razlog: {e.Message}");
+                ObjectFactory.EventDataService.Insert(new Event(EventType.PilonInit,
+                    EventCategory.Fatal, $"Greška u procesu inicjalizacije pilona. Razlog: {e.Message}"));
             }
         }
         
@@ -159,7 +170,7 @@ namespace BikeService.Objects.ObjectHandlers
                     var dock = Dockings.FirstOrDefault(x => x.Id == dockId);
                     if (dock == null)
                     {
-                        dock = new DockingHandler(PcanHandler) { Id = dockId, Test = Test};
+                        dock = new DockingHandler(PcanHandler) { Id = dockId};                        
                         Dockings.Add(dock);
                     }
                     dock.EventHandler.NewMessage(msg);                    
@@ -167,8 +178,8 @@ namespace BikeService.Objects.ObjectHandlers
             }
             catch (Exception e)
             {
-                ObjectFactory.EventDataService.Insert(EventType.CanReadCommand,
-                    EventCategory.Error, $"Greška u procesu obrade podatka CANa. Razlog: {e.Message}");
+                ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand,
+                    EventCategory.Error, $"Greška u procesu obrade podatka CANa. Razlog: {e.Message}"));
             }
         }       
     }

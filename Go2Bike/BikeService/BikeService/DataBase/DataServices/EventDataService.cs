@@ -2,9 +2,9 @@
 
 namespace BikeService.DataBase.DataServices
 {
-    public class EventDataService
+    public class EventDataService : IEventDataService
     {
-        public void Insert(EventType type, EventCategory category, string opis, uint? dockingId = null)
+        public void Insert(Event dogadaj)
         {
             //TODO: datetime uzeti
             
