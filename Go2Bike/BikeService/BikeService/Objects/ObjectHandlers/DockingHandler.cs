@@ -60,7 +60,11 @@ namespace BikeService.Objects.ObjectHandlers
                         WriteCanCommand(CanSendCommands.WorkWithServer);
 
                         if (_timerPresence == null)
-                            _timerPresence = new Timer(delegate { _pcanHandler.Write(Id, CanSendCommands.Presence.Msg); });
+                            _timerPresence = new Timer(delegate
+                            {
+                                CanSendCommands.Presence.Msg.ID = Id;
+                                _pcanHandler.Write(CanSendCommands.Presence.Msg);
+                            });
                         _timerPresence.Change(Timeout.Infinite, Properties.Settings.Default.PresencePeriod);
 
                         WriteCanCommand(CanSendCommands.Status);    
@@ -125,7 +129,8 @@ namespace BikeService.Objects.ObjectHandlers
 
         internal void WriteCanCommand(CanSendCommand cmd)
         {
-            _pcanHandler.Write(Id, cmd.Msg);            
+            cmd.Msg.ID = Id;
+            _pcanHandler.Write(cmd.Msg);            
             ObjectFactory.EventDataService.Insert(new Event(EventType.CanWriteCommand, EventCategory.Info, cmd.CommandName){AddMessage = cmd.Msg});
         }
     }

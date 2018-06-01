@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using BikeService;
 using BikeService.DataBase;
-using BikeService.DataBase.DataServices;
 using BikeService.Objects;
 using BikeService.Objects.ObjectHandlers;
 using BikeServiceTest.Mock;
@@ -39,9 +37,19 @@ namespace BikeServiceTest
 
             _pilonHandler = new PilonHandler {PcanHandler = _pcanHandlerMock};
             dgvEvents.DataSource = events;
+            dgvEvents.Columns["SendTime"].DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
+            dgvEvents.Columns["Opis"].Width = 300;
+            dgvEvents.Columns["SendTime"].Width = 120;
 
-            BindingList<Tuple<string, string>> komande = new BindingList<Tuple<string, string>>();
-            dgvReciveCommands.DataSource = komande;
+            var reciveKomande = new BindingList<Tuple<string, string>>();
+            dgvReciveCommands.DataSource = reciveKomande;
+            dgvReciveCommands.Columns[0].HeaderText = @"ID";
+            dgvReciveCommands.Columns[1].HeaderText = @"Recive cmd";
+
+            var sendKomande = new BindingList<Tuple<string, string>>();
+            dgvSendCommands.DataSource = sendKomande;
+            dgvSendCommands.Columns[0].HeaderText = @"ID";
+            dgvSendCommands.Columns[1].HeaderText = @"Send cmd";
 
             serverHandlerMock.DogadajServisa += delegate(Event dogadaj)
             {
@@ -52,15 +60,24 @@ namespace BikeServiceTest
                     foreach (var msg in dogadaj.MessageList)
                     {
                         string s = null;                        
-                        komande.Add(new Tuple<string, string>(msg.ID.ToString("X"), ByteArrayToString(msg.DATA)));
+                        reciveKomande.Add(new Tuple<string, string>(msg.ID.ToString("X"), ByteArrayToString(msg.DATA)));
+                    }                    
+                }
+
+                if (dogadaj.EventType == EventType.CanWriteCommand)
+                {
+                    foreach (var msg in dogadaj.MessageList)
+                    {
+                        string s = null;
+                        sendKomande.Add(new Tuple<string, string>(msg.ID.ToString("X"), ByteArrayToString(msg.DATA)));
                     }
-                    
                 }
             };
 
             serverHandlerMock.PilonStatus += delegate(List<DockingModel> list)
             {
                 dgvDokinzi.DataSource = list;
+                lblRefresh.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             };
             
             _pilonHandler.Start();
@@ -74,6 +91,7 @@ namespace BikeServiceTest
         private void button1_Click(object sender, EventArgs e)
         {
             _pcanHandlerMock.PosaljiPoruku(new TPCANMsg { ID = 0x03, LEN = 8, DATA = new byte[] { 0x7C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } });
+            _pcanHandlerMock.PosaljiPoruku(new TPCANMsg { ID = 0x03, LEN = 8, DATA = new byte[] { 0x7C, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00 } });
         }
 
         public static string ByteArrayToString(byte[] ba)

@@ -16,12 +16,8 @@ namespace BikeServiceTest.Mock
         {
             return true;
         }
-
-        public void Write(uint idUredaja, byte[] data)
-        {            
-        }
-
-        public bool Write(uint idUredaja, TPCANMsg canMsg)
+        
+        public bool Write(TPCANMsg canMsg)
         {
             return true;
         }

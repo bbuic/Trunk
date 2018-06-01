@@ -151,11 +151,10 @@ namespace BikeService.Objects.ObjectHandlers
             }
         }
 
-        public bool Write(uint idUredaja, TPCANMsg canMsg)
+        public bool Write(TPCANMsg canMsg)
         {
             try
-            {
-                canMsg.ID = idUredaja;
+            {                
                 Execute(canMsg);
                 return true;
             }

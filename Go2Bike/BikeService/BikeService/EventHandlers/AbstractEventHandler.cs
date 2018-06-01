@@ -44,6 +44,7 @@ namespace BikeService.EventHandlers
         {
             if (msg.DATA[0].Equals(_firstByte))
             {
+                msg.ID = Utils.RemoveFirstBit(msg.ID);
                 _list.Add(msg);
 
                 if (_list.Count != _numMsg)

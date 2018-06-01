@@ -3,8 +3,7 @@
     public interface IPcanHandler
     {
         event PcanHandler.ReadHandler HandleCanMessage;
-        bool InitCan();
-        void Write(uint idUredaja, byte[] data);
-        bool Write(uint idUredaja, TPCANMsg msg);
+        bool InitCan();        
+        bool Write(TPCANMsg msg);
     }
 }
