@@ -61,7 +61,6 @@
     <Compile Include="DataBase\BikeServiceLog.cs" />
     <Compile Include="DataBase\CanCommand.cs" />
     <Compile Include="DataBase\DataServices\IEventDataService.cs" />
-    <Compile Include="DataBase\DataServices\LogDataService.cs" />
     <Compile Include="DataBase\DataServices\DockingDataService.cs" />
     <Compile Include="DataBase\DataServices\EventDataService.cs" />
     <Compile Include="DataBase\Docking.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="Events\StatusEvent.cs" />
     <Compile Include="Events\GenericEvent.cs" />
     <Compile Include="ObjectFactory.cs" />
-    <Compile Include="Objects\CanMessage.cs" />
     <Compile Include="Objects\ObjectHandlers\IPcanHandler.cs" />
     <Compile Include="Objects\ObjectHandlers\IServerBusHandler.cs" />
     <Compile Include="Objects\ObjectHandlers\IServerHandler.cs" />
