@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="Mock\EventDataServiceMock.cs" />
     <Compile Include="Mock\PcanHandlerMock.cs" />
+    <Compile Include="Mock\ServerBusHandlerMock.cs" />
     <Compile Include="Mock\ServerHandlerMock.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

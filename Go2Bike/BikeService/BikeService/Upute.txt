@@ -38,3 +38,6 @@ Konfiguracija(za sad je u .config file-u (prebaciti u bazu)):
 - ValidateTag - api metoda koju zovemo prilikom validacije TAGa bicikle, prilikom vraćanja npr.
 - CleanMessagesTime - time nakon kojeg se očisti buffer u kojeg se spremaju poruke istog tipa, tip obilježavaju koji iza IDja dock-a
 - ServiceBusConnString - connection string service bus-a preko kojeg dobivam komande iz severa/clud-a
+
+PITANJA:
+	- šta u slučaju FATAL erora, da li blokirati daljnji rad?

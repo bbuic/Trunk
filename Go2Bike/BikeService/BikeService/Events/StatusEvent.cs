@@ -1,6 +1,7 @@
 ﻿using System;
+using BikeService.Events.EventHandlers;
 
-namespace BikeService.EventHandlers
+namespace BikeService.Events
 {
     public enum StatusLogType:short
     {
@@ -32,12 +33,8 @@ namespace BikeService.EventHandlers
 
     }
 
-    public class StatusEventHandler: AbstractEventHandler
+    public class StatusEvent: AbstractEvent
     {
-        public StatusEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(canReciveCommands, numMsg, firstByte, handler, successor)
-        {
-        }
-
         public StatusLogType StatusLogType { get; set; }
         public int RfidTag { get; set; }
         public int BikeTag { get; set; }

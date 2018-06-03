@@ -8,6 +8,13 @@ namespace BikeService
         private static IEventDataService _eventDataService;        
         private static DockingDataService _dockingDataService;
         private static IServerHandler _serverHandler;
+        private static IServerBusHandler _serverBusHandler;
+
+        public static IServerBusHandler ServerBusHandler
+        {
+            get => _serverBusHandler ?? (_serverBusHandler = new ServerBusHandler());
+            set => _serverBusHandler = value;
+        }
 
         public static IServerHandler ServerHandler
         {

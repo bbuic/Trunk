@@ -38,12 +38,12 @@ namespace BikeServiceTest.Mock
 
         public bool ValidateRfidTag(int rfidTagId, uint dockId)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool ValidateBikeTag(int bikeTagId, uint dockId)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

@@ -63,84 +63,57 @@ namespace BikeService.Objects.ObjectHandlers
 
                 #region Service BUS  
 
-                //QueueClient queueClient;
-                //try
-                //{
-                //    queueClient = QueueClient.CreateFromConnectionString(Settings.Default.ServiceBusConnString, "BojanQueue");
-                //}
-                //catch (Exception e)
-                //{
-                //    throw new Exception($"Greška u procesu inicjalizacije ServiceBus-a uređaja. Razlog: {e.Message}, StackTrace: {e.StackTrace}");
-                //}
-                //queueClient.OnMessage(receivedMessage =>
-                //{
-                //    try
-                //    {
-                //        Stream stream = receivedMessage.GetBody<Stream>();
+                ObjectFactory.ServerBusHandler.ServerBusMsg += delegate(ServerMessage serverMsg)
+                {
+                    try
+                    {
+                        if (serverMsg.MessageType == MessageType.ResetAll)
+                        {
+                            ResetAllDockings();
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
+                                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}"));
+                            return;
+                        }
 
-                //        string messageBody = "";
+                        var dock = Dockings.FirstOrDefault(x => x.Id == serverMsg.DockingId);
+                        if (dock != null)
+                        {
+                            ObjectFactory.EventDataService.Insert(
+                                new Event(EventType.ServerRequest, EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}"){ DockingId = dock.Id });
 
-                //        using (TextReader reader = new StreamReader(stream, Encoding.UTF8))
+                            switch (serverMsg.MessageType)
+                            {
+                                case MessageType.Unlock:
+                                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
+                                    dock.WriteCanCommand(CanSendCommands.Open);
+                                    break;
 
-                //        {
+                                case MessageType.Reset:
+                                    dock.WriteCanCommand(CanSendCommands.Reset);
+                                    break;
 
-                //            messageBody = reader.ReadToEnd();
+                                case MessageType.Block:
+                                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
+                                    break;
 
-                //        }
-
-                //        var body = receivedMessage.GetBody<string>(new DataContractSerializer(typeof(string)));
-
-                //        var serverMsg = (ServerMessage) Utils.DeSerialize(body);
-                        
-                //        if (serverMsg.MessageType == MessageType.ResetAll)
-                //        {
-                //            ResetAllDockings();
-                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
-                //                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}");
-                //            return;
-                //        }
-
-                //        var dock = Dockings.FirstOrDefault(x => x.Id == serverMsg.DockingId);
-                //        if (dock != null)
-                //        {
-                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
-                //                EventCategory.Info, $"Akcija {serverMsg.MessageType.ToString()}, PilonID {serverMsg.DockingId}", dock.Id);
-
-                //            switch (serverMsg.MessageType)
-                //            {
-                //                case MessageType.Unlock:
-                //                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
-                //                    dock.WriteCanCommand(CanSendCommands.Open);
-                //                    break;
-
-                //                case MessageType.Reset:
-                //                    dock.WriteCanCommand(CanSendCommands.Reset);
-                //                    break;
-
-                //                case MessageType.Block:
-                //                    dock.WriteCanCommand(CanSendCommands.ServisniMod);
-                //                    break;
-
-                //                case MessageType.Status:
-                //                    //vraćanje statusa na server
-                //                    break;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
-                //                EventCategory.Error, $"Nepoznat pilonId {serverMsg.DockingId}, akcija {serverMsg.MessageType.ToString()}");
-                //        }
-                //        receivedMessage.Complete();
-                //    }
-                //    catch (Exception e)
-                //    {                        
-                //        ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
-                //            EventCategory.Error, $"Greška u procesu obrade server requesta. Razlog: {e.Message}");
-                //        receivedMessage.Abandon();
-                //    }
-                //});
-
+                                case MessageType.Status:
+                                    //vraćanje statusa na server
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
+                                EventCategory.Error, $"Nepoznat pilonId {serverMsg.DockingId}, tražena akcija {serverMsg.MessageType.ToString()}"));
+                        }                        
+                    }
+                    catch (Exception e)
+                    {
+                        ObjectFactory.EventDataService.Insert(new Event(EventType.ServerRequest,
+                            EventCategory.Error, $"Greška u procesu obrade server requesta. Razlog: {e.Message}"));                        
+                    }
+                };
+         
                 #endregion
 
                 ObjectFactory.EventDataService.Insert(new Event(EventType.PilonInit, EventCategory.Info, "Završena inicjalizacija servisa pilona."));
@@ -166,10 +139,16 @@ namespace BikeService.Objects.ObjectHandlers
                 {
                     var msg = _queue.Dequeue();
 
+                    if (msg.ID <= 0 || msg.DATA == null || msg.DATA.Length <= 0)
+                        return;
+
                     uint dockId = Utils.RemoveFirstBit(msg.ID);
                     var dock = Dockings.FirstOrDefault(x => x.Id == dockId);
                     if (dock == null)
                     {
+                        if(msg.DATA[0] != (int) CanReciveCommands.Hello)
+                            return;
+
                         dock = new DockingHandler(PcanHandler) { Id = dockId};                        
                         Dockings.Add(dock);
                     }

@@ -68,16 +68,20 @@
     <Compile Include="DataBase\DockingLogin.cs" />
     <Compile Include="DataBase\DockingState.cs" />
     <Compile Include="DataBase\Event.cs" />
-    <Compile Include="EventHandlers\AbstractEventHandler.cs" />
-    <Compile Include="EventHandlers\RfidTagEventHandler.cs" />
-    <Compile Include="EventHandlers\BikeTagEventHandler.cs" />
-    <Compile Include="EventHandlers\GenericEventHandler.cs" />
-    <Compile Include="EventHandlers\StateEventHandler.cs" />
-    <Compile Include="EventHandlers\StatusEventHandler.cs" />
+    <Compile Include="Events\AbstractEvent.cs" />
+    <Compile Include="Events\EventHandlers\AbstractEventHandler.cs" />
+    <Compile Include="Events\RfidTagEvent.cs" />
+    <Compile Include="Events\BikeTagEvent.cs" />
+    <Compile Include="Events\EventHandlers\GenericEventHandler.cs" />
+    <Compile Include="Events\StateEvent.cs" />
+    <Compile Include="Events\StatusEvent.cs" />
+    <Compile Include="Events\GenericEvent.cs" />
     <Compile Include="ObjectFactory.cs" />
     <Compile Include="Objects\CanMessage.cs" />
     <Compile Include="Objects\ObjectHandlers\IPcanHandler.cs" />
+    <Compile Include="Objects\ObjectHandlers\IServerBusHandler.cs" />
     <Compile Include="Objects\ObjectHandlers\IServerHandler.cs" />
+    <Compile Include="Objects\ObjectHandlers\ServerBusHandler.cs" />
     <Compile Include="Objects\PCANBasic.cs" />
     <Compile Include="Objects\DockingModel.cs" />
     <Compile Include="Objects\ObjectHandlers\PcanHandler.cs" />
@@ -116,8 +120,6 @@
   <ItemGroup>
     <Content Include="Upute.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mock\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

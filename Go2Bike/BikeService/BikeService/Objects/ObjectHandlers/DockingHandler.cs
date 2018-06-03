@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
 using BikeService.DataBase;
-using BikeService.EventHandlers;
+using BikeService.Events;
+using BikeService.Events.EventHandlers;
 
 namespace BikeService.Objects.ObjectHandlers
 {
@@ -14,23 +11,23 @@ namespace BikeService.Objects.ObjectHandlers
     {        
         private Timer _timerPresence;
         private readonly IPcanHandler _pcanHandler;        
-        private readonly Queue<AbstractEventHandler> _queue = new Queue<AbstractEventHandler>();
+        private readonly Queue<AbstractEvent> _queue = new Queue<AbstractEvent>();
         private readonly Timer _timerEvent;
 
         public AbstractEventHandler EventHandler;
-
+        
         public DockingHandler(IPcanHandler handler)
         {
             _pcanHandler = handler;
-
-            AbstractEventHandler eventHandler4 = new StatusEventHandler(CanReciveCommands.Status,  4, 0x80, EventHandlerOnObradiEvent);
-            AbstractEventHandler eventHandler3 = new StateEventHandler(CanReciveCommands.State,  2, 0x7C, EventHandlerOnObradiEvent, eventHandler4);
-            AbstractEventHandler eventHandler2 = new BikeTagEventHandler(CanReciveCommands.BikeTag,  1, 0x75, EventHandlerOnObradiEvent, eventHandler3);
-            AbstractEventHandler eventHandler1 = new RfidTagEventHandler(CanReciveCommands.RfidTag,  2, 0x77, EventHandlerOnObradiEvent, eventHandler2);
-            EventHandler = new GenericEventHandler(CanReciveCommands.Hello,  1, 0x00, EventHandlerOnObradiEvent, eventHandler1);
+            
+            AbstractEventHandler eventHandler4 = new GenericEventHandler(CanReciveCommands.Status,  4, EventHandlerOnObradiEvent, null, typeof(StatusEvent));
+            AbstractEventHandler eventHandler3 = new GenericEventHandler(CanReciveCommands.State,  2, EventHandlerOnObradiEvent, eventHandler4, typeof(StateEvent));
+            AbstractEventHandler eventHandler2 = new GenericEventHandler(CanReciveCommands.BikeTag,  1, EventHandlerOnObradiEvent, eventHandler3, typeof(BikeTagEvent));
+            AbstractEventHandler eventHandler1 = new GenericEventHandler(CanReciveCommands.RfidTag,  2, EventHandlerOnObradiEvent, eventHandler2, typeof(RfidTagEvent));
+            EventHandler = new GenericEventHandler(CanReciveCommands.Hello,  1, EventHandlerOnObradiEvent, eventHandler1);
 
             if (_timerEvent == null)
-                _timerEvent = new Timer(_ => ObradiPoruku());
+                _timerEvent = new Timer(_ => ObradiPoruku());            
         }
 
         private void ObradiPoruku()
@@ -39,39 +36,54 @@ namespace BikeService.Objects.ObjectHandlers
             {
                 var msg = _queue.Dequeue();
                 
-                ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Info, msg.CanReciveCommands.ToString()){MessageList = msg.List});
+                ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Info, msg.EventType.ToString()){MessageList = msg.List, DockingId = Id});
 
-                if (!DatumUkljucivanja.HasValue && msg.CanReciveCommands != CanReciveCommands.Hello)
+                if (!DatumUkljucivanja.HasValue && msg.EventType != CanReciveCommands.Hello && msg.EventType != CanReciveCommands.State)
                 {
                     WriteCanCommand(CanSendCommands.Reset);
                     return; //ako pilon još nije uključen (nije došla poruka Hello ne dozvoljavamo druge poruke) i resetiramo dock!!
                 }
 
-                switch (msg.CanReciveCommands)
+                switch (msg.EventType)
                 {
                     case CanReciveCommands.Hello:
                         if (DatumUkljucivanja.HasValue && (DateTime.Now - DatumUkljucivanja.Value).TotalSeconds < 5)
+                        {
                             ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Fatal, "Dva pilona sa istim IDjem su se prijavila unutar 5 sec."));
+                            return;
+                        }
 
-                        DatumUkljucivanja = DateTime.Now;
+                        DatumUkljucivanja = null;
                         IsInit = false;
                         
                         WriteCanCommand(CanSendCommands.HelloResponse);
                         WriteCanCommand(CanSendCommands.WorkWithServer);
-
-                        if (_timerPresence == null)
-                            _timerPresence = new Timer(delegate
-                            {
-                                CanSendCommands.Presence.Msg.ID = Id;
-                                _pcanHandler.Write(CanSendCommands.Presence.Msg);
-                            });
-                        _timerPresence.Change(Timeout.Infinite, Properties.Settings.Default.PresencePeriod);
-
                         WriteCanCommand(CanSendCommands.Status);    
                         break;
 
+                    case CanReciveCommands.State:
+                        var state = (StateEvent)msg;
+                        SwitchState = state.SwitchState;
+
+                        if (!IsInit)
+                        {
+                            ObjectFactory.EventDataService.Insert(new Event(EventType.NewDocking, EventCategory.Info, $"Novi docking ID {Id}") { DockingId = Id });
+                            ObjectFactory.DockingDataService.Insert(this);
+
+                            if (_timerPresence == null)
+                                _timerPresence = new Timer(delegate
+                                {
+                                    _pcanHandler.Write(CanSendCommands.Presence.GetMsg(Id));
+                                });
+                            _timerPresence.Change(0, Properties.Settings.Default.PresencePeriod);
+
+                            DatumUkljucivanja = DateTime.Now;
+                            IsInit = true;
+                        }
+                        break;
+
                     case CanReciveCommands.BikeTag:                        
-                        var tagEventHandler = (BikeTagEventHandler) msg;
+                        var tagEventHandler = (BikeTagEvent) msg;
 
                         if(Tag.HasValue && Tag == tagEventHandler.BikeTag || !IsInit)
                             return;
@@ -91,47 +103,41 @@ namespace BikeService.Objects.ObjectHandlers
                         break;
 
                     case CanReciveCommands.RfidTag:
-                        var rfid = (RfidTagEventHandler)msg;
-                        if(ObjectFactory.ServerHandler.ValidateRfidTag(rfid.RfidTag, Id))
+                        var rfid = (RfidTagEvent)msg;
+                        if (ObjectFactory.ServerHandler.ValidateRfidTag(rfid.RfidTag, Id))
+                        {
+                            WriteCanCommand(CanSendCommands.RfidTagAckOk);
                             WriteCanCommand(CanSendCommands.ServisniMod);
                             WriteCanCommand(CanSendCommands.Open);
-                        break;
-
-                    case CanReciveCommands.State:
-                        var state = (StateEventHandler)msg;
-                        SwitchState = state.SwitchState;
-                        if(!IsInit)
-                        {
-                            ObjectFactory.EventDataService.Insert(new Event(EventType.NewDocking, EventCategory.Info, $"Novi docking ID {Id}"));
-                            ObjectFactory.DockingDataService.Insert(this);
-                            IsInit = true;
                         }
+                        else
+                            WriteCanCommand(CanSendCommands.RfidTagAckCancel);
                         break;
-
+                        
                     case CanReciveCommands.Status:
-                        var status = (StatusEventHandler)msg;
+                        var status = (StatusEvent)msg;
                         
                         break;
 
                     default:
-                        ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Error, $"Nepostojeća komanda {msg.CanReciveCommands.ToString()}"));
+                        ObjectFactory.EventDataService.Insert(new Event(EventType.CanReadCommand, EventCategory.Error, $"Nepostojeća komanda {msg.EventType.ToString()}"));
                         WriteCanCommand(CanSendCommands.Reset);
                         break;
                 }
             }
         }
         
-        private void EventHandlerOnObradiEvent(AbstractEventHandler dogadaj)
+        private void EventHandlerOnObradiEvent(AbstractEvent dogadaj)
         {
             _timerEvent.Change(100, Timeout.Infinite);
             _queue.Enqueue(dogadaj);
         }
 
         internal void WriteCanCommand(CanSendCommand cmd)
-        {
-            cmd.Msg.ID = Id;
-            _pcanHandler.Write(cmd.Msg);            
-            ObjectFactory.EventDataService.Insert(new Event(EventType.CanWriteCommand, EventCategory.Info, cmd.CommandName){AddMessage = cmd.Msg});
+        {            
+            _pcanHandler.Write(cmd.GetMsg(Id));            
+            ObjectFactory.EventDataService.Insert(
+                new Event(EventType.CanWriteCommand, EventCategory.Info, cmd.CommandName){AddMessage = cmd.GetMsg(Id), DockingId = Id});
         }
     }
 }

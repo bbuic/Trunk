@@ -1,11 +1,7 @@
-﻿namespace BikeService.EventHandlers
+﻿namespace BikeService.Events
 {
-    public class StateEventHandler:AbstractEventHandler
+    public class StateEvent:AbstractEvent
     {
-        public StateEventHandler(CanReciveCommands canReciveCommands, int numMsg, byte firstByte, ObradiEventHandler handler, AbstractEventHandler successor = null) : base(canReciveCommands, numMsg, firstByte, handler, successor)
-        {
-        }
-        
         public int InternalState => Messages[0][2];
         public int StatusMikraca2 => Messages[0][8];
 

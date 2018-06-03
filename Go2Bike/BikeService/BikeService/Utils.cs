@@ -7,9 +7,15 @@ namespace BikeService
 {
     public class Utils
     {
-        public static uint RemoveFirstBit(uint msgId)
+        public static uint AddFirstBit(uint dockId)
         {
-            return Convert.ToUInt32(Convert.ToString(msgId, 2).Remove(0, 1), 2);
+            var s = Convert.ToString(dockId, 2).PadLeft(9, '0');
+            return Convert.ToUInt32("1" + s, 2);
+        }
+
+        public static uint RemoveFirstBit(uint dockId)
+        {
+            return Convert.ToUInt32(Convert.ToString(dockId, 2).Remove(0, 1), 2);
         }
 
         public static string Serialize(object o)

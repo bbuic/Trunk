@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BikeService.Objects;
+﻿using BikeService.Objects;
 
 namespace BikeService
 {
@@ -40,31 +38,31 @@ namespace BikeService
         Blink
     }
 
-    public enum CanReciveCommands
+    public enum CanReciveCommands: byte
     {
-        Hello,
-        BikeTag,
-        RfidTag,
-        State,
-        Status
+        Hello = 0x00,
+        BikeTag = 0x75,
+        RfidTag = 0x77,
+        State = 0x7C,
+        Status = 0x80
     }
     
     public class CanSendCommand
     {
+        private TPCANMsg _msg;
         public string CommandName;
-        public TPCANMsg Msg;
+
+        public TPCANMsg GetMsg(uint id) => new TPCANMsg {ID = id, LEN = _msg.LEN, DATA = _msg.DATA};
 
         public CanSendCommand(string commandname, TPCANMsg msg)
         {
             CommandName = commandname;
-            Msg = msg;
+            _msg = msg;
         }
     }
 
     public class CanSendCommands
     {
-
-        //public static readonly TPCANMsg Hello = new TPCANMsg { LEN = 1, DATA = new byte[] { 0x00 } };
         public static readonly CanSendCommand HelloResponse = new CanSendCommand("HelloResponse", new TPCANMsg { LEN = 1, DATA = new byte[] { 0x01 } });
 
         public static readonly CanSendCommand Presence = new CanSendCommand("Presence", new TPCANMsg { LEN = 1, DATA = new byte[] { 0x04 } });
@@ -72,10 +70,8 @@ namespace BikeService
 
         public static readonly CanSendCommand WorkWithServer = new CanSendCommand("WorkWithServer", new TPCANMsg { LEN = 2, DATA = new byte[] { 0x12, 0x01 } });        
         
-        //public static readonly TPCANMsg BikeTag = new TPCANMsg { LEN = 8, DATA = new byte[] { 0x75 } };        
         public static readonly CanSendCommand BikeTagAck = new CanSendCommand("BikeTagAck", new TPCANMsg { LEN = 2, DATA = new byte[] { 0x76, 0x06 } });        
-
-        //public static readonly TPCANMsg RfidTag = new TPCANMsg { LEN = 8, DATA = new byte[] { 0x77 } };        
+        
         public static readonly CanSendCommand RfidTagAckOk = new CanSendCommand("RfidTagAckOk", new TPCANMsg { LEN = 1, DATA = new byte[] { 0x15 } });        
         public static readonly CanSendCommand RfidTagAckCancel = new CanSendCommand("RfidTagAckCancel", new TPCANMsg { LEN = 1, DATA = new byte[] { 0x06 } });        
 
