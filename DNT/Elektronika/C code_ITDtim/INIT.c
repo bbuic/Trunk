@@ -20,12 +20,12 @@ void ioinit(void)
 	*/
 	GICR |= _BV(INT1) | _BV(INT0);
 	
-	PORTB|= _BV(PORTB1);	//PULL-UP DATA0
-	PORTB|= _BV(PORTB2);	//PULL-UP DATA1
+	//PORTB|= _BV(PORTB1);	//PULL-UP DATA0
+	//PORTB|= _BV(PORTB2);	//PULL-UP DATA1
 	
-	PORTC|= _BV(PORTC5);	//PULL-UP PRISLONJENO
-	PORTC|= _BV(PORTC3);	//PULL-UP ZABRAVLJENO
-	PORTC|= _BV(PORTC2);	//PULL-UP VRATA UNUTRA
+	//PORTC|= _BV(PORTC5);	//PULL-UP PRISLONJENO
+	//PORTC|= _BV(PORTC3);	//PULL-UP ZABRAVLJENO
+	//PORTC|= _BV(PORTC2);	//PULL-UP VRATA UNUTRA
 	//PORTC|= _BV(PORTC1);	//PULL-UP FOTO
 	
 	PORTD|=_BV(PORTD2);//PULL-UP INT0
@@ -35,9 +35,9 @@ void ioinit(void)
 
 	
 	/*
-	* SETIRANJE UART-A(MIKROKONTROLER RADI NA 8.000 MHz)
+	* SETIRANJE UART-A(MIKROKONTROLER RADI NA 16.000 MHz)
 	*/	
-	UBRRL = 0x19; //Baud rate: 19200, Parity: None, Data bits: 8, Stop bits: 1
+	UBRRL = 0x33; //Baud rate: 19200, Parity: None, Data bits: 8, Stop bits: 1
 	UCSRB = _BV(TXEN) | _BV(RXEN) | _BV(RXCIE); /* tx/rx enable , INTERUPT RECIVE*/
 	UCSRC |= _BV(URSEL) | _BV(UCSZ0) | _BV(UCSZ1);// | _BV(UPM0)| _BV(UPM1);//palim odd parity bit, 8 data bit
 	

@@ -15,8 +15,8 @@ int	INDALA_BB=27;//broj bitova na indala kartici
 void timer0_start(void){scaler=0x3D4;TCNT0=0x00;TCCR0 |= _BV(CS00);}//PLAIM TIMER0(NO PRESCALING)
 void timer0_stop(void){TCCR0 &= ~_BV(CS00);}//GASIM TIMER0(NO PRESCALING)
 
-void OTVORI_BRAVU(void){PORTD |= _BV(PORTD7);}
-void ZATVORI_BRAVU(void){PORTD &= ~_BV(PORTD7);}
+void OTVORI_BRAVU(void){PORTD &= ~_BV(PORTD7);}
+void ZATVORI_BRAVU(void){PORTD |= _BV(PORTD7);}
 void BEEP(void){PORTD |= _BV(PORTD5);_delay_loop_2(65500);PORTD &= ~_BV(PORTD5);}
 
 
@@ -118,7 +118,7 @@ ISR(INT0_vect)
 int main(void)
 {
 	ioinit();
-	
+	ZATVORI_BRAVU();
 	unsigned int kont_led = 0;
 	flag.vrata_otvorena = 0;
 	flag.vrata_kartica = 0;		
@@ -130,11 +130,11 @@ int main(void)
 	{
 		 wdt_reset();//RESETIRANJE WATCHDOG-A(koji se dogaða svakih 2 sekunde)
 		
-		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); flag.vrata_unutra = 1;}
-		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); flag.vrata_unutra = 0;}
+		if(bit_is_set(PINC,PINC2) && flag.vrata_unutra==1){ _delay_ms(1000); flag.vrata_unutra = 0;}
+		if(bit_is_clear(PINC,PINC2) && flag.vrata_unutra==0){ _delay_ms(1000); flag.vrata_unutra = 1;}
 
 		//OTVORI ako vrata nisu prislonjena
-		if(bit_is_set(PINC,PINC5) && flag.vrata_otvorena==0){
+		if(bit_is_set(PINC,PINC0) && flag.vrata_otvorena==0){
 			
 			flag.vrata_otvorena = 1;
 			
@@ -149,13 +149,13 @@ int main(void)
 
 		
 		//ZATVORI ako su vrata prislonjena
-		if(bit_is_clear(PINC,PINC5) && flag.vrata_otvorena==1){			
+		if(bit_is_clear(PINC,PINC0) && flag.vrata_otvorena==1){			
 								
 			ZATVORI_BRAVU();
 			
 			delay_ms(50); //Èekam da vidim da li èe i nakon pola sekunde vrata biti zatvorena
 			
-			if(bit_is_clear(PINC,PINC5)){	
+			if(bit_is_clear(PINC,PINC0)){	
 			
 				if(flag.vrata_kartica==1){
 					putchr(0x22);
@@ -170,26 +170,26 @@ int main(void)
 		
 
 
-		/*************************************************************************************************
-		*FUNKCIJA KOJA PRATI FOTOCELIJU
-		*/
-			//detekcija objekta na fotosenzoru
-			if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
-			{				
-				flag.fotocelija=1;						
-				putchr(0x23);											
-				delay_ms(100);
-			}
-			
-			//objekt se maknuo sa fotosenzora
-			if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
-			
-				flag.fotocelija=0;
-				putchr(0x27);
-				delay_ms(100);
-			}
-		//********************************************************************************************************
-  
+	/*************************************************************************************************
+	*FUNKCIJA KOJA PRATI FOTOCELIJU
+	*/
+		//detekcija objekta na fotosenzoru
+		if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
+		{				
+			flag.fotocelija=1;						
+			putchr(0x23);											
+			delay_ms(100);
+		}
+		
+		//objekt se maknuo sa fotosenzora
+		if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
+		
+			flag.fotocelija=0;
+			putchr(0x27);
+			delay_ms(100);
+		}
+	//********************************************************************************************************
+
 		  
 	  /*
 	   * NA UART JE PRISTIGAO PODATAK I PREMA TOME SE PONAŠAM
