@@ -19,15 +19,15 @@ void OTVORI_BRAVU(void){PORTD |= _BV(PORTD7);}
 void ZATVORI_BRAVU(void){PORTD &= ~_BV(PORTD7);}
 void BEEP(void){PORTD |= _BV(PORTD5);_delay_loop_2(65500);PORTD &= ~_BV(PORTD5);}
 
-
-static void delay_ms(uint8_t delay)
+//!!!!!!!!!!! VREMENSKA ODGODA za fotoceliju u KANALU !!!!!!!!!!!!!!!!
+static void delay_foto(void)
 {
   uint8_t i;
 
-  for (i = 0; i < delay; i++)
+  for (i = 0; i < 100; i++)
   {
     wdt_reset();//RESETIRANJE WATCHDOG-A
-	_delay_ms(10);
+	_delay_ms(15);
   }
 }
 //!!!!!!!!!!!OBRADA INTERUPTA KOJI PROUZROCI OWERFOLOV TIMER-A 0!!!!!!!!!!!!!!!!
@@ -48,6 +48,7 @@ volatile struct
   uint8_t int_rx: 1;
   uint8_t vrata_otvorena: 1;//flag koji obilježava dali su varat otvorea ili zatvorena (vrata_otvorena==true; ==> OTVORENA VRATA)
   uint8_t fotocelija: 1;//ovime obilježavam da je nešto na fotoèeliji 
+  uint8_t vrata_zatvori: 1;//obilježava da bi trebalo zatvoriti vanjska vrata jer su bila otvorena dulje od 30sek. (zvuèni signal)
   uint8_t vrata_kartica: 1;//bit koji pokazuje da je raèunalo naredilo da se otvore vrata
   uint8_t vrata_unutra: 1;
 }
@@ -86,9 +87,7 @@ ISR(INT1_vect)
 	if(INDALA_BB==0){
 		timer0_stop();
 		if(flag.vrata_unutra == 1){
-			if(flag.vrata_otvorena==0){
-				putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
-			}
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
 		}else{
 			OTVORI_BRAVU();
 		}
@@ -104,9 +103,7 @@ ISR(INT0_vect)
 	if(INDALA_BB==0){
 		timer0_stop();
 		if(flag.vrata_unutra == 1){
-			if(flag.vrata_otvorena==0){
-				putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
-			}
+			putchr(0x20);putchr(BROJ_KARTICE_1);putchr(BROJ_KARTICE);
 		}else{
 			OTVORI_BRAVU();
 		}
@@ -121,7 +118,8 @@ int main(void)
 	
 	unsigned int kont_led = 0;
 	flag.vrata_otvorena = 0;
-	flag.vrata_kartica = 0;		
+	flag.vrata_kartica = 0;
+	flag.vrata_zatvori = 0;		
 	flag.fotocelija = 0;
 	flag.vrata_unutra = 0;
 	INDALA_BB = 27;
@@ -140,8 +138,6 @@ int main(void)
 			
 			OTVORI_BRAVU();
 			
-			delay_ms(100); //èekam da se promijeni stanje pina (stanje se mijenja usporeno zbog ZAVOJNICE)
-			
 			if(flag.vrata_kartica==1){
 				putchr(0x21);
 			}					
@@ -150,10 +146,12 @@ int main(void)
 		
 		//ZATVORI ako su vrata prislonjena
 		if(bit_is_clear(PINC,PINC5) && flag.vrata_otvorena==1){			
-								
+			
+			flag.vrata_otvorena = 0;
+			
 			ZATVORI_BRAVU();
 			
-			delay_ms(50); //Èekam da vidim da li èe i nakon pola sekunde vrata biti zatvorena
+			_delay_ms(1000); //Èekam da vidim da li èe i nakon sekunde vrata biti zatvorena
 			
 			if(bit_is_clear(PINC,PINC5)){	
 			
@@ -162,9 +160,7 @@ int main(void)
 				}
 								
 				flag.vrata_kartica = 0;
-				flag.vrata_otvorena = 0;	
-			}else{
-			  OTVORI_BRAVU();
+				flag.vrata_zatvori = 0;				
 			}
 		}
 		
@@ -173,21 +169,34 @@ int main(void)
 		/*************************************************************************************************
 		*FUNKCIJA KOJA PRATI FOTOCELIJU
 		*/
-			//detekcija objekta na fotosenzoru
-			if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
-			{				
-				flag.fotocelija=1;						
-				putchr(0x23);											
-				delay_ms(100);
+		if(bit_is_clear(PINC,PINC1) && flag.fotocelija==0)
+		{
+			flag.fotocelija=1;
+			
+			flag.vrata_zatvori=0;//bit koji obilježava dali je postojao alarm otvorena vrata
+			
+			if(flag.vrata_kartica==1){
+				putchr(0x23);
 			}
 			
-			//objekt se maknuo sa fotosenzora
-			if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
+			//Èekam da vreèica proðe fotosenzor
+			delay_foto();
 			
+			if(bit_is_set(PINC,PINC1)){
 				flag.fotocelija=0;
-				putchr(0x27);
-				delay_ms(100);
 			}
+			else{
+				putchr(0x24);
+				BEEP();
+			}
+						
+		}
+		
+		//maklo se sa fotoèelije(u sluèaju alarma)
+		if(bit_is_set(PINC,PINC1) && flag.fotocelija==1){
+			flag.fotocelija=0;
+			putchr(0x27);
+		}
 		//********************************************************************************************************
   
 		  
@@ -210,7 +219,12 @@ int main(void)
 			ZATVORI_BRAVU();
 			flag.vrata_kartica=0;
 		  }
-		  		  
+		  
+		  
+		  //obilježavam da su vanjska vrata predugo otvorena (ALARM OTVORENA VRATA -ZVUÈNI SIGNAL)			   
+		  if(pod_uart==0x12){
+			flag.vrata_zatvori=1;
+		  }
 		  
 		  //echo
 		  if(pod_uart==0xFF){
@@ -226,7 +240,10 @@ int main(void)
 	   */
 	  if (++kont_led==15500)
 	  {
-		kont_led=0;		
+		kont_led=0;
+		if(flag.vrata_zatvori==1){
+			BEEP();
+		}
 		PORTB ^= _BV(PORTB0);//blinkanje sa ledicom na mikraèu
 	  } 
 	 
